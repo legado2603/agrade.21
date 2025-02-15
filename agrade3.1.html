@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+    <title>A-Grade(Página 3)</title>
+    <style>
+        body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out; /* Transição suave */
+    }
+    h1 {
+      text-shadow: 0 0 5px black;
+    }
+        .header {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 100px;
+            height: 100vh;
+            background-color: #D0D0FF;
+            text-align: center;
+            z-index: 10;
+        }
+        .header a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #000;
+            border: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .header a:hover {
+            border-color: #8A2BE2; /* Neon violeta */
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 100vh;
+            background-color: #D0D0FF;
+            padding: 20px;
+            transform: translateX(-100%);
+            transition: transform 0.5s ease, background-color 0.5s ease;
+            box-shadow: 0 0 10px #8A2BE2; /* Neon violeta */
+            z-index: 9;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+            background: linear-gradient(to right, #D0D0FF, #B0B0FF);
+        }
+        .sidebar .close-sidebar-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #8A2BE2; /* Neon violeta */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .sidebar .close-sidebar-btn:hover {
+            background-color: #6A0D91; /* Tom mais escuro de neon violeta */
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #B0B0FF;
+            border: none;
+            color: #000;
+            font-size: 16px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .sidebar button:hover {
+            border-color: #8A2BE2; /* Neon violeta */
+        }
+        .marquee {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #D0D0FF;
+            box-shadow: 0 0 10px #4B0082; /* Neon roxo escuro */
+            text-align: center;
+            padding: 10px;
+        }
+        .marquee span {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background: #fff;
+            border: 2px solid #8A2BE2; /* Neon violeta */
+            box-shadow: 0 0 10px #8A2BE2; /* Neon violeta */
+            padding: 20px;
+            z-index: 1000;
+        }
+        .modal .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #8A2BE2; /* Neon violeta */
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .modal .close-btn:hover {
+            background: #6A0D91; /* Tom mais escuro de neon violeta */
+        }
+        .button-secret {
+            display: inline-block;
+            padding: 10px;
+            margin: 10px;
+            background-color: #B0B0FF;
+            border: none;
+            color: #000;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .button-secret:focus {
+            outline: none;
+            border: 2px solid #8A2BE2; /* Neon violeta */
+        }
+        .open-sidebar-btn {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            background-color: #8A2BE2; /* Neon violeta */
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 11;
+            transition: opacity 0.5s ease;
+        }
+        .open-sidebar-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .open-sidebar-btn:hover {
+            background-color: #6A0D91; /* Tom mais escuro de neon violeta */
+        }
+          .signup-link a {
+    color: black;
+    text-decoration: none;
+  }
+    </style>
+</head>
+<body>
+    <button id="openSidebarBtn" class="open-sidebar-btn" onclick="toggleSidebar()">Abrir</button>
+    <div class="signup-link">
+    <div class="header">
+        <a href="return.index3.html">Home</a>
+        <a href="agrade1(green).html">Pág 1</a>
+        <a href="agrade2(red).html">Pág 2</a>
+        <a href="agrade3.2.html">Entre</a>
+        </div>
+    </div>
+    <div id="sidebar" class="sidebar">
+        
+        <button onclick="openModal('modal1')">Botão 1</button>
+        <button onclick="openModal('modal2')">Botão 2</button>
+        <button onclick="openModal('modal3')">Botão 3</button>
+        <button onclick="openModal('modal4')">Botão 4</button>
+        <button onclick="openModal('modal5')">Botão 5</button>
+        <button class="close-sidebar-btn" onclick="closeSidebar()">Fechar</button>
+    </div>
+    
+    <!-- Modais -->
+    <div id="modal1" class="modal">
+        <button class="close-btn" onclick="closeModal('modal1')">X</button>
+        <p>Conteúdo do Modal 1</p>
+    </div>
+    <div id="modal2" class="modal">
+        <button class="close-btn" onclick="closeModal('modal2')">X</button>
+        <p>Conteúdo do Modal 2</p>
+    </div>
+    <div id="modal3" class="modal">
+        <button class="close-btn" onclick="closeModal('modal3')">X</button>
+        <p>Conteúdo do Modal 3</p>
+    </div>
+    <div id="modal4" class="modal">
+        <button class="close-btn" onclick="closeModal('modal4')">X</button>
+        <p>Conteúdo do Modal 4</p>
+    </div>
+    <div id="modal5" class="modal">
+        <button class="close-btn" onclick="closeModal('modal5')">X</button>
+        <p>Conteúdo do Modal 5</p>
+    </div>
+
+    <div class="marquee">
+        <span>Rede Social A Grade V.0.0.01</span>
+    </div>
+    <script src="siderbar.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const openSidebarBtn = document.getElementById('openSidebarBtn');
+            sidebar.classList.toggle('visible');
+            openSidebarBtn.classList.add('hidden');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const openSidebarBtn = document.getElementById('openSidebarBtn');
+            sidebar.classList.remove('visible');
+            openSidebarBtn.classList.remove('hidden');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+      <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js';
+    
+
+    
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+    
+        // Função de logout
+        window.logout = function() {
+          signOut(auth).then(() => {
+            // Redirecionar para a página de login após o logout
+            window.location.href = 'login.html';
+          }).catch((error) => {
+            console.error("Erro ao fazer logout:", error);
+          });
+        }
+    
+        // Verificar estado de autenticação
+        onAuthStateChanged(auth, (user) => {
+          if (!user) {
+            // Se o usuário não estiver autenticado, redirecione para a página de login
+            window.location.href = 'teladeloguin.html';
+          } else {
+            // Usuário autenticado
+            console.log("Usuário autenticado:", user);
+    
+            // Exemplo de leitura de dados do usuário autenticado
+            const userId = user.uid;
+            const userRef = ref(database, 'users/' + userId);
+            get(userRef).then((snapshot) => {
+              if (snapshot.exists()) {
+                const userData = snapshot.val();
+                console.log("Dados do usuário:", userData);
+              } else {
+                console.log("Dados não encontrados.");
+              }
+            }).catch((error) => {
+              console.error("Erro ao ler dados do usuário:", error);
+            });
+          }
+        });
+      </script>
+      <script>
+    function atualizarFundo() {
+      const horaAtual = new Date().getHours();
+      let imagemFundo = "";
+
+      if (horaAtual >= 6 && horaAtual < 12) {
+        // Manhã
+        imagemFundo = "url('img/Cyberpunk 2077 by Neoncity.jpeg')"; // Substitua por sua imagem da manhã
+      } else if (horaAtual >= 12 && horaAtual < 18) {
+        // Tarde
+        imagemFundo = "url('img/cyberpunk room wallpaper.jpeg')"; // Substitua por sua imagem da tarde
+      } else {
+        // Noite
+        imagemFundo = "url('img/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg')"; // Substitua por sua imagem da noite
+      }
+
+      document.body.style.backgroundImage = imagemFundo;
+    }
+
+    // Chama a função ao carregar a página
+    atualizarFundo();
+
+    // Atualiza o fundo a cada hora
+    setInterval(atualizarFundo, 60 * 60 * 1000); // 1 hora
+  </script>
+</body>
+</html>

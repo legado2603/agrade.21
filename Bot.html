@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot de Comandos com Autenticação</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #0d1117;
+  color: #00ffff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Alinha os itens no topo */
+  min-height: 100vh;
+  padding-top: 40px;
+}
+
+h1 {
+  margin-bottom: 10px; /* Reduzi a margem */
+  font-size: 22px; /* Fonte menor para o título */
+}
+
+form {
+  max-width: 300px; /* Ajustei a largura para 300px */
+  width: 100%;
+  padding: 15px; /* Menos padding */
+  background-color: #161b22;
+  border: 1px solid #00ffff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px; /* Menos margem abaixo */
+}
+
+label {
+  margin-bottom: 5px; /* Menos espaço entre label e input */
+  font-weight: bold;
+  font-size: 12px; /* Fonte menor para labels */
+}
+
+input, button {
+  padding: 8px; /* Menos padding */
+  margin-bottom: 10px; /* Menos espaço entre os campos */
+  background-color: #0d1117;
+  color: #00ffff;
+  border: 1px solid #00ffff;
+  border-radius: 5px;
+  font-size: 12px; /* Fonte menor nos campos de entrada e botão */
+}
+
+button {
+  cursor: pointer;
+}
+
+#response {
+  margin-top: 15px; /* Menos espaço entre o formulário e a resposta */
+  padding: 15px; /* Menos padding */
+  background-color: #161b22;
+  border: 1px solid #00ffff;
+  border-radius: 5px;
+  max-width: 300px; /* Reduzi a largura */
+  width: 100%;
+  min-height: 40px; /* Altura mínima menor */
+  font-size: 12px; /* Menor tamanho de fonte na resposta */
+}
+
+#loginForm {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#loginForm input {
+  margin-bottom: 5px; /* Menos espaço entre os inputs */
+  width: 90%;
+  font-size: 12px; /* Fonte menor nos campos do login */
+}
+  </style>
+</head>
+<body>
+  <h1>Bot de Comandos com Autenticação</h1>
+
+  <!-- Formulário de login -->
+  <div id="loginForm">
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Email" required>
+    <label for="password">Senha:</label>
+    <input type="password" id="password" placeholder="Senha" required>
+    <button id="loginButton">Entrar</button>
+  </div>
+  <div id="response"></div>
+  <!-- Formulário de comando -->
+  <form id="commandForm" style="display: none;">
+    <label for="commandInput">Digite a chave do comando:</label>
+    <input type="text" id="commandInput" placeholder="Exemplo: ajuda" required>
+    <button type="submit">Enviar</button>
+  </form>
+  
+  <button id="logoutButton" style="display: none;">Sair</button>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Referências do DOM
+    const commandForm = document.getElementById("commandForm");
+    const commandInput = document.getElementById("commandInput");
+    const responseDiv = document.getElementById("response");
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const logoutButton = document.getElementById("logoutButton");
+
+    // Função de login
+    loginButton.addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        console.error("Erro ao fazer login", error);
+        alert("Erro ao fazer login. Verifique suas credenciais.");
+      }
+    });
+
+    // Função de logout
+    logoutButton.addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          loginForm.style.display = "flex";
+          commandForm.style.display = "none";
+          logoutButton.style.display = "none";
+        })
+        .catch((error) => {
+          console.error("Erro ao fazer logout", error);
+        });
+    });
+
+    // Observador de estado de autenticação
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginForm.style.display = "none";
+        commandForm.style.display = "flex";
+        logoutButton.style.display = "inline-block";
+      } else {
+        loginForm.style.display = "flex";
+        commandForm.style.display = "none";
+        logoutButton.style.display = "none";
+      }
+    });
+
+    // Função para efeito de digitação (modificado para ser mais rápido e sem "Resposta:")
+    function typingEffect(text, element, interval = 50) {
+      let index = 0;
+      element.textContent = ""; // Limpa o conteúdo existente
+      const timer = setInterval(() => {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+        } else {
+          clearInterval(timer); // Para o intervalo quando a frase for completamente digitada
+        }
+      }, interval);
+    }
+
+    // Evento para buscar a resposta no Firebase
+    commandForm.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Impede o recarregamento da página
+      const commandKey = commandInput.value.trim(); // Obtém a chave digitada pelo usuário
+
+      if (commandKey) {
+        try {
+          // Referência ao comando no Firebase
+          const commandRef = ref(database, `comandos/${commandKey}`);
+          const snapshot = await get(commandRef);
+
+          // Verifica se o comando existe
+          if (snapshot.exists()) {
+            const commandValue = snapshot.val(); // Valor do comando
+            typingEffect(commandValue, responseDiv); // Aplica o efeito de digitação sem o prefixo "Resposta:"
+          } else {
+            typingEffect("Comando não encontrado.", responseDiv); // Aplica o efeito de digitação
+          }
+        } catch (error) {
+          console.error("Erro ao buscar comando:", error);
+          typingEffect("Ocorreu um erro ao buscar o comando.", responseDiv); // Aplica o efeito de digitação
+        }
+      } else {
+        typingEffect("Por favor, insira uma chave de comando.", responseDiv); // Aplica o efeito de digitação
+      }
+
+      commandInput.value = ""; // Limpa o campo de entrada
+    });
+  </script>
+  
+  <script>
+  function setRandomBackground(images) {
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    document.body.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    document.body.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    document.body.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    document.body.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens
+  const backgroundImages = [
+    '0ceb197c69a8baa465b9d975461f40db.gif',
+    '9a241df1ea364421e7bbca9c854e1e0a.gif',
+    '69411d74044d5950f3f48f734c5b1f0d.gif',
+    'a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'cyberpunk-cloud-dreams-stockcake.jpg',
+    'f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'fzUl.gif',
+    'giphy.gif',
+    'images.jpeg',
+    'l84w3m111r471.gif',
+    's6vvlkkbn.gif',
+    'siyzbhzpzwv61.gif',
+    'ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

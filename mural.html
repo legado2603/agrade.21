@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publicações</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .publication {
+      background-color: #1f1f1f;
+      border: 1px solid #00FFFF;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    .publication img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+    .publication video {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+    h1 {
+      color: #00FFFF;
+    }
+    .publication .title {
+      font-size: 24px;
+      color: #FF00FF;
+    }
+    .publication .subtitle {
+      font-size: 18px;
+      color: #00FFFF;
+    }
+    .publication .description {
+      font-size: 16px;
+    }
+    .publication .tags {
+      font-size: 14px;
+      color: #FF00FF;
+    }
+    .search-container {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Publicações</h1>
+  <p id="status"></p>
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Buscar por nome ou TAG" />
+    <button id="searchButton">Buscar</button>
+  </div>
+  <div id="publicationsList"></div>
+  <button id="loadMoreButton">Carregar mais</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    let publicationsData = [];
+    let currentStartIndex = 0;
+    const publicationsPerPage = 3;
+
+    // Função para buscar as publicações
+    const fetchPublications = async () => {
+      try {
+        const publicationsRef = dbRef(database, 'publications');
+        const snapshot = await get(publicationsRef);
+        publicationsData = snapshot.val();
+
+        if (publicationsData) {
+          const sortedPublications = Object.keys(publicationsData)
+            .map(key => publicationsData[key])
+            .sort((a, b) => new Date(b.date) - new Date(a.date)); // Ordenar por data (mais recente primeiro)
+
+          renderPublications(sortedPublications.slice(currentStartIndex, currentStartIndex + publicationsPerPage));
+        } else {
+          document.getElementById('publicationsList').innerHTML = "<p>Nenhuma publicação encontrada.</p>";
+        }
+      } catch (error) {
+        console.error("Erro ao buscar as publicações:", error);
+      }
+    };
+
+    const renderPublications = (publications) => {
+      const publicationsList = document.getElementById('publicationsList');
+      publicationsList.innerHTML = ""; // Limpar antes de adicionar as novas
+
+      publications.forEach(publication => {
+        const publicationDiv = document.createElement('div');
+        publicationDiv.classList.add('publication');
+        publicationDiv.innerHTML = `
+          <div class="title">${publication.title}</div>
+          <div class="subtitle">${publication.subtitle}</div>
+          <div class="description">${publication.description}</div>
+          <div class="tags">Tags: ${publication.tags.join(', ')}</div>
+          <div class="date">Data: ${publication.date}</div>
+          ${publication.image ? `<img src="${publication.image}" alt="Image">` : ""}
+          ${publication.video ? `<video controls><source src="${publication.video}" type="video/mp4"></video>` : ""}
+        `;
+        publicationsList.appendChild(publicationDiv);
+      });
+    };
+
+    // Função para verificar a autenticação do usuário
+    const checkAuth = () => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          document.getElementById('status').textContent = `Autenticado como: ${user.email}`;
+          fetchPublications(); // Buscar as publicações se o usuário estiver autenticado
+        } else {
+          document.getElementById('status').textContent = "Você precisa estar autenticado para ver as publicações.";
+          document.getElementById('publicationsList').innerHTML = ""; // Limpar a lista se não estiver autenticado
+        }
+      });
+    };
+
+    // Carregar mais publicações ao clicar no botão
+    const loadMore = () => {
+      currentStartIndex += publicationsPerPage;
+      const sortedPublications = Object.keys(publicationsData)
+        .map(key => publicationsData[key])
+        .sort((a, b) => new Date(b.date) - new Date(a.date)); // Ordenar novamente por data
+
+      renderPublications(sortedPublications.slice(currentStartIndex, currentStartIndex + publicationsPerPage));
+    };
+
+    // Função de busca por nome ou TAG
+    const searchPublications = () => {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filteredPublications = Object.keys(publicationsData)
+        .map(key => publicationsData[key])
+        .filter(publication => 
+          publication.title.toLowerCase().includes(query) ||
+          publication.tags.some(tag => tag.toLowerCase().includes(query))
+        );
+      
+      renderPublications(filteredPublications.slice(0, publicationsPerPage));
+    };
+
+    // Verificar a autenticação assim que a página carregar
+    checkAuth();
+
+    // Eventos dos botões
+    document.getElementById('loadMoreButton').addEventListener('click', loadMore);
+    document.getElementById('searchButton').addEventListener('click', searchPublications);
+  </script>
+</body>
+</html>

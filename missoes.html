@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+    <title>Sistema de Missões</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #00ffff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00ffff;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff00ff;
+        }
+        .mission {
+            border: 1px solid #00ffff;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            background-color: #ff00ff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #00ffff;
+            color: black;
+        }
+        .reward {
+            font-weight: bold;
+            color: #00ff00;
+        }
+        #progress {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2e2e2e;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Missões</h1>
+        <h2>Escolha uma Missão</h2>
+        <div id="missions">
+            <!-- Missões serão carregadas aqui -->
+        </div>
+        <div id="progress">
+            <h2>Progresso</h2>
+            <p><strong>Missões Concluídas:</strong> <span id="completedMissions">0</span></p>
+            <p><strong>Recompensas Ganhas:</strong> R$<span id="totalMoney">0</span> | <span id="totalPoints">0</span> pontos</p>
+        </div>
+    </div>
+    <script>
+        // Dados das Missões
+        const missions = [
+            { name: "Missão Básica", task: "Organizar 1 álbum", money: 2, points: 10 },
+            { name: "Missão Intermediária", task: "Organizar 10 álbuns", money: 20, points: 120 },
+            { name: "Missão Avançada", task: "Organizar 50 álbuns", money: 80, points: 600 },
+        ];
+
+        // Progresso
+        let completedMissions = 0;
+        let totalMoney = 0;
+        let totalPoints = 0;
+
+        // Elementos
+        const missionsContainer = document.getElementById('missions');
+        const completedMissionsEl = document.getElementById('completedMissions');
+        const totalMoneyEl = document.getElementById('totalMoney');
+        const totalPointsEl = document.getElementById('totalPoints');
+
+        // Renderizar Missões
+        function renderMissions() {
+            missions.forEach((mission, index) => {
+                const missionDiv = document.createElement('div');
+                missionDiv.classList.add('mission');
+                missionDiv.innerHTML = `
+                    <div class="mission-header">
+                        <h3>${mission.name}</h3>
+                        <button onclick="completeMission(${index})">Concluir</button>
+                    </div>
+                    <p>${mission.task}</p>
+                    <p class="reward">Recompensas: R$${mission.money} | ${mission.points} pontos</p>
+                `;
+                missionsContainer.appendChild(missionDiv);
+            });
+        }
+
+        // Concluir Missão
+        function completeMission(index) {
+            completedMissions++;
+            totalMoney += missions[index].money;
+            totalPoints += missions[index].points;
+            updateProgress();
+            alert(`Você concluiu a ${missions[index].name}!`);
+        }
+
+        // Atualizar Progresso
+        function updateProgress() {
+            completedMissionsEl.textContent = completedMissions;
+            totalMoneyEl.textContent = totalMoney;
+            totalPointsEl.textContent = totalPoints;
+        }
+
+        // Inicializar
+        renderMissions();
+    </script>
+</body>
+</html>

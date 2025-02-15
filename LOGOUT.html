@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+        .logout-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .logout-container h1 {
+            color: #333;
+        }
+        .logout-btn {
+            background-color: #FF5733;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #e14a2a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logout-container">
+        <h1>Você está logado!</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Configuração do Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+            authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+            databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+            projectId: "socialnetwork021-fad5a",
+            storageBucket: "socialnetwork021-fad5a.appspot.com",
+            messagingSenderId: "1040846806964",
+            appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+            measurementId: "G-0NC44RCWV6"
+        };
+
+        // Inicialização do Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        // Verifica o estado de autenticação do usuário
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('Usuário autenticado:', user); // Exibe o usuário autenticado no console
+            } else {
+                console.log('Nenhum usuário autenticado. Redirecionando...');
+                // Caso o usuário não esteja autenticado, redireciona para a tela de login
+                alert("Você não está autenticado. Redirecionando para o login...");
+                window.location.href = "login.html"; 
+            }
+        });
+
+        // Função para fazer logout
+        function logout() {
+            const user = auth.currentUser;
+
+            // Verifica se o usuário está logado
+            if (user) {
+                signOut(auth).then(() => {
+                    console.log('Logout bem-sucedido');
+                    alert("Você foi desconectado com sucesso!");
+                    window.location.href = "login.html"; // Redireciona para a página de login após o logout
+                }).catch((error) => {
+                    console.error("Erro ao fazer logout:", error.message);
+                    alert("Erro ao fazer logout. Tente novamente.");
+                });
+            } else {
+                console.log('Nenhum usuário está logado no momento');
+                alert("Você não está logado. Não é possível fazer logout.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+<title>A-Grade (Cadastro)</title>
+ <link rel="stylesheet" href="css/teladecadastro.css">
+</head>
+<body>
+
+<div id="login-form">
+  <h2>Faça seu registro na Grade<br>Conclua o formulário.</h2>
+  <form onsubmit="register(); return false;">
+    <div>
+      <input id="username" type="text" placeholder="Digite seu nome" required>
+    </div>
+    <div>
+      <input id="nicknameOrEmail" type="text" placeholder="Escolha seu ID ou E-mail" required>
+    </div>
+    <div>
+      <input id="password" type="password" placeholder="Escolha sua Senha" required>
+    </div>
+    <input type="submit" value="Concluir">
+  </form>
+  <div id="error"></div>
+  <div class="signup-link">
+    <p>Já tem cadastro? <a href="teladeloguin.html"><u>Entre por aqui</u></a></p>
+  </div>
+  <div>
+    <h2>
+      video
+    </h2>
+  </div>
+  <div>
+   <h2> instrução modal </h2>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js";
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const auth = getAuth(app);
+
+  // Carregar imagem de fundo
+  const loadBackground = () => {
+    const backgroundRef = ref(database, "backgrounds/login");
+    onValue(backgroundRef, (snapshot) => {
+      const base64Image = snapshot.val();
+      if (base64Image) {
+        document.body.style.backgroundImage = `url(${base64Image})`;
+      }
+    });
+  };
+
+  loadBackground();
+
+  // Registrar usuário
+  window.register = () => {
+    const username = document.getElementById("username").value;
+    const nicknameOrEmail = document.getElementById("nicknameOrEmail").value;
+    const password = document.getElementById("password").value;
+    const errorDiv = document.getElementById("error");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/)) {
+      errorDiv.textContent = "A senha deve ter pelo menos 6 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial.";
+      errorDiv.style.color = "red";
+      return;
+    }
+
+    const email = emailRegex.test(nicknameOrEmail) ? nicknameOrEmail : `${nicknameOrEmail}@agrade.enn`;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        set(ref(database, `users/${user.uid}`), {
+          username,
+          email,
+          nickname: nicknameOrEmail,
+        });
+        errorDiv.textContent = "Cadastro realizado com sucesso!";
+        errorDiv.style.color = "green";
+      })
+      .catch((error) => {
+        errorDiv.textContent = error.message;
+        errorDiv.style.color = "red";
+      });
+  };
+</script>
+
+</body>
+</html>

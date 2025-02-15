@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music JSON Firebase</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #20232a;
+      color: #61dafb;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #282c34;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+    }
+    input {
+      background: #3a3f47;
+      color: #fff;
+    }
+    button {
+      background: #61dafb;
+      color: #20232a;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #21a1f1;
+    }
+    pre {
+      background: #1b1f24;
+      padding: 20px;
+      border-radius: 5px;
+      color: #fff;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Music JSON Editor (Firebase)</h1>
+  <form id="musicForm">
+    <label for="genre">Gênero</label>
+    <input type="text" id="genre" placeholder="Digite o gênero" required>
+
+    <label for="artist">Artista</label>
+    <input type="text" id="artist" placeholder="Digite o artista" required>
+
+    <label for="album">Álbum</label>
+    <input type="text" id="album" placeholder="Digite o álbum" required>
+
+    <label for="track">Faixa</label>
+    <input type="text" id="track" placeholder="Digite o nome da faixa" required>
+
+    <label for="url">Link da Música</label>
+    <input type="url" id="url" placeholder="Digite o link para reprodução" required>
+
+    <button type="button" id="addMusic">Adicionar Música</button>
+  </form>
+
+  <h2>Arquivo JSON</h2>
+  <pre id="output">{}</pre>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getDatabase, ref, get, child, update } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    const musicData = {};
+
+    let currentUser = null;
+
+    // Verificar se o usuário está autenticado
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        console.log("Usuário autenticado:", user.email);
+      } else {
+        alert("Você precisa estar autenticado para adicionar músicas!");
+        window.location.href = "login.html"; // Redirecionar para a página de login
+      }
+    });
+
+    document.getElementById("addMusic").addEventListener("click", async () => {
+      if (!currentUser) {
+        alert("Você precisa estar autenticado para adicionar músicas!");
+        return;
+      }
+
+      const genre = document.getElementById("genre").value.trim();
+      const artist = document.getElementById("artist").value.trim();
+      const album = document.getElementById("album").value.trim();
+      const track = document.getElementById("track").value.trim();
+      const url = document.getElementById("url").value.trim();
+
+      if (!genre || !artist || !album || !track || !url) {
+        alert("Por favor, preencha todos os campos!");
+        return;
+      }
+
+      try {
+        new URL(url);
+      } catch (e) {
+        alert("Por favor, insira uma URL válida!");
+        return;
+      }
+
+      const dbRef = ref(db);
+      const musicRef = child(dbRef, "musicData");
+
+      try {
+        const snapshot = await get(musicRef);
+        const existingData = snapshot.exists() ? snapshot.val() : {};
+
+        if (!existingData[genre]) {
+          existingData[genre] = {};
+        }
+        if (!existingData[genre][artist]) {
+          existingData[genre][artist] = {};
+        }
+        if (!existingData[genre][artist][album]) {
+          existingData[genre][artist][album] = [];
+        }
+        existingData[genre][artist][album].push({ track, url });
+
+        await update(musicRef, existingData);
+
+        musicData[genre] = existingData[genre]; // Atualizar localmente
+        document.getElementById("output").textContent = JSON.stringify(musicData, null, 2);
+
+        document.getElementById("musicForm").reset();
+        alert("Música adicionada ao Firebase com sucesso!");
+      } catch (error) {
+        console.error("Erro ao adicionar música:", error);
+        alert("Erro ao adicionar música. Tente novamente.");
+      }
+    });
+  </script>
+</body>
+</html>

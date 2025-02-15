@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contagem Regressiva para o Fim do Dia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: #00ffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      width: 80%;
+    }
+    .tempo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .progresso-container {
+      position: relative;
+      height: 30px;
+      background-color: #333;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .progresso {
+      height: 100%;
+      background-color: #00ffff;
+      transition: width 1s linear;
+    }
+    .percentual {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #000;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Quanto falta para o dia acabar?</h1>
+    <p class="tempo" id="contador">Carregando...</p>
+    <div class="progresso-container">
+      <div class="progresso" id="progresso"></div>
+      <div class="percentual" id="percentual">0%</div>
+    </div>
+  </div>
+
+  <script>
+    function atualizarContagem() {
+      // Hora atual
+      const agora = new Date();
+      
+      // Meia-noite do próximo dia
+      const meiaNoite = new Date();
+      meiaNoite.setHours(24, 0, 0, 0);
+
+      // Calcula a diferença em milissegundos
+      const diferenca = meiaNoite - agora;
+
+      // Tempo total do dia em milissegundos
+      const totalDia = 24 * 60 * 60 * 1000;
+
+      // Converte para horas, minutos e segundos
+      const horas = Math.floor(diferenca / (1000 * 60 * 60));
+      const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+      // Calcula a porcentagem restante do dia
+      const percentualRestante = (diferenca / totalDia) * 100;
+
+      // Atualiza o contador de tempo
+      document.getElementById("contador").innerText = 
+        `${horas} horas, ${minutos} minutos e ${segundos} segundos`;
+
+      // Atualiza a barra de progresso e a porcentagem
+      const progresso = document.getElementById("progresso");
+      progresso.style.width = `${percentualRestante}%`;
+
+      const percentual = document.getElementById("percentual");
+      percentual.innerText = `${Math.floor(percentualRestante)}%`;
+
+      // Atualiza a cada segundo
+      setTimeout(atualizarContagem, 1000);
+    }
+
+    // Inicia a contagem
+    atualizarContagem();
+  </script>
+</body>
+</html>

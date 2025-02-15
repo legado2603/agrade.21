@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papel de Parede Dinâmico</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out; /* Transição suave */
+    }
+    h1 {
+      text-shadow: 0 0 5px black;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Bem-vindo à página dinâmica!</h1>
+    <p>O papel de parede muda com base no horário do dia.</p>
+  </div>
+
+  <script>
+    function atualizarFundoPorHora() {
+  const horaAtual = new Date().getHours();
+
+  // Mapeamento de imagens por hora (0 a 23)
+  const imagensPorHora = {
+    0: "url('img/00.jpeg')",
+    1: "url('img/01.jpeg')",
+    2: "url('img/02.jpeg')",
+    3: "url('img/03.jpeg')",
+    4: "url('img/04.jpeg')",
+    5: "url('img/05.jpeg')",
+    6: "url('img/06.jpeg')",
+    7: "url('img/07.jpeg')",
+    8: "url('img/08.jpeg')",
+    9: "url('img/09.jpeg')",
+    10: "url('img/10.jpeg')",
+    11: "url('img/11.jpeg')",
+    12: "url('img/12.jpeg')",
+    13: "url('img/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg')",
+    14: "url('img/14.jpeg')",
+    15: "url('img/15.jpeg')",
+    16: "url('img/16.jpeg')",
+    17: "url('img/17.jpeg')",
+    18: "url('img/18.jpeg')",
+    19: "url('img/19.jpeg')",
+    20: "url('img/20.jpeg')",
+    21: "url('img/21.jpeg')",
+    22: "url('img/22.jpeg')",
+    23: "url('img/23.jpeg')"
+  };
+
+  // Seleciona a imagem correspondente à hora atual
+  const imagemFundo = imagensPorHora[horaAtual] || "url('img/default.jpeg')"; // Define uma imagem padrão caso a hora não seja encontrada
+
+  // Define o estilo do fundo
+  document.body.style.backgroundImage = imagemFundo;
+  document.body.style.backgroundSize = "cover"; // Ajusta para cobrir toda a tela
+  document.body.style.backgroundRepeat = "no-repeat"; // Evita repetição
+  document.body.style.backgroundPosition = "center"; // Centraliza a imagem
+}
+
+// Chama a função ao carregar a página
+atualizarFundoPorHora();
+
+// Atualiza o fundo a cada hora
+setInterval(atualizarFundoPorHora, 60 * 60 * 1000); // Atualiza a cada hora
+  </script>
+</body>
+</html>

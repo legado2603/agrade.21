@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alterar Foto de Perfil</title>
+  <style>
+    body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* Define os elementos em colunas verticais */
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    color: #00FFFF;
+    text-shadow: 1px 1px 5px #000;
+}
+
+    /* Estilo geral do painel */
+#profile-panel {
+  border: 2px solid #00ff00; /* Verde neon */
+  padding: 30px;
+  width: 320px;
+  text-align: center;
+  background: linear-gradient(145deg, #000000, #1a1a1a); /* Fundo escuro com gradiente */
+  border-radius: 15px;
+  box-shadow: 
+    0px 0px 15px rgba(0, 255, 0, 0.6), /* Brilho neon */
+    0px 4px 15px rgba(0, 0, 0, 0.8); /* Sombra externa */
+  color: #00ff00; /* Verde neon */
+  font-family: 'Courier New', monospace; /* Estilo hacker */
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 50px; /* Espaço maior entre os painéis */
+}
+
+/* Título estilizado */
+#profile-panel h2 {
+  margin-bottom: 50px; /* Maior espaço abaixo do título */
+  color: #00ff00;
+  text-transform: uppercase;
+  font-size: 18px;
+  letter-spacing: 3px;
+  animation: glitch 1.5s infinite; /* Efeito glitch */
+}
+
+/* Foto de perfil */
+#current-photo {
+  margin-bottom: 50px; /* Maior espaço entre a imagem e o próximo botão */
+}
+
+#current-photo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00ff00; /* Contorno neon */
+  box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.8); /* Brilho neon */
+  transition: transform 0.4s, box-shadow 0.4s; /* Transição suave */
+}
+
+#current-photo img:hover {
+  transform: scale(1.1); /* Zoom */
+  box-shadow: 0px 0px 20px rgba(0, 255, 0, 1); /* Brilho mais forte no hover */
+}
+
+/* Selecionador de foto */
+#profile-photo-input {
+  margin-bottom: 50px; /* Maior espaço abaixo do campo de seleção */
+}
+
+#profile-photo-input input {
+  background-color: #000;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 50px; /* Espaço abaixo do campo */
+}
+
+/* Botão de upload */
+#upload-button {
+  padding: 12px 24px;
+  border: 1px solid #00ff00;
+  background-color: #000;
+  color: #00ff00;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 50px; /* Aumentando o espaçamento abaixo do botão */
+}
+
+#upload-button:hover {
+  background-color: #00ff00;
+  color: #000;
+  transform: translateY(-5px); /* Efeito de elevação */
+  box-shadow: 0px 0px 15px rgba(0, 255, 0, 1); /* Brilho no hover */
+}
+
+/* Painel de login */
+#login-panel {
+  text-align: center;
+}
+
+#login-panel input {
+  padding: 12px;
+  margin: 20px 0; /* Aumentando margem entre campos */
+  border-radius: 8px;
+  border: 1px solid #00ff00;
+  width: 220px;
+  background: rgba(0, 0, 0, 0.9); /* Fundo escuro translúcido */
+  color: #00ff00;
+  outline: none;
+  font-family: 'Courier New', monospace;
+  box-shadow: inset 0px 0px 5px rgba(0, 255, 0, 0.6); /* Brilho interno */
+}
+
+#login-panel input::placeholder {
+  color: #008000; /* Placeholder em tom mais claro */
+}
+
+/* Botão de login */
+#login-button {
+  background-color: #000;
+  color: #00ff00;
+  padding: 12px 24px;
+  border: 1px solid #00ff00;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  margin-top: 50px; /* Espaço maior no topo do botão */
+}
+
+#login-button:hover {
+  background-color: #00ff00;
+  color: #000;
+  transform: translateY(-5px);
+  box-shadow: 0px 0px 15px rgba(0, 255, 0, 1);
+}
+
+/* Animação glitch para o título */
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 2px #00ff00, -2px -2px #008000;
+  }
+  50% {
+    text-shadow: -2px -2px #00ff00, 2px 2px #008000;
+  }
+  100% {
+    text-shadow: 2px -2px #00ff00, -2px 2px #008000;
+  }
+}
+  </style>
+</head>
+<body>
+  <div id="login-panel">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="login-button">Login</button>
+  </div>
+
+  <div id="profile-panel" style="display: none;">
+    <h2>Alterar Foto de Perfil</h2>
+    <div id="current-photo">
+      <img id="profile-photo" src="default-profile.png" alt="Foto de Perfil">
+    </div>
+    <input type="file" id="profile-photo-input" accept="image/*">
+    <button id="upload-button">Enviar Nova Foto</button>
+  </div>
+
+  <script type="module">
+    // Importações do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    import { getDatabase, ref as dbRef, set, get } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    // Elementos HTML
+    const profilePhoto = document.getElementById("profile-photo");
+    const fileInput = document.getElementById("profile-photo-input");
+    const uploadButton = document.getElementById("upload-button");
+    const loginPanel = document.getElementById("login-panel");
+    const profilePanel = document.getElementById("profile-panel");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginButton = document.getElementById("login-button");
+
+    // Função para exibir o painel de perfil
+    const showProfilePanel = () => {
+      loginPanel.style.display = "none";
+      profilePanel.style.display = "block";
+    };
+
+    // Função para carregar a foto de perfil do Realtime Database
+    const loadProfilePhoto = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userRef = dbRef(database, `users/${user.uid}`);
+        try {
+          const snapshot = await get(userRef);
+          if (snapshot.exists()) {
+            const userData = snapshot.val();
+            const photoURL = userData.profilePhotoUrl;
+            profilePhoto.src = photoURL || "default-profile.png";
+          } else {
+            console.log("Usuário não encontrado.");
+          }
+        } catch (error) {
+          console.error("Erro ao carregar a foto de perfil:", error);
+        }
+      } else {
+        alert("Você precisa estar logado para modificar sua foto de perfil.");
+      }
+    };
+
+    // Função para fazer o upload da foto e salvar no Realtime Database
+const uploadProfilePhotoAndSaveLink = async () => {
+  const user = auth.currentUser;
+  const file = fileInput.files[0];
+
+  if (!user) {
+    alert("Você precisa estar logado para modificar sua foto de perfil.");
+    return;
+  }
+
+  if (!file) {
+    alert("Por favor, selecione uma imagem para enviar.");
+    return;
+  }
+
+  const photoRef = ref(storage, `profilePhotos/${user.uid}/profile.jpg`);
+
+  try {
+    // Upload da foto para o Storage
+    await uploadBytes(photoRef, file);
+
+    // Obtendo URL de download
+    const photoURL = await getDownloadURL(photoRef);
+
+    // Salvar o link da foto no Firebase Realtime Database
+    const userRef = dbRef(database, `users/${user.uid}`);
+    await set(userRef, { profilePhotoUrl: photoURL });
+
+    // Atualizar a foto na interface
+    profilePhoto.src = photoURL;
+
+    // Atualizar todos os posts associados à nova URL de foto
+    const postsRef = dbRef(database, `posts`);
+    const postsSnapshot = await get(postsRef);
+    const posts = postsSnapshot.val();
+
+    if (posts) {
+      Object.keys(posts).forEach(async (postId) => {
+        if (posts[postId].userId === user.uid) {
+          await set(dbRef(database, `posts/${postId}`), { 
+            ...posts[postId],
+            photoURL: photoURL 
+          });
+        }
+      });
+    }
+
+    alert("Foto de perfil atualizada com sucesso!");
+  } catch (error) {
+    console.error("Erro ao enviar a foto de perfil:", error);
+    alert("Erro ao enviar a foto. Tente novamente.");
+  }
+};
+
+    // Login do usuário
+    loginButton.addEventListener("click", async () => {
+      const email = emailInput.value;
+      const password = passwordInput.value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        showProfilePanel();
+        loadProfilePhoto();
+      } catch (error) {
+        alert("Erro ao fazer login. Verifique suas credenciais.");
+      }
+    });
+
+    // Verificar se o usuário está autenticado
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        showProfilePanel();
+        loadProfilePhoto();
+      } else {
+        loginPanel.style.display = "block";
+        profilePanel.style.display = "none";
+      }
+    });
+
+    // Evento para enviar a nova foto
+    uploadButton.addEventListener("click", uploadProfilePhotoAndSaveLink);
+  </script>
+  <script>
+        const apiKey = "0tpvTQXxNqegI78hOfmrFXzdgq170uSgbEW7ufDIgRbfJxxoEJDWGUJz";
+
+        // Lista de 20 temas futuristas
+        const themes = [
+            "Nature Futuristic",
+            "Cybernetic Forest",
+            "Techno Oasis",
+            "Neon Wilderness",
+            "Digital Horizon",
+            "Futuristic Eden",
+            "Quantum Nature",
+            "Bio-Neon Realm",
+            "Synthwave Nature",
+            "Organic Futurism",
+            "Neon Flora",
+            "Holographic Jungle",
+            "Cyberpunk Garden",
+            "Virtual Nature",
+            "Neo-Gaia",
+            "Luminous Forest",
+            "Ethereal Biome",
+            "Solarpunk Haven",
+            "Neon Ecosystem",
+            "Augmented Wilds",
+            "Astral Nature"
+        ];
+
+        // Função para buscar uma imagem aleatória com um tema aleatório
+        async function setBackgroundImage() {
+            // Escolhe um tema aleatório
+            const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+
+            try {
+                const response = await fetch(`https://api.pexels.com/v1/search?query=${randomTheme}&per_page=20`, {
+                    headers: {
+                        Authorization: apiKey
+                    }
+                });
+
+                const data = await response.json();
+
+                // Seleciona uma imagem aleatória
+                const randomIndex = Math.floor(Math.random() * data.photos.length);
+                const randomPhoto = data.photos[randomIndex];
+
+                // Define a imagem como plano de fundo
+                document.body.style.backgroundImage = `url(${randomPhoto.src.landscape})`;
+            } catch (error) {
+                console.error('Erro ao buscar imagens:', error);
+                document.body.style.background = '#121212'; // Fallback para cor sólida
+            }
+        }
+
+        // Chamar a função ao carregar a página
+        document.addEventListener('DOMContentLoaded', setBackgroundImage);
+    </script>
+    <script>
+  function setRandomBackground(images) {
+  const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+  const profilePanel = document.querySelector('#profile-panel'); // Seleciona o painel de perfil
+  profilePanel.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+  profilePanel.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+  profilePanel.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+  profilePanel.style.backgroundPosition = 'center'; // Centraliza a imagem
+}
+
+  // Array com caminhos das 120 imagens
+  const backgroundImages = [
+    'img1/0bca5f9cb46c99c1a6161f710ec9d35a.jpg', 'img1/0d8533f8232c7f87e6bd90196ae77f4b.jpg', 'img1/1a53b67623d8383f9e049167f7e6a564.jpg', 'img1/1c3a5ab61d54fab74da09d3e42a55d0e.jpg', 'img1/1cd66e94243331993c94a8c59d74e507.jpg',
+    'img1/1ce9926a818f1d81b741851d9e80fe9f.jpg', 'img1/2dda60353b7391f66a776d6b6e500738.jpg', 'img1/3a1065417976b35db86829bd48b31098.jpg', 'img1/3e92dce9e5288a2813aa888600565c36.jpg', 'img1/3ed691eaf9d8508c438a84e2678e5ba2.jpg',
+    'img1/3ede294867b5f92ec2a4fb5894763ab3.jpg', 'img1/4e8aa26bf4fa27ded960d89167222f2a.jpg', 'img1/4ed7f1fa5a5feb0d4c4687b4e78f7cf3.jpg', 'img1/4ffffd861c4b4b4d6561566f29216484.jpg', 'img1/5a42b8d56e9c703f96fb966febadb940.jpg',
+    'img1/5c2d45a3dfdf197cd0de420c69f87940.jpg', 'img1/5c78ddaeb3e598334a417c854cb014fc.jpg', 'img1/5d51b7898fe19fbde6eafad84c01c893.jpg', 'img1/5e76ad7802b25d8d3818c45e3242ff2d.jpg', 'img1/5f8d2bbe8c8f2c1df4f360327c34721c.jpg',
+    'img1/5fdb37fe9258a9b7b91c25f0ad6d1943.jpg', 'img1/6c86e888939af9ea8be3980d5b8bc3f2.jpg', 'img1/6d5c11ad79e2e51e2925a156caaf6fb3.jpg', 'img1/6fc7fda0563163e94e9f8958236c8d48.jpg', 'img1/7a8dd4306fdf16b1dd21eeb85aec5855.jpg',
+    'img1/7b5a6b87-8d67-4d7c-bc65-1ffd3a471591.jpeg', 'img1/7d836b5418a6f0f4ed12eb8691c69ee2.jpg', 'img1/7fcdc7967dd2d125c3cf7ad66afb0636.jpg', 'img1/8ea67e875d39503bd1e45ba4c7de64d8.jpg', 'img1/8f3b2e4e6e82701faa4bfa7181bc8e12.jpg',
+    'img1/9ff95072ec5ccff8cff68033e9035e2f.jpg', 'img1/16fbd7347be80af9edbaae58610ef956.jpg', 'img1/023a464a8a2a27dd35ac55acb44170b7.jpg', 'img1/27b656f36472e2d16cca1c96e9fe4088.jpg', 'img1/31ae1d53bd79bd8e57e91be70613208e.jpg',
+    'img1/036cb275b625d653528aa154044dee92.jpg', 'img1/42fcdf72a1694e1045956abf08043b4b.jpg', 'img1/45ba20a7-536a-460d-b7f7-06768843bd5c.jpeg', 'img1/49c2a269dd3545b4374c2c7fea7f5898.jpg', 'img1/53cb1cba8f94ee8453f5b82e7056362b.jpg',
+    'img1/57fbecd6a194ee5d5dd07d6dfc25a04d.jpg', 'img1/58c2745cd74890ea1da6d2a3a05f248a.jpg', 'img1/71fcf2a38d011c19abdbe0f337a07ab3.jpg', 'img1/76a3a59413a9afcfc429c5db3f8b2343.jpg', 'img1/90e41b7ae53878acf171e18ed93cd7b4.jpg',
+    'img1/91a047a9e2830ae051f5f9848fabfb93.jpg', 'img1/93d7d798f2fd3525bfaad82f81a0f8ec.jpg', 'img1/93f0920219183f6e871ac0737a07fde2.jpg', 'img1/258f8800-a611-4fdd-8a69-ef73ad72ba6d.jpeg', 'img1/372d97eb643646856fc359dc45633c47.jpg',
+    'img1/411adf9916b8160905f98527adbf9c64.jpg', 'img1/411ed4eb85fc442beb1e136a0156ae71.jpg', 'img1/493f1919a25843f7e74e94269fff8c1b.jpg', 'img1/624dbdf5e8faaa102ab66a30a534373c.jpg', 'img1/657c88bd4894e0893a8c7b9cd7e708db.jpg',
+    'img1/703dc0fe13374e86df97efed9a396027.jpg', 'img1/736ffaeffc373017f4e317b1f7847ea0.jpg', 'img1/741dff7e128adb956b07c0d0d2e5fabc.jpg', 'img1/748dea9055d69598b4fa940d2ad90100.jpg', 'img1/990dfd44f65276695243d6ee20986816.jpg',
+    'img1/1325b966b2e16adcfa0d2db2a288bab7.jpg', 'img1/5386b07b78a320989ad2ab41c62bfb21.jpg', 'img1/6930b7798d5b4a164ec93166d7330ad5.jpg', 'img1/8283dae377c335f19b1d5178de10b2e3.jpg', 'img1/13650e0b717565c0ed0b729e43dc10d7.jpg',
+    'img1/16887f7f42b9e2c559521c94ce27d332.jpg', 'img1/17510b72cab7795885d19c3e02dbe9e4.jpg', 'img1/68120f730ec20c62256d9e187b470789.jpg', 'img1/77290a70c80e7d684f23b9a411c3315c.jpg', 'img1/630937b6e40aebbe57d97bd153fa50a0.jpg',
+    'img1/7251725a6cad21b502ffa7d4a56284bc.jpg', 'img1/16956480d12905f9f4a37abd0c1cd45e.jpg', 'img1/86709756d1558d39de59f6a877c45fb1.jpg', 'img1/995065544a63b055f879c051b10fa4a6.jpg', 'img1/2483497657e3749101cacb6e673ab888.jpg',
+    'img1/47051947982ecafe557ef15e77c98e91.jpg', 'img1/a73e8aa5fa6214394e5ee6d36bb641cc.jpg', 'img1/a1791fbc9659e2c6ed8eee37c19f38df.jpg', 'img1/aa748bf8203a2a085853c4637e0a5b45.jpg', 'img1/b7b99ed9c883a621d2ed649d339cf7eb.jpg',
+    'img1/b94fa953b79750166a9974d9ce2a5aa8.jpg', 'img1/b553c4cc13402a4e3d4510ce0f618831.jpg', 'img1/b762c58527a320be54e86746cdb76de9.jpg', 'img1/b4686d2da7e53153cf9f8b65c60ec46f.jpg', 'img1/bb2265bce402a96d5eb2ff23dce90624.jpg',
+    'img1/c3e5376792e8644bc96686a3152bafba.jpg', 'img1/c5d6fa87fed6d2fb816e7bb26de3b458.jpg', 'img1/c9eec95e34c23b7a4ad29d9908d58cd2.jpg', 'img1/c90d91426ae3384073474a42ab38f695.jpg', 'img1/c591a869e098bf60ee69a432ff57af93.jpg',
+    'img1/c8895e3b-5e74-4b9b-95af-1d24b0bf0ff9.jpeg', 'img1/c12239a8f9e348f2b0455b8a59ecb229.jpg', 'img1/Cyberpunk 2077 by Neoncity.jpeg', 'img1/cyberpunk room wallpaper.jpeg', 'img1/d6b727014ef70d1dc48fa1acd8221f7a.jpg',
+    'img1/d7e21ddb421cf82e670ddbc5f9bdd299.jpg', 'img1/d8f3e1d055743b618824ea3e5134307b.jpg', 'img1/d74b81b0ba30b2e7fcfcc415a5c6eb2a.jpg', 'img1/d973abe1b78d4d1fd2ba82d339e24c68.jpg', 'img1/d3670a57c8578322b4c4b2b220686065.jpg',
+    'img1/da2853a5e6390192717c8ff731ed2e5e.jpg', 'img1/Descargar futurista móvil comercio, teléfono inteligente tecnología, y digital comunicación 3d visualización vertical móvil fondo de pantalla ai generado gratis.jpeg', 'img1/e1d7328d7868fb4ca87ab7333f7d8751.jpg', 'img1/e1ea46f02044bbe91caade4f2881b60f.jpg', 'img1/e19cba7b7ec107b03ee1f5b7b9e94716.jpg',
+    'img1/e928e4f1a2fdd340f9739816ebbbc86b.jpg', 'img1/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg', 'img1/eef9ad56cc34826abd4de6ae77923b27.jpgf', 'img1/f1eb302ca7a7a84cd76981d07ae34172.jpg', 'img1/f8e8c81aae402fba12e9b049f3f7c296.jpg',
+    'img1/fe6e1df2a9aca6421ddda28c41cf7222.jpg', 'img1/fe9b7ea62be10ef4182bbc3be117e891.jpg', 'img1/7c8db109-d02b-4764-a6f5-16b195f9ae9b.jpeg', 'img1/40 Insanely Expensive and Unique Celebrity Purchas.jpeg', 'img1/cf9fc84d-4360-4331-aaa0-3ce7c88d984f.jpeg',
+    'img1/d727d9ce-473d-4675-bc90-dddb9cca03ad.jpeg', 'img1/5780b16e-4aa8-4149-9ede-607df1e805c3.jpeg', 'img1/921403dc-f54f-426d-b7b8-f7267897b435.jpeg', 'img1/a8af8676-cfb8-49d3-b563-7edd825c2969.jpeg', 'img1/d3705b74-baea-4d9d-b277-cd5c1bd75d0c.jpeg'
+];
+
+  // Chama a função para aplicar o fundo aleatório
+setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

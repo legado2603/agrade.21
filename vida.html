@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contador de Tempo de Vida</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: #00FFFF;
+      text-align: center;
+      padding: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      border: 2px solid #00FFFF;
+      border-radius: 5px;
+      background-color: #121212;
+      color: #00FFFF;
+      font-size: 1rem;
+    }
+    button {
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #00FFFF;
+      color: #121212;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+    .highlight {
+      color: #FF00FF;
+      font-weight: bold;
+    }
+    .contador {
+      font-size: 2rem;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #FF0000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Contador de Tempo de Vida</h1>
+  <p>Informe sua data de nascimento e a idade meta para viver:</p>
+  
+  <form id="lifeForm">
+    <label for="nascimento">Data de nascimento:</label>
+    <input type="date" id="nascimento" required><br>
+    
+    <label for="metaIdade">Idade meta (anos):</label>
+    <input type="number" id="metaIdade" min="1" max="120" required><br>
+    
+    <button type="submit">Calcular</button>
+  </form>
+  
+  <div id="resultados" class="result"></div>
+  <div id="contador" class="contador"></div>
+  
+  <script>
+    function calcularDiferenca(dataFinal) {
+      const agora = new Date();
+      const diferenca = dataFinal - agora;
+
+      if (diferenca <= 0) {
+        return { dias: 0, horas: 0, minutos: 0, segundos: 0 };
+      }
+
+      const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+      return { dias, horas, minutos, segundos };
+    }
+
+    function atualizarContador(dataFinal) {
+      const { dias, horas, minutos, segundos } = calcularDiferenca(dataFinal);
+
+      document.getElementById("contador").innerText = 
+        `Tempo restante: ${dias}d ${horas}h ${minutos}m ${segundos}s`;
+
+      if (dias > 0 || horas > 0 || minutos > 0 || segundos > 0) {
+        setTimeout(() => atualizarContador(dataFinal), 1000);
+      } else {
+        document.getElementById("contador").innerText = "O tempo chegou ao fim!";
+      }
+    }
+
+    function salvarInformacoes(nascimento, metaIdade, dataFinal) {
+      localStorage.setItem("nascimento", nascimento);
+      localStorage.setItem("metaIdade", metaIdade);
+      localStorage.setItem("dataFinal", dataFinal.toISOString());
+    }
+
+    function carregarInformacoes() {
+      const nascimento = localStorage.getItem("nascimento");
+      const metaIdade = localStorage.getItem("metaIdade");
+      const dataFinal = localStorage.getItem("dataFinal");
+
+      if (nascimento && metaIdade && dataFinal) {
+        document.getElementById("nascimento").value = nascimento;
+        document.getElementById("metaIdade").value = metaIdade;
+
+        const dataFinalDate = new Date(dataFinal);
+
+        // Atualiza os resultados estáticos
+        const agora = new Date();
+        const totalHoras = Math.floor((dataFinalDate - new Date(nascimento)) / (1000 * 60 * 60));
+        const horasVividas = Math.floor((agora - new Date(nascimento)) / (1000 * 60 * 60));
+        const horasRestantes = totalHoras - horasVividas;
+        const percentualVivido = ((horasVividas / totalHoras) * 100).toFixed(2);
+        const percentualRestante = (100 - percentualVivido).toFixed(2);
+
+        document.getElementById("resultados").innerHTML = `
+          <p>Data final estimada: <span class="highlight">${dataFinalDate.toLocaleDateString()}</span></p>
+          <p>Tempo total de vida: <span class="highlight">${totalHoras.toLocaleString()} horas</span></p>
+          <p>Tempo já vivido: <span class="highlight">${horasVividas.toLocaleString()} horas</span> (~${percentualVivido}%)</p>
+          <p>Tempo restante: <span class="highlight">${horasRestantes.toLocaleString()} horas</span> (~${percentualRestante}%)</p>
+        `;
+
+        // Inicia o contador decrescente
+        atualizarContador(dataFinalDate);
+      }
+    }
+
+    document.getElementById("lifeForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const nascimento = document.getElementById("nascimento").value;
+      const metaIdade = parseInt(document.getElementById("metaIdade").value);
+
+      if (!nascimento || isNaN(metaIdade)) {
+        alert("Por favor, preencha todos os campos corretamente.");
+        return;
+      }
+
+      // Calcula a data final
+      const dataFinal = new Date(nascimento);
+      dataFinal.setFullYear(dataFinal.getFullYear() + metaIdade);
+
+      // Salva informações no localStorage
+      salvarInformacoes(nascimento, metaIdade, dataFinal);
+
+      // Atualiza os resultados
+      carregarInformacoes();
+    });
+
+    // Carrega as informações ao iniciar a página
+    carregarInformacoes();
+  </script>
+</body>
+</html>

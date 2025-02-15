@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+    <title>A-Grade(Página 2)</title>
+    <style>
+        body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out; /* Transição suave */
+    }
+    h1 {
+      text-shadow: 0 0 5px black;
+    }
+
+        .marquee-container {
+            position: fixed; /* Fixa o contêiner na tela */
+            right: -50px; /* Ajusta a posição para a direita */
+            top: 0; /* Alinha ao topo */
+            width: 200px; /* Ajuste o tamanho conforme necessário */
+            height: 100vh; /* Ocupa toda a altura da tela */
+            overflow: hidden;
+            background: #111; /* Fundo do marquee */
+            border: 2px solid #f00; /* Borda para o efeito neon */
+            box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8); /* Efeito neon */
+            display: flex;
+            align-items: center; /* Centraliza verticalmente o conteúdo */
+            justify-content: center; /* Centraliza horizontalmente o conteúdo */
+        }
+
+        .marquee-content {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            animation: marquee 10s linear infinite;
+            color: #f00; /* Cor do texto */
+            font-size: 50px; /* Ajuste o tamanho do texto conforme necessário */
+            font-family: 'Courier New', Courier, monospace; /* Fonte com estilo de letreiro */
+            white-space: nowrap; /* Impede quebra de linha */
+            text-align: center; /* Alinha o texto no centro */
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        .box-mestre {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #accordion {
+            position: absolute;
+            top: 50px;
+            left: 10px;
+        }
+
+        .neon-button, #botao-mestre {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background: #111;
+            border: 1px solid #444;
+            cursor: pointer;
+            color: red;
+        }
+
+        .neon-button:hover, #botao-mestre:hover {
+            outline: 2px solid red;
+            box-shadow: 0 0 10px red;
+        }
+
+        .neon-button-yellow {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background: #111;
+            border: 1px solid #444;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .neon-button-yellow:hover {
+            outline: 2px solid yellow;
+            box-shadow: 0 0 10px yellow;
+        }
+
+        .modal {
+            display: none;
+            background: #222;
+            border: 1px solid red;
+            padding: 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            animation: neonFire 1.5s infinite alternate;
+        }
+
+        @keyframes neonFire {
+            0% { border-color: #ff5555; box-shadow: 0 0 20px #ff5555; }
+            50% { border-color: #ff3333; box-shadow: 0 0 20px #ff3333; }
+            100% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
+        }
+
+.modal .close {
+    background: transparent; /* Fundo transparente */
+    border: 1px solid white; /* Borda branca */
+    color: white; /* Cor do texto branca */
+    padding: 1px 1px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.modal .close:hover {
+    background: rgba(255, 255, 255, 0.1); /* Efeito sutil ao passar o mouse, opcional */
+    border-color: yellow; /* Altere para vermelho ou outra cor se desejar */
+    color: yellow; /* Cor do texto ao passar o mouse */
+}
+
+        .tooltip {
+            position: absolute;
+            background: #444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #111;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 999;
+        }
+
+        .tab {
+            padding: 10px;
+            cursor: pointer;
+            color: red;
+        }
+
+        .tab:hover {
+            background: #222;
+        }
+
+        .tab-content {
+            display: none;
+            background: #333;
+            padding: 10px;
+            position: fixed;
+            bottom: 50px;
+            width: 100%;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        .tab-close {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+  .signup-link a {
+    color: red;
+    text-decoration: none;
+  }
+    </style>
+</head>
+<body>
+      <div class="marquee-container">
+        <div class="marquee-content">
+            T<br>
+            h<br>
+            e<br>
+            /<br>
+            G<br>
+            r<br>
+            i<br>
+            d<br>
+            
+            
+        </div>
+    </div>
+    <div class="box-mestre">
+        <button id="botao-mestre" class="neon-button">Botão Mestre</button>
+    </div>
+    <div id="accordion" style="display: none;">
+        <button class="accordion-button neon-button" data-modal="modal1">Botão 1</button>
+        <button class="accordion-button neon-button" data-modal="modal2">Botão 2</button>
+        <button class="accordion-button neon-button" data-modal="modal3">Botão 3</button>
+        <button class="accordion-button neon-button" data-modal="modal4">Botão 4</button>
+        <button class="accordion-button neon-button" data-modal="modal5">Botão 5</button>
+        <button class="accordion-button neon-button" data-modal="modal6">Botão 6</button>
+        <button class="accordion-button neon-button" data-modal="modal7">Botão 7</button>
+    </div>
+    
+    <div id="modals">
+        <div id="modal1" class="modal">
+            Conteúdo do Modal 1
+            <button class="close">Fechar</button>
+        </div>
+        <div id="modal2" class="modal">
+            Conteúdo do Modal 2
+            <button class="close">Fechar</button>
+        </div>
+        <div id="modal3" class="modal">
+            Conteúdo do Modal 3
+            <button class="close">Fechar</button>
+        </div>
+        <div id="modal4" class="modal">
+            Conteúdo do Modal 4
+            <button class="close">Fechar</button>
+        </div>
+        <div id="modal5" class="modal">
+            Conteúdo do Modal 5
+            <button class="close">Fechar</button>
+        </div>
+        <div id="modal6" class="modal">
+            Conteúdo do Modal 6
+            <button class="close">Fechar</button>
+        </div>
+        <div id="modal7" class="modal">
+            Conteúdo do Modal 7
+            <button class="close">Fechar</button>
+        </div>
+    </div>
+
+    <div class="tooltip">Tooltip Example</div>
+    
+    <nav class="bottom-nav">
+        <div class="tab" data-content="content1">Aba 1</div>
+        <div class="tab" data-content="content2">Aba 2</div>
+        <div class="tab" data-content="content3">Aba 3</div>
+        <div class="tab" data-content="content4">Aba 4</div>
+        <div class="tab" data-content="content5">Pág</div>
+    </nav>
+    
+    <div id="tab-contents">
+        <div id="content1" class="tab-content">
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal1-1">Opção 1</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal1-2">Opção 2</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal1-3">Opção 3</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal1-4">Opção 4</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal1-5">Opção 5</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal1-6">Opção 6</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal1-7">Opção 7</button>
+        </div>
+        <div id="content2" class="tab-content">
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal2-1">Opção 1</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal2-2">Opção 2</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal2-3">Opção 3</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal2-4">Opção 4</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal2-5">Opção 5</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal2-6">Opção 6</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal2-7">Opção 7</button>
+        </div>
+        <div id="content3" class="tab-content">
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal3-1">Opção 1</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal3-2">Opção 2</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal3-3">Opção 3</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal3-4">Opção 4</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal3-5">Opção 5</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal3-6">Opção 6</button>
+<button class="tab-option neon-button-yellow" data-modal="tab-modal3-7">Opção 7</button>
+        </div>
+        <div id="content4" class="tab-content">
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal4-1">Opção 1</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal4-2">Opção 2</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal4-3">Opção 3</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal4-4">Opção 4</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal4-5">Opção 5</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal4-6">Opção 6</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal4-7">Opção 7</button>
+        </div>
+        <div class="signup-link">
+        <div id="content5" class="tab-content">
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal5-1"><a href="return.index2.html">Home</a></button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal5-2"><a href="agrade1(green).html">Página 1</a></button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal5-3"><a href="agrade3(violet).html">Página 3</a></button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal5-4">Opção 4</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal5-5">Opção 5</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal5-6">Opção 6</button>
+            <button class="tab-option neon-button-yellow" data-modal="tab-modal5-7">Opção 7</button>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modais das opções -->
+    <div id="tab-modals">
+        <div id="tab-modal1-1" class="modal">
+            Modal da Opção 1 - Aba 1
+            <button class="close">Fechar</button>
+        </div>
+        <div id="tab-modal1-2" class="modal">
+            Modal da Opção 2 - Aba 1
+            <button class="close">Fechar</button>
+        </div>
+        <!-- Continue com modais para todas as opções da Aba 1 -->
+        <div id="tab-modal1-7" class="modal">
+            Modal da Opção 7 - Aba 1
+            <button class="close">Fechar</button>
+        </div>
+
+        <div id="tab-modal2-1" class="modal">
+            Modal da Opção 1 - Aba 2
+            <button class="close">Fechar</button>
+        </div>
+        <!-- Continue com modais para todas as opções da Aba 2 -->
+        <div id="tab-modal2-7" class="modal">
+            Modal da Opção 7 - Aba 2
+            <button class="close">Fechar</button>
+        </div>
+
+        <!-- Continue com os modais para todas as opções das Abas 3, 4 e 5 -->
+        <!-- Exemplo para Aba 3 -->
+        <div id="tab-modal3-1" class="modal">
+            Modal da Opção 1 - Aba 3
+            <button class="close">Fechar</button>
+        </div>
+        <div id="tab-modal3-7" class="modal">
+            Modal da Opção 7 - Aba 3
+            <button class="close">Fechar</button>
+        </div>
+
+        <!-- Modais da Aba 4 e 5 seguem o mesmo padrão -->
+    </div>
+    <script src="siderbar.js"></script>
+    <script>
+// Mostrar e esconder o botão mestre e o acordeão
+document.getElementById('botao-mestre').addEventListener('click', () => {
+    document.getElementById('accordion').style.display = 'block';
+    document.getElementById('botao-mestre').style.display = 'none';
+});
+
+// Mostrar modais ao clicar nos botões do acordeão
+document.querySelectorAll('.accordion-button').forEach(button => {
+    button.addEventListener('click', () => {
+        let modalId = button.getAttribute('data-modal');
+        document.getElementById(modalId).style.display = 'block';
+        button.style.boxShadow = '0 0 10px red';
+
+        // Ocultar o botão mestre ao escolher uma opção
+        document.getElementById('accordion').style.display = 'none';
+        document.getElementById('botao-mestre').style.display = '';
+    });
+});
+
+        // Fechar os modais ao clicar no botão de fechar dentro do modal
+        document.querySelectorAll('.modal .close').forEach(button => {
+            button.addEventListener('click', () => {
+                button.parentElement.style.display = 'none';
+            });
+        });
+
+// Mostrar e esconder as opções das abas na navegação inferior
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        let contentId = tab.getAttribute('data-content');
+        let content = document.getElementById(contentId);
+
+        // Alterna a visibilidade da aba clicada
+        if (content.classList.contains('active')) {
+            // Se o conteúdo da aba já estiver ativo, remove a classe 'active' para esconder
+            content.classList.remove('active');
+        } else {
+            // Se o conteúdo da aba não estiver ativo, fecha todas as outras abas e mostra a aba clicada
+            document.querySelectorAll('.tab-content').forEach(c => {
+                c.classList.remove('active');
+            });
+            content.classList.add('active');
+        }
+    });
+});
+
+// Fechar a aba ao clicar no botão de fechar
+document.querySelectorAll('.tab-close').forEach(button => {
+    button.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevenir a propagação do clique
+        button.parentElement.classList.remove('active');
+    });
+});
+
+        // Mostrar modais das opções ao clicar nas opções da aba
+        document.querySelectorAll('.tab-option').forEach(button => {
+            button.addEventListener('click', () => {
+                let modalId = button.getAttribute('data-modal');
+                document.getElementById(modalId).style.display = 'block';
+            });
+        });
+
+        // Mostrar tooltips ao passar o mouse sobre botões
+        document.querySelectorAll('.neon-button, .tab-option').forEach(button => {
+            button.addEventListener('mouseover', () => {
+                let tooltip = document.querySelector('.tooltip');
+                tooltip.style.display = 'block';
+                tooltip.style.top = button.offsetTop + 'px';
+                tooltip.style.left = (button.offsetLeft + button.offsetWidth) + 'px';
+                tooltip.textContent = `Tooltip for ${button.textContent}`;
+            });
+            button.addEventListener('mouseout', () => {
+                document.querySelector('.tooltip').style.display = 'none';
+            });
+        });
+    </script>
+      <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js';
+    
+
+    
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+    
+        // Função de logout
+        window.logout = function() {
+          signOut(auth).then(() => {
+            // Redirecionar para a página de login após o logout
+            window.location.href = 'login.html';
+          }).catch((error) => {
+            console.error("Erro ao fazer logout:", error);
+          });
+        }
+    
+        // Verificar estado de autenticação
+        onAuthStateChanged(auth, (user) => {
+          if (!user) {
+            // Se o usuário não estiver autenticado, redirecione para a página de login
+            window.location.href = 'teladeloguin.html';
+          } else {
+            // Usuário autenticado
+            console.log("Usuário autenticado:", user);
+    
+            // Exemplo de leitura de dados do usuário autenticado
+            const userId = user.uid;
+            const userRef = ref(database, 'users/' + userId);
+            get(userRef).then((snapshot) => {
+              if (snapshot.exists()) {
+                const userData = snapshot.val();
+                console.log("Dados do usuário:", userData);
+              } else {
+                console.log("Dados não encontrados.");
+              }
+            }).catch((error) => {
+              console.error("Erro ao ler dados do usuário:", error);
+            });
+          }
+        });
+      </script>
+      <script>
+    function atualizarFundo() {
+      const horaAtual = new Date().getHours();
+      let imagemFundo = "";
+
+      if (horaAtual >= 6 && horaAtual < 12) {
+        // Manhã
+        imagemFundo = "url('img/Cyberpunk 2077 by Neoncity.jpeg')"; // Substitua por sua imagem da manhã
+      } else if (horaAtual >= 12 && horaAtual < 18) {
+        // Tarde
+        imagemFundo = "url('img/cyberpunk room wallpaper.jpeg')"; // Substitua por sua imagem da tarde
+      } else {
+        // Noite
+        imagemFundo = "url('img/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg')"; // Substitua por sua imagem da noite
+      }
+
+      document.body.style.backgroundImage = imagemFundo;
+    }
+
+    // Chama a função ao carregar a página
+    atualizarFundo();
+
+    // Atualiza o fundo a cada hora
+    setInterval(atualizarFundo, 60 * 60 * 1000); // 1 hora
+  </script>
+</body>
+</html>

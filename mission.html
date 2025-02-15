@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Missões</title>
+  <style>
+    /* Estilos básicos para o layout */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2 {
+  text-align: center;
+  color: #00FFFF;
+  font-family: 'Courier New', Courier, monospace; /* Fonte futurista */
+  text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.7), 0 0 10px #00FFFF; /* Efeito de brilho neon */
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #333;
+  color: #00FFFF;
+  border: 1px solid #555;
+  border-radius: 5px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+select:hover {
+  background-color: #00FFFF;
+  color: black;
+}
+
+.missao-container {
+  margin-top: 20px;
+}
+
+.missao {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Brilho suave ao redor */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.missao:hover {
+  transform: scale(1.05); /* Aumenta ligeiramente quando hover */
+  box-shadow: 0 0 30px rgba(0, 255, 255, 1);
+}
+
+.missao h3 {
+  color: #00FFFF;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.8); /* Brilho futurista */
+}
+
+.missao p {
+  color: #00FFFF;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+button {
+  background-color: #FF00FF;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Courier New', Courier, monospace;
+  text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.7); /* Efeito de brilho neon */
+}
+
+button:hover {
+  background-color: #00FFFF;
+  transform: scale(1.1); /* Efeito de zoom quando hover */
+}
+
+#detalhesMissao {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Brilho suave */
+}
+
+#detalhesMissao p {
+  margin: 10px 0;
+  color: #00FFFF;
+  font-size: 16px;
+}
+
+.acao {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.acao button {
+  padding: 10px 15px;
+  background-color: #00FFFF;
+  color: black;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.acao button:hover {
+  background-color: #FF00FF;
+  transform: scale(1.1); /* Efeito de zoom */
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Painel de Missões</h1>
+
+    <h2>Disponiveis</h2>
+    <select id="selecaoMissao">
+      <option value="">Selecione uma missão...</option>
+    </select>
+
+    <!-- Detalhes da missão selecionada -->
+    <div id="detalhesMissao">
+      <h3>Detalhes da Missão</h3>
+      <p id="detalhesTitulo"></p>
+      <p id="detalhesDescricao"></p>
+      <p id="detalhesResponsavel"></p>
+      <p id="detalhesPrazo"></p>
+      <div class="acao">
+        <button id="concluirMissao">Marcar como Concluída</button>
+      </div>
+    </div>
+
+    <div class="missao-container" id="missaoContainer"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    // Verificar autenticação
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        carregarMissoes(user);
+      } else {
+        alert("Você precisa fazer login para acessar as missões.");
+        window.location.href = "login.html";
+      }
+    });
+
+    // Carregar missões
+    function carregarMissoes(user) {
+      const selecaoMissao = document.getElementById('selecaoMissao');
+      const missaoContainer = document.getElementById('missaoContainer');
+      const missoesRef = ref(database, 'missoes');
+
+      onValue(missoesRef, (snapshot) => {
+        const data = snapshot.val();
+        selecaoMissao.innerHTML = '<option value="">Selecione uma missão...</option>';
+        missaoContainer.innerHTML = ''; // Limpa o container de missões
+
+        if (data) {
+          for (let key in data) {
+            const missao = data[key];
+            const missaoDiv = document.createElement('div');
+            missaoDiv.classList.add('missao');
+            missaoDiv.innerHTML = `
+              <h3>${missao.nome}</h3>
+              <p><strong>Responsável:</strong> ${missao.responsavel}</p>
+              <p><strong>Prazo Final:</strong> ${missao.prazoFinal}</p>
+              <button onclick="mostrarDetalhes('${key}')">Ver Detalhes</button>
+            `;
+            missaoContainer.appendChild(missaoDiv);
+
+            selecaoMissao.innerHTML += `
+              <option value="${key}">${missao.nome}</option>
+            `;
+          }
+        } else {
+          selecaoMissao.innerHTML = '<option value="">Nenhuma missão disponível</option>';
+        }
+      });
+    }
+
+    // Mostrar detalhes da missão
+    window.mostrarDetalhes = function(missaoId) {
+      const missaoRef = ref(database, `missoes/${missaoId}`);
+      onValue(missaoRef, (snapshot) => {
+        const missao = snapshot.val();
+        document.getElementById('detalhesTitulo').textContent = `Título: ${missao.nome}`;
+        document.getElementById('detalhesDescricao').textContent = `Descrição: ${missao.descricao}`;
+        document.getElementById('detalhesResponsavel').textContent = `Responsável: ${missao.responsavel}`;
+        document.getElementById('detalhesPrazo').textContent = `Prazo Final: ${missao.prazoFinal}`;
+
+        // Exibir o painel de detalhes
+        document.getElementById('detalhesMissao').style.display = 'block';
+
+        // Configurar ação de concluir
+        document.getElementById('concluirMissao').onclick = () => {
+          // Atualizar status da missão
+          update(missaoRef, { status: 'concluída' });
+          alert("Missão marcada como concluída!");
+
+          // Redirecionar para a página de seleção de missão
+          window.location.href = "pagmission.html";  // Altere para o nome da página que deseja redirecionar
+        };
+      });
+    };
+  </script>
+  <script>
+  function setRandomBackground(images) {
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    document.body.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    document.body.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    document.body.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    document.body.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens
+  const backgroundImages = [
+    '0ceb197c69a8baa465b9d975461f40db.gif',
+    '9a241df1ea364421e7bbca9c854e1e0a.gif',
+    '69411d74044d5950f3f48f734c5b1f0d.gif',
+    'a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'cyberpunk-cloud-dreams-stockcake.jpg',
+    'f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'fzUl.gif',
+    'giphy.gif',
+    'images.jpeg',
+    'l84w3m111r471.gif',
+    's6vvlkkbn.gif',
+    'siyzbhzpzwv61.gif',
+    'ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

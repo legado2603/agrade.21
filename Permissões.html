@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk Permissions</title>
+  <style>
+   body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Garante que o corpo tenha, no mínimo, a altura da tela */
+    display: flex;
+    flex-direction: column; /* Organiza os elementos em colunas */
+    background-size: cover; /* Faz a imagem preencher a tela */
+    background-position: center; /* Centraliza a imagem de fundo */
+    background-repeat: no-repeat; /* Evita a repetição da imagem */
+    background-attachment: fixed; /* Fixa o fundo, independente do scroll */
+    font-family: Arial, sans-serif;
+    color: #00FFFF;
+    text-shadow: 1px 1px 5px #000;
+}
+
+    h1 {
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: rgba(0, 255, 255, 0.2);
+      color: #00ffff;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px 30px;
+      font-size: 1rem;
+      margin: 10px;
+      cursor: pointer;
+      text-shadow: 0 0 5px #00ffff;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    button:hover {
+      background-color: rgba(0, 255, 255, 0.4);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    #log {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #ffffff;
+      text-shadow: 0 0 5px #00ffff;
+      overflow-y: auto;
+      max-height: 200px;
+      width: 90%;
+    }
+    #h1 {
+  font-size: 2rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+  padding: 10px 20px;
+  border: 2px solid rgba(0, 255, 255, 0.5); /* Borda mais sutil */
+  border-radius: 10px;
+  background: rgba(30, 30, 47, 0.7); /* Fundo mais escuro */
+  box-shadow: 
+    0 0 5px rgba(0, 255, 255, 0.4),
+    0 0 10px rgba(0, 255, 255, 0.4); /* Glow mais leve */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+#h1:hover {
+  transform: scale(1.05); /* Efeito de zoom leve no hover */
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(0, 255, 255, 0.8); /* Glow moderado no hover */
+}
+  </style>
+</head>
+<body>
+  <div id="h1">Permissões </div>
+  <button onclick="requestCamera()">Request Camera</button>
+  <button onclick="requestMicrophone()">Request Microphone</button>
+  <button onclick="requestLocation()">Request Location</button>
+  <button onclick="requestNotifications()">Request Notifications</button>
+  <button onclick="requestClipboard()">Request Clipboard Access</button>
+  <button onclick="requestPersistentStorage()">Request Persistent Storage</button>
+  <button onclick="requestFileAccess()">Request File Access</button>
+  <button onclick="requestBluetooth()">Request Bluetooth</button>
+  <button onclick="requestMidiAccess()">Request MIDI</button>
+  <button onclick="requestSensorAccess()">Request Sensor Access</button>
+  <button onclick="requestBatteryStatus()">Request Battery Status</button>
+  <button onclick="requestShare()">Request Share</button>
+  <button onclick="requestNfcAccess()">Request NFC Access</button>
+
+  <div id="log"></div>
+
+  <script>
+    const log = document.getElementById('log');
+
+    function logMessage(message) {
+      const newLog = document.createElement('p');
+      newLog.textContent = message;
+      log.appendChild(newLog);
+    }
+
+    async function requestCamera() {
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        logMessage("Camera permission granted.");
+      } catch (error) {
+        logMessage("Camera permission denied: " + error.message);
+      }
+    }
+
+    async function requestMicrophone() {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        logMessage("Microphone permission granted.");
+      } catch (error) {
+        logMessage("Microphone permission denied: " + error.message);
+      }
+    }
+
+    function requestLocation() {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            logMessage(`Location granted: Lat ${position.coords.latitude}, Lon ${position.coords.longitude}`);
+          },
+          (error) => {
+            logMessage("Location permission denied: " + error.message);
+          }
+        );
+      } else {
+        logMessage("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function requestNotifications() {
+      if ("Notification" in window) {
+        Notification.requestPermission()
+          .then((permission) => {
+            if (permission === "granted") {
+              logMessage("Notifications permission granted.");
+              new Notification("Cyberpunk Notification", {
+                body: "Notifications are enabled!",
+              });
+            } else {
+              logMessage("Notifications permission denied.");
+            }
+          });
+      } else {
+        logMessage("Notifications are not supported by this browser.");
+      }
+    }
+
+    async function requestClipboard() {
+      try {
+        await navigator.clipboard.writeText("Cyberpunk Clipboard Test");
+        logMessage("Clipboard write access granted.");
+      } catch (error) {
+        logMessage("Clipboard access denied: " + error.message);
+      }
+    }
+
+    async function requestPersistentStorage() {
+      if ('storage' in navigator && 'persist' in navigator.storage) {
+        const isPersisted = await navigator.storage.persist();
+        logMessage(`Persistent storage: ${isPersisted ? 'granted' : 'denied'}`);
+      } else {
+        logMessage("Persistent storage API not supported.");
+      }
+    }
+
+    async function requestFileAccess() {
+      try {
+        const fileHandle = await window.showOpenFilePicker();
+        logMessage("File access granted.");
+      } catch (error) {
+        logMessage("File access denied: " + error.message);
+      }
+    }
+
+    async function requestBluetooth() {
+      try {
+        const device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+        logMessage(`Bluetooth device connected: ${device.name}`);
+      } catch (error) {
+        logMessage("Bluetooth access denied: " + error.message);
+      }
+    }
+
+    async function requestMidiAccess() {
+      if ('requestMIDIAccess' in navigator) {
+        try {
+          const midiAccess = await navigator.requestMIDIAccess();
+          logMessage("MIDI access granted.");
+        } catch (error) {
+          logMessage("MIDI access denied: " + error.message);
+        }
+      } else {
+        logMessage("MIDI API not supported.");
+      }
+    }
+
+    async function requestSensorAccess() {
+      if ('Accelerometer' in window) {
+        const sensor = new Accelerometer({ frequency: 60 });
+        sensor.addEventListener('reading', () => logMessage(`Accelerometer: ${sensor.x}, ${sensor.y}, ${sensor.z}`));
+        sensor.start();
+      } else {
+        logMessage("Sensor API not supported.");
+      }
+    }
+
+    async function requestBatteryStatus() {
+      if ('getBattery' in navigator) {
+        const battery = await navigator.getBattery();
+        logMessage(`Battery: ${Math.round(battery.level * 100)}%, Charging: ${battery.charging}`);
+      } else {
+        logMessage("Battery API not supported.");
+      }
+    }
+
+    async function requestShare() {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: 'Cyberpunk', text: 'Test Sharing', url: 'https://example.com' });
+          logMessage("Share successful.");
+        } catch (error) {
+          logMessage("Share failed: " + error.message);
+        }
+      } else {
+        logMessage("Share API not supported.");
+      }
+    }
+
+    async function requestNfcAccess() {
+      if ('NDEFReader' in window) {
+        try {
+          const nfcReader = new NDEFReader();
+          await nfcReader.scan();
+          logMessage("NFC access granted.");
+        } catch (error) {
+          logMessage("NFC access denied: " + error.message);
+        }
+      } else {
+        logMessage("NFC API not supported.");
+      }
+    }
+  </script>
+<!-- 
+Aqui está um resumo do que pode ser coletado com essas permissões (com observações importantes sobre limitações e regulamentações):
+
+1. Camera (navigator.mediaDevices.getUserMedia)
+
+O que pode coletar: Vídeo da câmera do dispositivo.
+
+Uso comum: Gravação de vídeo, videochamadas, AR.
+
+Nota: Permissão explícita do usuário é obrigatória.
+
+
+2. Microphone (navigator.mediaDevices.getUserMedia)
+
+O que pode coletar: Áudio do microfone.
+
+Uso comum: Gravação de voz, chamadas de áudio.
+
+Nota: Também requer autorização explícita.
+
+
+3. Location (navigator.geolocation)
+
+O que pode coletar: Latitude e longitude (em tempo real ou aproximado).
+
+Uso comum: Mapas, geotagging, direcionamento por localização.
+
+Nota: Muitos navegadores oferecem apenas localização aproximada, dependendo das configurações.
+
+
+4. Notifications (Notification.requestPermission)
+
+O que pode coletar: Apenas a permissão para enviar notificações.
+
+Uso comum: Enviar mensagens para o usuário, mesmo fora do site.
+
+Nota: Não acessa dados diretamente.
+
+
+5. Clipboard Access (navigator.clipboard)
+
+O que pode coletar: Conteúdo da área de transferência do usuário.
+
+Uso comum: Copiar e colar texto programaticamente.
+
+Nota: Funciona apenas com interação direta do usuário.
+
+
+6. Persistent Storage (navigator.storage.persist)
+
+O que pode coletar: Nada diretamente. Permite garantir que os dados armazenados em cache não sejam apagados automaticamente.
+
+Uso comum: Aplicativos que usam armazenamento offline.
+
+Nota: Não coleta dados do usuário.
+
+
+7. File Access (input type="file")
+
+O que pode coletar: Arquivos selecionados manualmente pelo usuário.
+
+Uso comum: Upload de arquivos (fotos, vídeos, documentos).
+
+Nota: Sem interação do usuário, não há acesso direto.
+
+
+8. Bluetooth (navigator.bluetooth.requestDevice)
+
+O que pode coletar: Dispositivos Bluetooth próximos.
+
+Uso comum: Conexão com dispositivos IoT, fones, sensores.
+
+Nota: Requer que o usuário escolha manualmente o dispositivo.
+
+
+9. MIDI (navigator.requestMIDIAccess)
+
+O que pode coletar: Dados MIDI de dispositivos conectados (ex.: teclados musicais).
+
+Uso comum: Criação de música, controle remoto.
+
+Nota: Acesso limitado aos dispositivos MIDI conectados.
+
+
+10. Sensor Access (Sensor API)
+
+O que pode coletar: Dados do acelerômetro, giroscópio, magnetômetro, etc.
+
+Uso comum: Jogos, aplicativos de fitness, navegação em AR.
+
+Nota: Depende do hardware disponível no dispositivo.
+
+
+11. Battery Status (navigator.getBattery)
+
+O que pode coletar: Nível de bateria, status de carregamento, tempo restante.
+
+Uso comum: Ajustes em consumo de energia para web apps.
+
+Nota: Não acessa dados pessoais.
+
+
+12. Share API (navigator.share)
+
+O que pode coletar: Nada. Apenas permite compartilhar conteúdo definido pelo desenvolvedor.
+
+Uso comum: Compartilhar links, texto ou arquivos.
+
+Nota: Depende da interação direta do usuário.
+
+
+13. NFC Access (NFCReader)
+
+O que pode coletar: Dados de etiquetas NFC próximas.
+
+Uso comum: Pagamentos por aproximação, leitura de cartões ou tags NFC.
+
+Nota: Suporte limitado em navegadores e dispositivos.
+
+
+Coleta sem Interação Visual (Automatizável)
+
+Entre as permissões acima, os seguintes podem ser coletados em segundo plano ou sem interação visual direta:
+
+Location (caso já autorizado anteriormente pelo usuário).
+
+Battery Status (sempre disponível sem permissão especial).
+
+Sensor Access (alguns navegadores não exigem permissão explícita para sensores básicos).
+
+Persistent Storage (não coleta, mas configura o armazenamento).
+
+
+Exemplo de como usar Battery Status silenciosamente:
+
+navigator.getBattery().then((battery) => {
+  console.log(`Battery Level: ${battery.level * 100}%`);
+  console.log(`Charging: ${battery.charging}`);
+});
+
+Observações Legais e Éticas
+
+1. Consentimento do Usuário: A maioria das permissões requer consentimento explícito.
+
+
+2. Regulamentações: O uso de dados, como localização, câmera e microfone, é regulado por leis como GDPR (Europa) e LGPD (Brasil).
+
+
+3. Restrições dos Navegadores: APIs como getUserMedia só funcionam em páginas HTTPS e com interação do usuário. -->
+<script>
+  function setRandomBackground(images) {
+    const bodyElement = document.body; // Seleciona o elemento body
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    bodyElement.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    bodyElement.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    bodyElement.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    bodyElement.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens dentro da pasta "pag"
+  const backgroundImages = [
+    '0ceb197c69a8baa465b9d975461f40db.gif',
+    '9a241df1ea364421e7bbca9c854e1e0a.gif',
+    '69411d74044d5950f3f48f734c5b1f0d.gif',
+    'a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'cyberpunk-cloud-dreams-stockcake.jpg',
+    'f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'fzUl.gif',
+    'giphy.gif',
+    'images.jpeg',
+    'l84w3m111r471.gif',
+    's6vvlkkbn.gif',
+    'siyzbhzpzwv61.gif',
+    'ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</Body>
+</html>

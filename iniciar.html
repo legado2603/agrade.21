@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contagem Regressiva</title>
+    <style>
+        /* Estilo da tela de contagem regressiva */
+        #countdownScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        /* Estilo do conteúdo principal */
+        #mainContent {
+            display: none; /* Inicialmente escondido */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tela de Contagem Regressiva -->
+    <div id="countdownScreen">
+        <span id="countdownText">10</span> segundos restantes
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div id="mainContent">
+        <h1>Esta página deu certo!</h1>
+    </div>
+
+    <script>
+        // Função para definir um cookie
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + d.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // Função para obter o valor de um cookie
+        function getCookie(name) {
+            const nameEq = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEq) === 0) return c.substring(nameEq.length, c.length);
+            }
+            return "";
+        }
+
+        // Verificar se o cookie 'countdownShown' está presente
+        if (!getCookie('countdownShown')) {
+            startCountdown();
+        } else {
+            document.getElementById('countdownScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
+
+        // Função para iniciar a contagem regressiva
+        function startCountdown() {
+            let countdownTime = 10;
+            const countdownText = document.getElementById('countdownText');
+            const countdownScreen = document.getElementById('countdownScreen');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Intervalo da contagem regressiva
+            const countdownInterval = setInterval(() => {
+                countdownText.textContent = countdownTime;
+                countdownTime--;
+
+                if (countdownTime < 0) {
+                    clearInterval(countdownInterval);
+                    countdownScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+
+                    // Definir o cookie para garantir que a contagem regressiva não será exibida novamente nos próximos 7 dias
+                    setCookie('countdownShown', 'true', 7); // O cookie expira em 7 dias
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

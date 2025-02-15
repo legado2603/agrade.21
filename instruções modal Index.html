@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instruções</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0a0f1f;
+      font-family: 'Arial', sans-serif;
+      color: #00ffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 15px #00ffff;
+    }
+
+    .button {
+      background-color: rgba(0, 255, 255, 0.4);
+      color: #00ffff;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      text-shadow: 0 0 5px #00ffff;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .button:hover {
+      background-color: rgba(0, 255, 255, 0.6);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+  background-color: #161b22;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  color: #00ffff;
+  text-align: left;
+  max-height: 80vh; /* Define a altura máxima do modal */
+  overflow-y: auto; /* Adiciona rolagem vertical quando o conteúdo excede o limite */
+}
+
+    .modal-header {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .modal-body {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #fff;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .close-button {
+      background-color: rgba(255, 0, 0, 0.4);
+      color: #fff;
+      border: 1px solid #ff0000;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .close-button:hover {
+      background-color: rgba(255, 0, 0, 0.6);
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Instruções</h1>
+  <button class="button" id="openModalButton">Instruções</button>
+
+  <!-- Modal -->
+  <div id="instructionsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Instruções do Aplicativo</h2>
+      </div>
+      <div class="modal-body">
+        <p><strong>1. Aguardar Autenticação</strong>: O sistema solicita que o usuário seja autenticado antes de usar determinadas funcionalidades.</p>
+        <p><strong>2. Atualizar a Página</strong>: Para atualizar a página, basta tocar três vezes seguidas em um espaço vazio da tela.</p>
+        <p><strong>3. Pesquisar Mensagens</strong>: Use a barra de pesquisa para encontrar as mensagens mais recentes da sua sala.</p>
+        <p><strong>4. Player de Música</strong>: A página oferece um player de música para que você possa ouvir suas faixas favoritas enquanto usa o app.</p>
+        <p><strong>5. Barra de Pesquisa (A Grade)</strong>: Utilize a barra de pesquisa para procurar posts dentro da A-Grade.</p>
+        <p><strong>6. Barra de Pesquisa (Reddit)</strong>: A barra de pesquisa também permite procurar posts e discussões no Reddit.</p>
+        <p><strong>7. Ranking Global</strong>: Consulte o ranking da pontuação global dos jogadores e usuários da plataforma.</p>
+        <p><strong>8. Páginas da A-Grade</strong>: Navegue pelas várias páginas que compõem a A-Grade, com diferentes conteúdos e funcionalidades.</p>
+        <p><strong>9. Botão de Início</strong>: O botão "Início" leva você de volta à página principal.</p>
+        <p><strong>10. Botão Sobre</strong>: O botão "Sobre" exibe informações sobre a plataforma e os desenvolvedores.</p>
+        <p><strong>11. Botão Serviços</strong>: O botão "Serviços" oferece acesso às funcionalidades extras do app, como o suporte e informações adicionais.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="close-button" id="closeModalButton">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Elementos
+    const openModalButton = document.getElementById('openModalButton');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const modal = document.getElementById('instructionsModal');
+
+    // Abrir Modal
+    openModalButton.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    // Fechar Modal
+    closeModalButton.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // Fechar Modal ao clicar fora da caixa
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+    <title>A-Grade(Página 1)</title>
+    <link rel="stylesheet" href="style0.css">
+</head>
+<body>
+    <header>
+        <h1>Página 1</h1>
+    </header>
+    <main>
+        <div class="container">
+            <div class="button-grid">
+                <button class="toggle-button" onclick="toggleColumn(1)">Toggle Coluna 1</button>
+                <button class="toggle-button" onclick="toggleColumn(2)">Toggle Coluna 2</button>
+                <button class="toggle-button" onclick="toggleColumn(3)">Toggle Coluna 3</button>
+                <button class="toggle-button" onclick="toggleColumn(4)">Toggle Coluna 4</button>
+                <button class="toggle-button" onclick="toggleColumn(5)">Toggle Coluna 5</button>
+                <button class="toggle-button" onclick="toggleColumn(6)">Toggle Coluna 6</button>
+                <button class="toggle-button" onclick="toggleColumn(7)">Toggle Coluna 7</button>
+                <button class="toggle-button" onclick="toggleColumn(8)">Toggle Coluna 8</button>
+                <button class="toggle-button" onclick="toggleColumn(9)">Toggle Coluna 9</button>
+            </div>
+            
+            <div class="column" id="col1">
+                <h2>Coluna 1</h2>
+                <p>Conteúdo da coluna 1.</p>
+            </div>
+            <div class="column" id="col2">
+                <h2>Coluna 2</h2>
+                <p>Conteúdo da coluna 2.</p>
+            </div>
+            <div class="column" id="col3">
+                <h2>Coluna 3</h2>
+                <p>Conteúdo da coluna 3.</p>
+            </div>
+            <div class="column" id="col4">
+                <h2>Coluna 4</h2>
+                <p>Conteúdo da coluna 4.</p>
+            </div>
+            <div class="column" id="col5">
+                <h2>Coluna 5</h2>
+                <p>Conteúdo da coluna 5.</p>
+            </div>
+            <div class="column" id="col6">
+                <h2>Coluna 6</h2>
+                <p>Conteúdo da coluna 6.</p>
+            </div>
+            <div class="column" id="col7">
+                <h2>Coluna 7</h2>
+                <p>Conteúdo da coluna 7.</p>
+            </div>
+            <div class="column" id="col8">
+                <h2>Coluna 8</h2>
+                <p>Conteúdo da coluna 8.</p>
+            </div>
+            <div class="column" id="col9">
+                <h2>Coluna 9</h2>
+                <p>Conteúdo da coluna 9.</p>
+            </div>
+            
+<div class="secret-code-container">
+    <input type="text" id="secretCodeInput" placeholder="########">
+    <button class="secret-button" onclick="revealSecretButtons()">Abrir</button>
+</div>
+
+<!-- Botões secretos -->
+<div class="secret-buttons">
+    <button class="toggle-button" id="secretButton1" style="display: none;" onclick="toggleColumn(10, 'secretButton1')">Toggle Coluna Secreta 1</button>
+    <button class="toggle-button" id="secretButton2" style="display: none;" onclick="toggleColumn(11, 'secretButton2')">Toggle Coluna Secreta 2</button>
+    <button class="toggle-button" id="secretButton3" style="display: none;" onclick="toggleColumn(12, 'secretButton3')">Toggle Coluna Secreta 3</button>
+    <button class="toggle-button" id="secretButton4" style="display: none;" onclick="toggleColumn(13, 'secretButton4')">Toggle Coluna Secreta 4</button>
+    <button class="toggle-button" id="secretButton5" style="display: none;" onclick="toggleColumn(14, 'secretButton5')">Toggle Coluna Secreta 5</button>
+    <button class="toggle-button" id="secretButton6" style="display: none;" onclick="toggleColumn(15, 'secretButton6')">Toggle Coluna Secreta 6</button>
+    <button class="toggle-button" id="secretButton7" style="display: none;" onclick="toggleColumn(16, 'secretButton7')">Toggle Coluna Secreta 7</button>
+</div>
+
+<!-- Colunas secretas -->
+<div class="column" id="col10">
+    <h2>Coluna Secreta 1</h2>
+    <button class="close-button" onclick="closeColumn(10, 'secretButton1')">Fechar</button>
+    <p>Conteúdo da coluna secreta 1.</p>
+</div>
+<div class="column" id="col11">
+    <h2>Coluna Secreta 2</h2>
+    <button class="close-button" onclick="closeColumn(11, 'secretButton2')">Fechar</button>
+    <p>Conteúdo da coluna secreta 2.</p>
+</div>
+<div class="column" id="col12">
+    <h2>Coluna Secreta 3</h2>
+    <button class="close-button" onclick="closeColumn(12, 'secretButton3')">Fechar</button>
+    <p>Conteúdo da coluna secreta 3.</p>
+</div>
+<div class="column" id="col13">
+    <h2>Coluna Secreta 4</h2>
+    <button class="close-button" onclick="closeColumn(13, 'secretButton4')">Fechar</button>
+    <p>Conteúdo da coluna secreta 4.</p>
+</div>
+<div class="column" id="col14">
+    <h2>Coluna Secreta 5</h2>
+    <button class="close-button" onclick="closeColumn(14, 'secretButton5')">Fechar</button>
+    <p>Conteúdo da coluna secreta 5.</p>
+</div>
+<div class="column" id="col15">
+    <h2>Coluna Secreta 6</h2>
+    <button class="close-button" onclick="closeColumn(15, 'secretButton6')">Fechar</button>
+    <p>Conteúdo da coluna secreta 6.</p>
+</div>
+<div class="column" id="col16">
+    <h2>Coluna Secreta 7</h2>
+    <button class="close-button" onclick="closeColumn(16, 'secretButton7')">Fechar</button>
+    <p>Conteúdo da coluna secreta 7.</p>
+</div>
+                        <!-- Adicionar iframe -->
+            <div class="iframe-container">
+                <iframe src="https://agrade21.blogspot.com/?m=1" frameborder="0"></iframe>
+            </div>
+        </div>
+    <div class="signup-link">
+    <div class="menu">
+        <button id="main-button">Botão Principal</button>
+        <div id="sub-buttons" class="hidden">
+            <button class="sub-btn"><a href="return.index1.html">Home</a></button>
+            <button class="sub-btn"><a href="agrade2(red).html">Pág 2</a></button>
+            <button class="sub-btn"><a href="agrade3(violet).html">Pág 3</a></button>
+        <div id="extra-buttons" class="hidden">
+            <button class="sub-btn">V</button>
+            <button class="sub-btn">V</button>
+            <button class="sub-btn">V</button>
+        </div>
+        </div>
+    </div>
+    </main>
+    <script src="siderbar.js"></script>
+    <script src="script00.js"></script>
+      <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js';
+    
+
+    
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+    
+        // Função de logout
+        window.logout = function() {
+          signOut(auth).then(() => {
+            // Redirecionar para a página de login após o logout
+            window.location.href = 'login.html';
+          }).catch((error) => {
+            console.error("Erro ao fazer logout:", error);
+          });
+        }
+    
+        // Verificar estado de autenticação
+        onAuthStateChanged(auth, (user) => {
+          if (!user) {
+            // Se o usuário não estiver autenticado, redirecione para a página de login
+            window.location.href = 'teladeloguin.html';
+          } else {
+            // Usuário autenticado
+            console.log("Usuário autenticado:", user);
+    
+            // Exemplo de leitura de dados do usuário autenticado
+            const userId = user.uid;
+            const userRef = ref(database, 'users/' + userId);
+            get(userRef).then((snapshot) => {
+              if (snapshot.exists()) {
+                const userData = snapshot.val();
+                console.log("Dados do usuário:", userData);
+              } else {
+                console.log("Dados não encontrados.");
+              }
+            }).catch((error) => {
+              console.error("Erro ao ler dados do usuário:", error);
+            });
+          }
+        });
+      </script>
+      <script type="module">
+    // Importar as funções necessárias do SDK do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const rtdb = getDatabase(app);
+
+    // Função para carregar a imagem de fundo do Firebase
+    const loadBackgroundImage = async () => {
+      try {
+        const backgroundRef = ref(rtdb, 'backgrounds/current');
+        const snapshot = await get(backgroundRef);
+
+        if (snapshot.exists()) {
+          const base64Image = snapshot.val();
+          document.body.style.backgroundImage = `url(${base64Image})`; // Aplica a imagem de fundo
+        } else {
+          console.log('Imagem de fundo não encontrada.');
+        }
+      } catch (error) {
+        console.error('Erro ao carregar imagem de fundo:', error);
+      }
+    };
+
+    // Verifica se o usuário está autenticado
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        console.log('Usuário autenticado:', user);
+        // Carregar a imagem de fundo se o usuário estiver autenticado
+        loadBackgroundImage();
+      } else {
+        console.log('Usuário não autenticado. Redirecionando para login...');
+        // Redireciona para a página de login caso não esteja autenticado
+        window.location.href = 'teladeloguin.html'; // Altere para o nome da sua página de login
+      }
+    });
+  </script>
+</body>
+</html>

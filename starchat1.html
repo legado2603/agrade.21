@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+  <title>A-Grade(StarChat)</title>
+  <!-- Firebase App (base) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <!-- Firebase Authentication -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <!-- Firebase Realtime Database -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <style>
+/* Estilos gerais */
+body {
+  font-family: 'Times New Roman', serif;
+  background-color: black;
+  background-image: url('4ffffd861c4b4b4d6561566f29216484.jpg');
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #121212;
+  color: #fff;
+  transition: background-image 0.5s ease;
+  background-repeat: no-repeat;
+  background-size: cover; /* A imagem cobre toda a tela */
+  background-position: center;
+  background-attachment: fixed; /* Fixa o fundo na tela */
+  overflow: auto; /* Permite rolar o conteúdo sem mexer no fundo */
+}
+
+button {
+  font-size: 14px; /* Reduzido em 50% */
+  font-weight: bold;
+  color: yellow;
+  background: black;
+  border: 2px solid green;
+  border-radius: 5px;
+  padding: 7px 15px; /* Reduzido em 50% */
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 0 10px green;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:active {
+  opacity: 0.8;
+  transform: translateY(1px);
+}
+
+input[type="text"] {
+  font-size: 14px; /* Reduzido em 50% */
+  padding: 5px; /* Reduzido em 50% */
+  margin: 10px;
+  border: 2px solid #FFFF00;
+  background-color: black;
+  color: #ADD8E6;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 300px;
+  box-shadow: 0 0 10px #FFFF00;
+}
+
+/* Estilos do Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Impede a rolagem horizontal */
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
+  background-size: cover; /* Faz com que a imagem cubra o fundo */
+  background-repeat: no-repeat;
+  background-position: center; /* Centraliza a imagem de fundo */
+}
+
+.modal-content {
+  background-color: black;
+  background-image: url('Digital_rain_animation_small_letters_shine.gif'); /* Caminho da imagem */
+  background-size: cover; /* A imagem cobre toda a área */
+  background-position: center; /* Centraliza a imagem de fundo */
+  margin: 0; /* Remove margens */
+  padding: 0; /* Remove padding extra */
+  width: 100%; /* Ocupa toda a largura da tela */
+  height: calc(100% - 50px); /* Reduz a altura, deixando 50px na parte inferior */
+  box-shadow: 0 5px 15px rgba(255, 255, 0, 0.5);
+  color: white;
+  display: flex;
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  margin-bottom: 50px; /* Garante espaço na parte inferior */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #FFFF00;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilos do botão Starchat */
+.starchat-btn,
+.home,
+.about {
+  font-size: 14px; /* Reduzido em 50% */
+  font-weight: bold;
+  color: yellow;
+  background: black;
+  border: 2px solid red;
+  border-radius: 15px;
+  padding: 10px 15px; /* Reduzido em 50% */
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 0 10px green;
+  width: 100px; /* Reduzido em 50% */
+  position: fixed;
+}
+
+/* Estilos específicos para diferentes tamanhos de tela */
+@media (min-width: 768px) {
+  .starchat-btn,
+  .home,
+  .about {
+    width: 125px; /* Reduzido em 50% */
+  }
+
+  .starchat-btn {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .home {
+    bottom: 55px; /* Espaçamento geométrico entre os botões */
+    right: 10px;
+  }
+
+  .about {
+    bottom: 100px; /* Espaçamento geométrico entre os botões */
+    right: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .starchat-btn,
+  .home,
+  .about {
+    width: 45%; /* Reduzido em 50% */
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
+  }
+
+  .home {
+    bottom: 13%; /* Espaçamento geométrico entre os botões */
+  }
+
+  .about {
+    bottom: 21%; /* Espaçamento geométrico entre os botões */
+  }
+}
+
+/* Estilo do chat */
+#chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw; /* Largura total da janela do navegador */
+  height: 100vh; /* Preenche toda a altura da janela */
+  background-color: rgba(0, 0, 0, 0.8); /* Fundo preto quase transparente */
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden; /* Impede scroll horizontal */
+  position: fixed; /* Mantém o elemento fixo na tela */
+  top: 0;
+  left: 0;
+}
+
+#messages {
+  border: 2px solid #FFFF00;
+  border-radius: 10px;
+  padding: 20px;
+  width: 90vw; /* Ajuste para 90% da largura da janela */
+  max-width: 800px; /* Limite máximo da largura */
+  height: calc(100vh - 120px); /* Ajuste de altura para deixar espaço suficiente */
+  overflow-y: auto; /* Permite rolagem vertical */
+  background: url('1103453878_preview_ac9718dd35e683664f4ef0f6f6b8e36f.gif') no-repeat center center/cover; /* Caminho do seu GIF */
+  color: white;
+  box-shadow: 0 0 15px #FFFF00;
+  display: flex;
+  flex-direction: column;
+  margin: auto; /* Centraliza horizontalmente */
+  padding-bottom: 20px; /* Garante que a rolagem não cubra o conteúdo */
+}
+
+#messages div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  color: white;
+}
+
+#messages span {
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo preto com 70% de opacidade */
+  padding: 5px; /* Adiciona espaçamento interno ao texto */
+  border-radius: 5px; /* Bordas arredondadas para o fundo */
+  color: white; /* Cor do texto */
+}
+
+#messages div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  color: white;
+}
+
+#messages img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+}
+
+#nameInputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#nameInputContainer input {
+  padding: 10px;
+  width: 70%;
+  max-width: 400px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #FFFF00;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+#typingStatus {
+  font-style: italic;
+  color: #888;
+  margin: 10px 0;
+}
+
+.room-btn {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* Modal de imagem */
+.image-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.image-modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.close-image-modal {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close-image-modal:hover,
+.close-image-modal:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+.instructions-container {
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo preto semi-transparente */
+  background-image: url('0ceb197c69a8baa465b9d975461f40db.gif'); /* Caminho da imagem */
+  border: 2px solid black; /* Borda preta */
+  border-radius: 15px; /* Bordas arredondadas */
+  padding: 15px; /* Espaçamento interno reduzido */
+  margin: 20px auto; /* Margem automática para centralizar */
+  width: 80%; /* Largura do contêiner */
+  max-width: 600px; /* Largura máxima */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7); /* Sombra preta */
+  color: white; /* Cor do texto */
+  font-family: Arial, sans-serif; /* Família de fontes */
+  display: flex;
+  flex-direction: column; /* Alinhamento vertical */
+}
+
+.instructions-container h2 {
+  color: yellow; /* Cor do título */
+  font-size: 22px; /* Tamanho da fonte reduzido */
+  font-weight: bold; /* Negrito */
+  text-transform: uppercase; /* Letras maiúsculas */
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); /* Sombra mais intensa */
+  margin-bottom: 10px; /* Espaçamento abaixo do título reduzido */
+}
+
+.instructions-container p, 
+.instructions-container ul {
+  text-align: left; /* Alinhamento do texto */
+  color: white; /* Mantém o texto branco */
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Sombra mais leve */
+  font-size: 16px; /* Tamanho da fonte reduzido */
+  line-height: 1.4; /* Espaçamento entre linhas reduzido */
+}
+
+.instructions-container ul {
+  list-style-type: disc; /* Marcadores de lista */
+  padding-left: 20px; /* Espaçamento à esquerda dos itens da lista */
+  margin-top: 8px; /* Espaçamento acima da lista reduzido */
+}
+
+.instructions-container li {
+  margin-bottom: 6px; /* Espaçamento entre os itens da lista reduzido */
+}
+/* Estilo do botão principal */
+.main-btn {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px; /* Espaçamento abaixo do botão */
+}
+
+.main-btn:hover {
+  background-color: #45a049; /* Verde mais escuro ao passar o mouse */
+}
+
+/* Estilo dos botões do acordeão */
+.accordion-buttons {
+  display: none; /* Escondido inicialmente */
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: fit-content; /* Largura ajustada ao conteúdo */
+}
+
+.accordion-buttons button {
+  background-color: #f1f1f1;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-bottom: 1px solid #ddd; /* Linha separadora */
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-buttons button:hover {
+  background-color: #ddd; /* Cor de fundo ao passar o mouse */
+}
+
+/* Remove a borda inferior do último botão */
+.accordion-buttons button:last-child {
+  border-bottom: none;
+}
+
+/* Classe para mostrar os botões do acordeão */
+.accordion-buttons.show {
+  display: flex;
+}
+  </style>
+</head>
+<body>
+  <div class="instructions-container">
+    <h2>Instruções</h2>
+    <p>Descubra como aproveitar ao máximo nossos recursos:</p>
+    <ul>
+        <li><strong>Botão de Perfil:</strong> Personalize sua foto, capa, nome de usuário, idade e biografia. É seu espaço para brilhar!
+        <br>É preciso que você crie seu perfil para usar o Starchat</li>
+        <li><strong>Botão Home:</strong> Volte à página inicial a qualquer momento. Seu atalho para reiniciar a navegação.</li>
+        <li><strong>Botão Starchat:</strong> Crie salas de chat privadas ou abertas. Escolha entre senha ou sem senha para suas conversas.</li>
+        <li><strong>Recomendações:</strong> Se for usar o nome de sala facil, reforce com uma senha padrão.
+        use sempre uma senha.
+        Pode: ('Senha de 1 digito','colocar o nome da sala usando numeros',' a senha pode o mesmo nome da sala')
+        <br>Importante: Na hora que for criar a sala, preste bem atenção, porque até o espaço que deixar conta como nome da sala, letras minusculas e maiusculas.</li>
+    </ul>
+    <p>Explore e divirta-se!</p>
+</div>
+    <!-- Botão principal que abre o acordeão -->
+<button class="main-btn" onclick="toggleAccordion()">Menu</button>
+
+<!-- Contêiner do acordeão (inicialmente escondido) -->
+<div class="accordion-buttons" id="accordionButtons">
+  <button class="home" onclick="redirectToIndex()">Home</button>
+  <button class="about" onclick="redirectToAbout()">Perfil</button>
+  <button class="starchat-btn" onclick="redirectToStarchat()">Starchat</button>
+</div>
+  <button class="starchat-btn" id="starchatBtn">Starchat</button>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <div id="modalBody">
+        <div id="mainScreen">
+          <button id="createRoomBtn">Criar Sala</button>
+          <button id="joinRoomBtn">Entrar em Sala</button>
+          
+        </div>
+
+        <div id="createRoomModal" class="modal-content" style="display: none;">
+          <input type="text" id="roomNameInput" placeholder="Nome da sala">
+          <input type="text" id="roomPasswordInput" placeholder="Senha (opcional)">
+          <button id="createRoomSubmit">Criar</button>
+        </div>
+
+        <div id="joinRoomModal" class="modal-content" style="display: none;">
+          <input type="text" id="roomIdInput" placeholder="Nome da sala">
+          <input type="text" id="roomPasswordInputJoin" placeholder="Senha (opcional)">
+          <button id="joinRoomSubmit">Entrar</button>
+        </div>
+
+        <div id="roomsModal" class="modal-content" style="display: none;">
+          <div id="rooms">Nenhuma sala disponível.</div>
+        </div>
+
+        <div id="chatModal" class="modal-content" style="display: none;">
+          <div id="messages"></div>
+          <div id="typingStatus"></div>
+          <input type="text" id="messageInput" placeholder="Digite uma mensagem...">
+          <button id="sendMessage">Enviar</button>
+          <div id="onlineUsersCount">0 usuário(s) recentes</div>
+        </div>
+        <div id="imageModal" class="image-modal">
+  <span class="close-image-modal">&times;</span>
+  <img class="image-modal-content" id="imgInModal">
+</div>
+
+        <div id="nameInputContainer">
+          <p>Escolha seu nome:</p>
+          <input type="text" id="userNameInput" placeholder="Seu nome">
+          <button id="confirmNameBtn">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="siderbar.js"></script>
+  <script>
+    // Configuração do Firebase
+    
+    
+
+    // Inicialize o Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
+
+    let userId = null;
+    let chatRoom = null;
+    let userName = '';
+    let userPhotoURL = '';
+
+    // Função para abrir o modal principal
+    function openModal() {
+      document.getElementById('modal').style.display = 'block';
+    }
+
+    // Função para fechar o modal principal
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+      document.getElementById('mainScreen').style.display = 'block';
+      document.getElementById('createRoomModal').style.display = 'none';
+      document.getElementById('joinRoomModal').style.display = 'none';
+      document.getElementById('roomsModal').style.display = 'none';
+      document.getElementById('chatModal').style.display = 'none';
+      document.getElementById('nameInputContainer').style.display = 'none';
+    }
+
+    // Abrir modal principal ao clicar no botão Starchat
+    document.getElementById('starchatBtn').addEventListener('click', () => {
+      if (auth.currentUser) {
+        userId = auth.currentUser.uid;
+        userName = auth.currentUser.displayName || '';
+        userPhotoURL = auth.currentUser.photoURL || '';
+        if (!userName) {
+          document.getElementById('nameInputContainer').style.display = 'block';
+        } else {
+          openModal();
+        }
+      } else {
+        alert('Você deve estar logado para usar o chat.');
+      }
+    });
+
+    // Função para confirmar o nome do usuário
+    document.getElementById('confirmNameBtn').addEventListener('click', () => {
+      userName = document.getElementById('userNameInput').value;
+      if (userName) {
+        auth.currentUser.updateProfile({ displayName: userName });
+        document.getElementById('nameInputContainer').style.display = 'none';
+        openModal();
+      } else {
+        alert('Por favor, insira um nome.');
+      }
+    });
+
+    // Fechar modal
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+
+    // Abrir modal de criação de sala
+    document.getElementById('createRoomBtn').addEventListener('click', () => {
+      document.getElementById('mainScreen').style.display = 'none';
+      document.getElementById('createRoomModal').style.display = 'block';
+    });
+
+    // Criar sala
+document.getElementById('createRoomSubmit').addEventListener('click', () => {
+  const roomName = document.getElementById('roomNameInput').value;
+  const roomPassword = document.getElementById('roomPasswordInput').value;
+  if (roomName) {
+    // Verificar se o nome da sala já existe
+    const roomRef = database.ref('rooms').child(roomName);
+    roomRef.once('value').then(snapshot => {
+      if (snapshot.exists()) {
+        alert('Uma sala com esse nome já existe.');
+      } else {
+        // Usar o nome da sala como ID e criar a sala
+        roomRef.set({ name: roomName, password: roomPassword });
+        alert(`Sala ${roomName} criada com sucesso.`);
+        document.getElementById('createRoomModal').style.display = 'none';
+        document.getElementById('mainScreen').style.display = 'block';
+      }
+    });
+  } else {
+    alert('Por favor, insira um nome para a sala.');
+  }
+});
+
+    // Abrir modal de entrar em sala
+    document.getElementById('joinRoomBtn').addEventListener('click', () => {
+      document.getElementById('mainScreen').style.display = 'none';
+      document.getElementById('joinRoomModal').style.display = 'block';
+    });
+
+    // Entrar em sala
+    document.getElementById('joinRoomSubmit').addEventListener('click', () => {
+      const roomId = document.getElementById('roomIdInput').value;
+      const roomPassword = document.getElementById('roomPasswordInputJoin').value;
+      if (roomId) {
+        const roomRef = database.ref('rooms').child(roomId);
+        roomRef.once('value').then(snapshot => {
+          const roomData = snapshot.val();
+          if (roomData) {
+            if (roomData.password === roomPassword || roomData.password === '') {
+              chatRoom = roomId;
+              openChat();
+            } else {
+              alert('Senha incorreta.');
+            }
+          } else {
+            alert('Sala não encontrada.');
+          }
+        });
+        document.getElementById('joinRoomModal').style.display = 'none';
+      } else {
+        alert('Por favor, insira um nome da sala.');
+      }
+    });
+
+    // Abrir modal de lista de salas
+
+
+    // Função para abrir a interface de chat
+    let isUserAtBottom = true; // Variável para verificar se o usuário está no final
+
+function openChat() {
+  if (chatRoom) {
+    closeModal();
+    document.getElementById('chatModal').style.display = 'block';
+    const messagesContainer = document.getElementById('messages');
+
+    // Limpar mensagens antigas
+    messagesContainer.innerHTML = '';
+
+    const messagesRef = database.ref('rooms').child(chatRoom).child('messages');
+    messagesRef.on('child_added', snapshot => {
+      const message = snapshot.val();
+      const messageElement = document.createElement('div');
+
+      if (message.photoURL) {
+        const img = document.createElement('img');
+        img.src = message.photoURL;
+        messageElement.appendChild(img);
+      }
+
+      const text = document.createElement('span');
+      text.textContent = `${message.userName}: ${message.text}`;
+      messageElement.appendChild(text);
+
+      // Adiciona a nova mensagem ao contêiner
+      messagesContainer.appendChild(messageElement);
+
+      // Forçar a rolagem para o final, se o usuário estiver no final
+      if (isUserAtBottom) {
+        forceScrollToEnd(messagesContainer);
+      }
+    });
+
+    // Forçar rolagem até o final quando o chat for aberto
+    forceScrollToEnd(messagesContainer);
+  } else {
+    alert('Você não está em nenhuma sala.');
+  }
+}
+
+// Função que força o scroll até o final
+function forceScrollToEnd(container) {
+  container.scrollTop = container.scrollHeight;
+}
+
+// Detectar se o usuário está no final da rolagem
+document.getElementById('messages').addEventListener('scroll', function() {
+  const messagesContainer = document.getElementById('messages');
+  const isScrolledToBottom = messagesContainer.scrollHeight - messagesContainer.scrollTop === messagesContainer.clientHeight;
+  isUserAtBottom = isScrolledToBottom;
+});
+
+// Garantir que o scroll seja forçado a cada intervalo (a cada 100ms)
+setInterval(() => {
+  const messagesContainer = document.getElementById('messages');
+  if (messagesContainer && isUserAtBottom) {
+    forceScrollToEnd(messagesContainer);
+  }
+}, 100);
+
+    // Enviar mensagem
+    document.getElementById('sendMessage').addEventListener('click', () => {
+      const messageText = document.getElementById('messageInput').value;
+      if (messageText && chatRoom) {
+        const messagesRef = database.ref('rooms').child(chatRoom).child('messages');
+        messagesRef.push().set({
+          text: messageText,
+          userName: userName,
+          photoURL: userPhotoURL,
+        });
+        document.getElementById('messageInput').value = '';
+      } else {
+        alert('Digite uma mensagem ou certifique-se de que você está em uma sala.');
+      }
+    });
+
+    // Atualizar status de digitação
+    const messageInput = document.getElementById('messageInput');
+    messageInput.addEventListener('input', () => {
+      if (chatRoom) {
+        const typingRef = database.ref('rooms').child(chatRoom).child('typing');
+        typingRef.set(userName);
+        setTimeout(() => {
+          typingRef.remove();
+        }, 3000);
+      }
+    });
+
+    // Mostrar status de digitação
+    database.ref('rooms').on('child_changed', snapshot => {
+      if (chatRoom) {
+        const typingRef = database.ref('rooms').child(chatRoom).child('typing');
+        typingRef.on('value', snapshot => {
+          const typingUser = snapshot.val();
+          if (typingUser) {
+            document.getElementById('typingStatus').textContent = `${typingUser} está digitando...`;
+          } else {
+            document.getElementById('typingStatus').textContent = '';
+          }
+        });
+      }
+    });
+    // Função para abrir a imagem no modal
+  function openImageModal(src) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('imgInModal');
+    modal.style.display = 'block';
+    modalImg.src = src;
+  }
+
+  // Fechar o modal de imagem ao clicar no "X"
+  document.querySelector('.close-image-modal').addEventListener('click', () => {
+    document.getElementById('imageModal').style.display = 'none';
+  });
+
+  // Fechar o modal de imagem ao clicar fora da imagem
+  document.getElementById('imageModal').addEventListener('click', (e) => {
+    if (e.target !== document.getElementById('imgInModal')) {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+  });
+
+// Função para abrir o chat
+function openChat() {
+  if (chatRoom) {
+    closeModal();
+    document.getElementById('chatModal').style.display = 'block';
+    
+    // Limpar mensagens antigas
+    const messagesContainer = document.getElementById('messages');
+    messagesContainer.innerHTML = '';
+    
+    // Remover escuta de eventos anteriores
+    if (window.messagesRef) {
+      window.messagesRef.off(); // Remove todos os ouvintes do banco de dados
+    }
+    
+    // Adicionar escuta de novas mensagens
+    window.messagesRef = database.ref('rooms').child(chatRoom).child('messages');
+    window.messagesRef.on('child_added', snapshot => {
+      const message = snapshot.val();
+      const messageElement = document.createElement('div');
+      if (message.photoURL) {
+        const img = document.createElement('img');
+        img.src = message.photoURL;
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => openImageModal(message.photoURL));
+        messageElement.appendChild(img);
+      }
+      const text = document.createElement('span');
+      text.textContent = `${message.userName}: ${message.text}`;
+      messageElement.appendChild(text);
+      messagesContainer.appendChild(messageElement);
+    });
+  } else {
+    alert('Você não está em nenhuma sala.');
+  }
+}
+let onlineUsersRef = null;
+
+// Função para atualizar o contador de membros online
+function updateOnlineUsersCount() {
+  if (chatRoom) {
+    onlineUsersRef = database.ref('rooms').child(chatRoom).child('onlineUsers');
+    onlineUsersRef.on('value', snapshot => {
+      const onlineUsers = snapshot.numChildren();
+      document.getElementById('onlineUsersCount').textContent = `${onlineUsers} usuário(s) recentes`;
+    });
+  }
+}
+
+// Função para adicionar o usuário à lista de usuários online
+function addUserToOnlineList() {
+  if (chatRoom && userId) {
+    const userRef = onlineUsersRef.child(userId);
+    userRef.set({
+      userName: userName,
+      photoURL: userPhotoURL,
+    });
+
+    // Remover o usuário da lista de online ao sair
+    window.addEventListener('beforeunload', () => {
+      userRef.remove();
+    });
+  }
+}
+
+// Função para abrir o chat
+function openChat() {
+  if (chatRoom) {
+    closeModal();
+    document.getElementById('chatModal').style.display = 'block';
+    
+    // Limpar mensagens antigas
+    const messagesContainer = document.getElementById('messages');
+    messagesContainer.innerHTML = '';
+    
+    // Remover escuta de eventos anteriores
+    if (window.messagesRef) {
+      window.messagesRef.off(); // Remove todos os ouvintes do banco de dados
+    }
+    
+    // Adicionar escuta de novas mensagens
+    window.messagesRef = database.ref('rooms').child(chatRoom).child('messages');
+    window.messagesRef.on('child_added', snapshot => {
+      const message = snapshot.val();
+      const messageElement = document.createElement('div');
+      if (message.photoURL) {
+        const img = document.createElement('img');
+        img.src = message.photoURL;
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => openImageModal(message.photoURL));
+        messageElement.appendChild(img);
+      }
+      const text = document.createElement('span');
+      text.textContent = `${message.userName}: ${message.text}`;
+      messageElement.appendChild(text);
+      messagesContainer.appendChild(messageElement);
+    });
+
+    // Atualizar contador de membros online
+    updateOnlineUsersCount();
+    addUserToOnlineList();
+  } else {
+    alert('Você não está em nenhuma sala.');
+  }
+}
+function requestNotificationPermission() {
+  if (Notification.permission === 'default') {
+    Notification.requestPermission().then(permission => {
+      if (permission !== 'granted') {
+        console.log('Permissão para notificações não concedida.');
+      }
+    });
+  }
+}
+
+// Solicitar permissão quando o chat é carregado
+requestNotificationPermission();
+function sendNotification(message) {
+  if (Notification.permission === 'granted') {
+    const notificationOptions = {
+      body: `${message.userName}: ${message.text}`,
+      icon: message.photoURL || 'default-icon.png' // Substitua com um ícone de notificação se necessário
+    };
+    new Notification('Nova Mensagem', notificationOptions);
+  }
+}
+// Adicionar escuta de novas mensagens
+window.messagesRef.on('child_added', snapshot => {
+  const message = snapshot.val();
+
+  // Adicionar a mensagem ao chat
+  const messageElement = document.createElement('div');
+  if (message.photoURL) {
+    const img = document.createElement('img');
+    img.src = message.photoURL;
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', () => openImageModal(message.photoURL));
+    messageElement.appendChild(img);
+  }
+  const text = document.createElement('span');
+  text.textContent = `${message.userName}: ${message.text}`;
+  messageElement.appendChild(text);
+  document.getElementById('messages').appendChild(messageElement);
+
+  // Enviar notificação para a nova mensagem
+  sendNotification(message);
+});
+function sendNotification(message) {
+  if (Notification.permission === 'granted' && document.hidden) {
+    const notificationOptions = {
+      body: `${message.userName}: ${message.text}`,
+      icon: message.photoURL || 'default-icon.png'
+    };
+    new Notification('Nova Mensagem', notificationOptions);
+  }
+}
+        function redirectToIndex() {
+            window.location.href = 'index.html';
+        }
+        function redirectToAbout() {
+    window.location.href = 'perfil.html';
+}
+
+
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Função para carregar o fundo do Firebase
+    function loadBackground() {
+      const backgroundRef = ref(database, 'backgrounds/login'); // Referência ao nó "backgrounds/login" no Firebase
+
+      onValue(backgroundRef, (snapshot) => {
+        const base64Image = snapshot.val();
+        if (base64Image) {
+          document.body.style.backgroundImage = `url(${base64Image})`;
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundRepeat = "no-repeat";
+          document.body.style.backgroundAttachment = "fixed";
+        } else {
+          console.error("Nenhuma imagem de fundo definida no banco de dados.");
+        }
+      }, (error) => {
+        console.error("Erro ao carregar imagem de fundo:", error);
+      });
+    }
+
+    // Chamar a função para carregar o fundo ao iniciar
+    loadBackground();
+    </script>
+    <script>
+  function setRandomBackground(images) {
+    const messagesElement = document.getElementById('messages');
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    messagesElement.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    messagesElement.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    messagesElement.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    messagesElement.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens
+  const backgroundImages = [
+    '0ceb197c69a8baa465b9d975461f40db.gif',
+    '9a241df1ea364421e7bbca9c854e1e0a.gif',
+    '69411d74044d5950f3f48f734c5b1f0d.gif',
+    'a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'cyberpunk-cloud-dreams-stockcake.jpg',
+    'f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'fzUl.gif',
+    'giphy.gif',
+    'images.jpeg',
+    'l84w3m111r471.gif',
+    's6vvlkkbn.gif',
+    'siyzbhzpzwv61.gif',
+    'ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+<script>
+  // Função para alternar a visibilidade dos botões do acordeão
+function toggleAccordion() {
+  const accordionButtons = document.getElementById("accordionButtons");
+  accordionButtons.classList.toggle("show");
+}
+</script>
+<script>
+  let clickCount = 0; // Contador de cliques
+let lastClickTime = 0; // Armazena o tempo do último clique
+const tripleClickThreshold = 500; // Tempo máximo entre os cliques para ser considerado triplo clique (em milissegundos)
+
+// Detecta o triplo clique na tela
+document.addEventListener('click', () => {
+  const currentTime = new Date().getTime();
+  
+  // Se o tempo entre os cliques for menor que o limite, conta o clique
+  if (currentTime - lastClickTime <= tripleClickThreshold) {
+    clickCount++;
+  } else {
+    // Se o tempo entre os cliques for maior que o limite, reinicia a contagem
+    clickCount = 1;
+  }
+
+  // Verifica se houve 3 cliques rápidos
+  if (clickCount === 3) {
+    // Se for um triplo clique, recarrega a página
+    setTimeout(() => {
+      location.reload(); // Recarrega a página
+    }, 1000); // Atraso de 1 segundo para simular o efeito de atualização
+  }
+
+  // Atualiza o tempo do último clique
+  lastClickTime = currentTime;
+});
+</script>
+<script>
+  function setRandomBackground(images) {
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    document.body.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    document.body.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    document.body.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    document.body.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 120 imagens
+  const backgroundImages = [
+    'exemplo1.gif', 'exemplo2.gif', 'exemplo3.gif', 'exemplo4.gif', 'exemplo5.gif',
+    'exemplo6.gif', 'exemplo7.gif', 'exemplo8.gif', 'exemplo9.gif', 'exemplo10.gif',
+    'exemplo11.gif', 'exemplo12.gif', 'exemplo13.gif', 'exemplo14.gif', 'exemplo15.gif',
+    'exemplo16.gif', 'exemplo17.gif', 'exemplo18.gif', 'exemplo19.gif', 'exemplo20.gif',
+    'exemplo21.gif', 'exemplo22.gif', 'exemplo23.gif', 'exemplo24.gif', 'exemplo25.gif',
+    'exemplo26.gif', 'exemplo27.gif', 'exemplo28.gif', 'exemplo29.gif', 'exemplo30.gif',
+    'exemplo31.gif', 'exemplo32.gif', 'exemplo33.gif', 'exemplo34.gif', 'exemplo35.gif',
+    'exemplo36.gif', 'exemplo37.gif', 'exemplo38.gif', 'exemplo39.gif', 'exemplo40.gif',
+    'exemplo41.gif', 'exemplo42.gif', 'exemplo43.gif', 'exemplo44.gif', 'exemplo45.gif',
+    'exemplo46.gif', 'exemplo47.gif', 'exemplo48.gif', 'exemplo49.gif', 'exemplo50.gif',
+    'exemplo51.gif', 'exemplo52.gif', 'exemplo53.gif', 'exemplo54.gif', 'exemplo55.gif',
+    'exemplo56.gif', 'exemplo57.gif', 'exemplo58.gif', 'exemplo59.gif', 'exemplo60.gif',
+    'exemplo61.gif', 'exemplo62.gif', 'exemplo63.gif', 'exemplo64.gif', 'exemplo65.gif',
+    'exemplo66.gif', 'exemplo67.gif', 'exemplo68.gif', 'exemplo69.gif', 'exemplo70.gif',
+    'exemplo71.gif', 'exemplo72.gif', 'exemplo73.gif', 'exemplo74.gif', 'exemplo75.gif',
+    'exemplo76.gif', 'exemplo77.gif', 'exemplo78.gif', 'exemplo79.gif', 'exemplo80.gif',
+    'exemplo81.gif', 'exemplo82.gif', 'exemplo83.gif', 'exemplo84.gif', 'exemplo85.gif',
+    'exemplo86.gif', 'exemplo87.gif', 'exemplo88.gif', 'exemplo89.gif', 'exemplo90.gif',
+    'exemplo91.gif', 'exemplo92.gif', 'exemplo93.gif', 'exemplo94.gif', 'exemplo95.gif',
+    'exemplo96.gif', 'exemplo97.gif', 'exemplo98.gif', 'exemplo99.gif', 'exemplo100.gif',
+    'exemplo101.gif', 'exemplo102.gif', 'exemplo103.gif', 'exemplo104.gif', 'exemplo105.gif',
+    'exemplo106.gif', 'exemplo107.gif', 'exemplo108.gif', 'exemplo109.gif', 'exemplo110.gif',
+    'exemplo111.gif', 'exemplo112.gif', 'exemplo113.gif', 'exemplo114.gif', 'exemplo115.gif',
+    'exemplo116.gif', 'exemplo117.gif', 'exemplo118.gif', 'exemplo119.gif', 'exemplo120.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

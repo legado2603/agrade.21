@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Vídeos</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0a0f1f;
+      font-family: 'Arial', sans-serif;
+      color: #00ffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-shadow: 0 0 15px #00ffff, 0 0 20px #00ffff;
+      margin-top: 20px;
+    }
+
+    .video-player {
+      width: 80%;
+      max-width: 800px;
+      background-color: #161b22;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      margin-top: 20px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    .video-list {
+      margin-top: 20px;
+      width: 80%;
+      max-width: 800px;
+    }
+
+    .video-item {
+      margin: 10px 0;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 1px solid #00ffff;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .video-item:hover {
+      background-color: rgba(0, 255, 255, 0.4);
+    }
+
+    .video-item span {
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Vídeos</h1>
+  
+  <!-- Player de Vídeo -->
+  <div class="video-player">
+    <video id="videoPlayer" controls>
+      <source src="video1.mp4" type="video/mp4">
+      Seu navegador não suporta o formato de vídeo.
+    </video>
+  </div>
+
+  <!-- Lista de Vídeos -->
+  <div class="video-list">
+    <div class="video-item" onclick="changeVideo('video1.mp4', 'Vídeo 1')">
+      <span>Vídeo 1</span>
+      <span>3:15</span>
+    </div>
+    <div class="video-item" onclick="changeVideo('video2.mp4', 'Vídeo 2')">
+      <span>Vídeo 2</span>
+      <span>4:10</span>
+    </div>
+    <div class="video-item" onclick="changeVideo('video3.mp4', 'Vídeo 3')">
+      <span>Vídeo 3</span>
+      <span>2:45</span>
+    </div>
+    <!-- Adicione mais itens de vídeo conforme necessário -->
+  </div>
+
+  <script>
+    function changeVideo(videoSrc, videoTitle) {
+      const videoPlayer = document.getElementById('videoPlayer');
+      const videoSource = videoPlayer.querySelector('source');
+      videoSource.src = videoSrc;
+      videoPlayer.load(); // Carrega o novo vídeo
+      document.title = videoTitle; // Atualiza o título da página com o nome do vídeo
+    }
+  </script>
+  <script>
+  function setRandomBackground(images) {
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    document.body.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    document.body.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    document.body.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    document.body.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens
+  const backgroundImages = [
+    '0ceb197c69a8baa465b9d975461f40db.gif',
+    '9a241df1ea364421e7bbca9c854e1e0a.gif',
+    '69411d74044d5950f3f48f734c5b1f0d.gif',
+    'a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'cyberpunk-cloud-dreams-stockcake.jpg',
+    'f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'fzUl.gif',
+    'giphy.gif',
+    'images.jpeg',
+    'l84w3m111r471.gif',
+    's6vvlkkbn.gif',
+    'siyzbhzpzwv61.gif',
+    'ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

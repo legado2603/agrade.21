@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Seu App">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Selecionar Missão</title>
+  <style>
+    body {
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: #e0e0e0;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+  border: 1px solid #00FFFF;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  color: #00FFFF;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #FF00FF;
+  text-shadow: 0px 0px 5px rgba(255, 0, 255, 0.5);
+}
+
+input, select, button {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #1c1c1c;
+  color: #fff;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: 0.3s ease;
+}
+
+input:focus, select:focus, button:focus {
+  outline: none;
+  border: 1px solid #00FFFF;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+button {
+  background-color: #FF00FF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #800080;
+}
+
+.description {
+  font-size: 0.9em;
+  color: #ccc;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+input, select, button {
+  transition: transform 0.3s ease-in-out;
+}
+
+input:focus, select:focus, button:focus {
+  transform: scale(1.05);
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(2px, 2px);
+  }
+  25% {
+    transform: translate(-2px, -2px);
+  }
+  50% {
+    transform: translate(2px, 2px);
+  }
+  75% {
+    transform: translate(-2px, -2px);
+  }
+  100% {
+    transform: translate(2px, 2px);
+  }
+}
+
+h1 {
+  animation: glitch 1s infinite linear alternate;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Missão</h1>
+    <form id="missionForm">
+      <label for="mission">Missão Disponível:</label>
+      <select id="mission" required>
+        <option value="">Selecione uma missão</option>
+      </select>
+
+      <label for="name">Nome:</label>
+      <input type="text" id="name" placeholder="Digite seu nome completo" required>
+
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" placeholder="Digite um e-mail real" required>
+      <div class="description">Use um e-mail real para ser contactado futuramente.</div>
+
+      <label for="whatsapp">Número de WhatsApp:</label>
+      <input type="tel" id="whatsapp" placeholder="Digite seu número com DDD" required>
+
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue, push } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    const missionSelect = document.getElementById('mission');
+    const missionForm = document.getElementById('missionForm');
+
+    // Verificar autenticação do usuário
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        carregarMissoes(); // Carregar as missões disponíveis
+        missionForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const selectedMission = missionSelect.value;
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const whatsapp = document.getElementById('whatsapp').value;
+
+          if (!selectedMission) {
+            alert('Por favor, selecione uma missão.');
+            return;
+          }
+
+          const submission = {
+            missionId: selectedMission,
+            name,
+            email,
+            whatsapp,
+            userId: user.uid, // Associar o envio ao usuário autenticado
+            timestamp: new Date().toISOString(),
+          };
+
+          try {
+            const submissionsRef = ref(database, 'arena/');
+            await push(submissionsRef, submission);
+            alert('Dados enviados com sucesso!');
+            missionForm.reset();
+          } catch (error) {
+            console.error('Erro ao enviar os dados:', error);
+            alert('Ocorreu um erro ao enviar os dados. Tente novamente.');
+          }
+        });
+      } else {
+        alert('Você precisa fazer login para acessar esta página.');
+        window.location.href = 'login.html'; // Redirecionar para login
+      }
+    });
+
+    // Carregar missões disponíveis
+    function carregarMissoes() {
+      const missoesRef = ref(database, 'missoes/');
+      onValue(missoesRef, (snapshot) => {
+        const data = snapshot.val();
+        missionSelect.innerHTML = '<option value="">Selecione uma missão</option>';
+        if (data) {
+          for (let key in data) {
+            const missao = data[key];
+            missionSelect.innerHTML += `<option value="${key}">${missao.nome} - ${missao.subtitulo}</option>`;
+          }
+        } else {
+          missionSelect.innerHTML = '<option value="">Nenhuma missão disponível</option>';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

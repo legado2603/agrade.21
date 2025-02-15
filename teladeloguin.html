@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+  <title>A-Grade(Login)</title>
+ <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <link rel="stylesheet" href="css/teladeloguin.css">
+  <style>
+     h1 {
+      font-size: 2rem;
+      margin: 0.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    #status {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #ff0000;
+      animation: pulse 1s infinite alternate;
+    }
+    #status.online {
+      color: #00ff00;
+    }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="login-form">
+    <h2>
+      <span id="typed-output" class="typed-output"></span>
+      <img src="img/agrade.logo.png" alt="Logo da A-Grade" style="width: 250px; display: block; margin: 0 auto; border-radius: 50%;">
+      <div>
+        video
+      </div>
+      <div id="agrade" class="agrade"></div><br>
+      𝐄 𝐍 𝐓 𝐑 𝐄
+    </h2>
+    
+    <form onsubmit="login(); return false;">
+      <div>
+        <input id="email" type="text" placeholder="E-mail ou Seu ID@agrade.enn" oninput="autoCompleteEmail()">
+      </div>
+      <div>
+        <input id="password" type="password" placeholder="Insira sua Senha">
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar" id="myProgressBar">0%</div>
+      </div>
+      <input type="submit" value="Entrar">
+      <div>
+        
+        <br>
+      </div>
+<button id="google-sign-in" style="background-color: #2c2c2c; color: #00ffff; border: 2px solid #00ffff; padding: 10px 20px; border-radius: 5px; display: flex; align-items: center; cursor: pointer; transition: background-color 0.3s;">
+    <img src="img/google.png" alt="Login com Google" style="width: 20px; height: 20px; margin-right: 10px;">
+    Entre com sua Conta Google
+</button>
+    <button id="logout" style="display: none;">Logout</button>
+    </form>
+    <div id="error"></div>
+    <div class="signup-link">
+      <p>Sem Cadastro? <a href="teladecadastro.html">Cadastre-se agora!</a></p>
+    </div>
+  <p>Conexão: <span id="status">Verificando...</span></p>
+  </div>
+  
+  <script src="/js/siderbar.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Função para carregar o fundo do Firebase
+    function loadBackground() {
+  // Tenta carregar a imagem de fundo do cache
+  const cachedBackground = localStorage.getItem('backgroundImage');
+  
+  if (cachedBackground) {
+    // Se existir, usa o background salvo no cache
+    document.body.style.backgroundImage = `url(${cachedBackground})`;
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundAttachment = "fixed";
+  } else {
+    // Caso contrário, carrega a imagem do Firebase
+    const backgroundRef = ref(database, 'backgrounds/login'); // Referência ao nó "backgrounds/login" no Firebase
+
+    onValue(backgroundRef, (snapshot) => {
+      const base64Image = snapshot.val();
+      if (base64Image) {
+        // Salva a imagem no cache
+        localStorage.setItem('backgroundImage', base64Image);
+        
+        // Aplica o fundo
+        document.body.style.backgroundImage = `url(${base64Image})`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundAttachment = "fixed";
+      } else {
+        console.error("Nenhuma imagem de fundo definida no banco de dados.");
+      }
+    }, (error) => {
+      console.error("Erro ao carregar imagem de fundo:", error);
+    });
+  }
+}
+
+// Chamar a função para carregar o fundo ao iniciar
+loadBackground();
+
+    // Função para autocompletar o e-mail
+    function autoCompleteEmail() {
+      const emailInput = document.getElementById('email');
+      let emailValue = emailInput.value.trim();  // Remover espaços extras
+
+      // Verifica se o usuário digitou o caractere "@" e não tem o domínio @agrade.enn
+      if (emailValue.includes('@') && !emailValue.includes('@agrade.enn')) {
+        // Completa automaticamente com @agrade.enn após o "@" já inserido
+        emailInput.value = emailValue + 'agrade.enn';
+      }
+    }
+
+    window.login = function() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const errorDiv = document.getElementById('error');
+
+  moveProgressBar(); // Inicia a barra de progresso
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      errorDiv.textContent = "Login bem-sucedido!";
+      errorDiv.style.color = "#00ffcc"; // Verde claro
+      errorDiv.style.fontSize = "16px";
+      errorDiv.style.fontWeight = "bold";
+      errorDiv.style.backgroundColor = "rgba(0, 255, 204, 0.2)";
+      errorDiv.style.padding = "10px";
+      errorDiv.style.borderRadius = "5px";
+      errorDiv.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+      errorDiv.style.marginTop = "20px"; // Adicionado afastamento para baixo
+      completeProgressBar(); // Completa a barra de progresso
+      setTimeout(() => window.location.href = "bemvindo.html", 500); // Redireciona após um pequeno atraso
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      errorDiv.textContent = errorMessage;
+      errorDiv.style.color = "#ff5252"; // Vermelho
+      errorDiv.style.fontSize = "16px";
+      errorDiv.style.fontWeight = "bold";
+      errorDiv.style.backgroundColor = "rgba(255, 82, 82, 0.2)";
+      errorDiv.style.padding = "10px";
+      errorDiv.style.borderRadius = "5px";
+      errorDiv.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+      errorDiv.style.marginTop = "20px"; // Adicionado afastamento para baixo
+      stopProgressBar(); // Para a barra de progresso em caso de erro
+    });
+};
+
+    let progressInterval;
+
+    function moveProgressBar() {
+      const elem = document.getElementById("myProgressBar");
+      let width = 0;
+      elem.style.width = width + '%';
+      elem.innerHTML = width + '%';
+      progressInterval = setInterval(() => {
+        if (width < 95) {
+          width += 1;
+          elem.style.width = width + '%';
+          elem.innerHTML = width + '%';
+        }
+      }, 100);
+    }
+
+    function stopProgressBar() {
+      clearInterval(progressInterval);
+    }
+
+    function completeProgressBar() {
+      clearInterval(progressInterval);
+      const elem = document.getElementById("myProgressBar");
+      let width = parseInt(elem.style.width, 10);
+      const id = setInterval(() => {
+        if (width >= 100) {
+          clearInterval(id);
+        } else {
+          width++;
+          elem.style.width = width + '%';
+          elem.innerHTML = width + '%';
+        }
+      }, 15);
+    }
+  </script>
+<script>
+  var options = {
+    strings: ["Olá, mundo!", "Bem-vindo ao futuro!", "Aproveite a experiência!", "Explore o novo caminho com A-Grade!"],
+    typeSpeed: 100, // Velocidade da digitação
+    backSpeed: 50,  // Velocidade ao apagar
+    loop: false,    // Desativar loop automático
+    onComplete: function(self) {
+      setTimeout(function() {
+        self.reset();
+      }, 14000); // Aguardar 14 segundos antes de reiniciar
+    }
+  };
+
+  var typed = new Typed("#typed-output", options);
+</script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+        authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+        databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+        projectId: "socialnetwork021-fad5a",
+        storageBucket: "socialnetwork021-fad5a.appspot.com",
+        messagingSenderId: "1040846806964",
+        appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+        measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializar o Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    console.log("Firebase inicializado com sucesso");
+
+    // Verificar se o usuário já está autenticado
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            console.log('Usuário já autenticado:', user);
+            window.location.href = '/recaptcha.html'; // Redirecionar para a página index.html
+        }
+    });
+
+    document.getElementById('google-sign-in').addEventListener('click', () => {
+        const provider = new GoogleAuthProvider();
+
+        // Verificar se o usuário já está autenticado
+        if (auth.currentUser) {
+            console.log('Usuário já autenticado. Redirecionando...');
+            window.location.href = '/recaptcha.html'; // Redirecionar sem tentar fazer login novamente
+            return;
+        }
+
+        // Caso contrário, iniciar o processo de login
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                console.log('Usuário logado:', result.user);
+                document.getElementById('google-sign-in').style.display = 'none';
+                document.getElementById('logout').style.display = 'block';
+                // Redirecionar para a página index.html após o login
+                window.location.href = 'recaptcha.html';
+            })
+            .catch((error) => {
+                console.error('Erro ao autenticar:', error);
+            });
+    });
+
+    document.getElementById('logout').addEventListener('click', () => {
+        signOut(auth).then(() => {
+            console.log('Usuário desconectado');
+            document.getElementById('google-sign-in').style.display = 'block';
+            document.getElementById('logout').style.display = 'none';
+        }).catch((error) => {
+            console.error('Erro ao desconectar:', error);
+        });
+    });
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            console.log('Usuário logado:', user);
+            document.getElementById('google-sign-in').style.display = 'none';
+            document.getElementById('logout').style.display = 'block';
+        } else {
+            console.log('Usuário desconectado');
+            document.getElementById('google-sign-in').style.display = 'block';
+            document.getElementById('logout').style.display = 'none';
+        }
+    });
+</script>
+<script>
+    const statusElement = document.getElementById('status');
+
+    function updateStatus() {
+      if (navigator.onLine) {
+        statusElement.textContent = 'Online';
+        statusElement.classList.add('online');
+      } else {
+        statusElement.textContent = 'Offline';
+        statusElement.classList.remove('online');
+      }
+    }
+
+    // Atualiza o status ao carregar a página
+    updateStatus();
+
+    // Escuta mudanças no status da conexão
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+  </script>
+  <script>
+  let clickCount = 0; // Contador de cliques
+let lastClickTime = 0; // Armazena o tempo do último clique
+const tripleClickThreshold = 500; // Tempo máximo entre os cliques para ser considerado triplo clique (em milissegundos)
+
+// Detecta o triplo clique na tela
+document.addEventListener('click', () => {
+  const currentTime = new Date().getTime();
+  
+  // Se o tempo entre os cliques for menor que o limite, conta o clique
+  if (currentTime - lastClickTime <= tripleClickThreshold) {
+    clickCount++;
+  } else {
+    // Se o tempo entre os cliques for maior que o limite, reinicia a contagem
+    clickCount = 1;
+  }
+
+  // Verifica se houve 3 cliques rápidos
+  if (clickCount === 3) {
+    // Se for um triplo clique, recarrega a página
+    setTimeout(() => {
+      location.reload(); // Recarrega a página
+    }, 1000); // Atraso de 1 segundo para simular o efeito de atualização
+  }
+
+  // Atualiza o tempo do último clique
+  lastClickTime = currentTime;
+});
+</script>
+</body>
+</html>

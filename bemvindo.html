@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bem-vindo ao Sistema</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      font-family: Arial, sans-serif;
+      background-image: url('img/c8895e3b-5e74-4b9b-95af-1d24b0bf0ff9.jpeg'); /* Caminho para a imagem no diretório img */
+    }
+    h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  letter-spacing: 2px; /* Espaçamento entre letras para efeito de digitação */
+  white-space: nowrap; /* Impede quebra de linha enquanto escreve */
+  overflow: hidden;
+  position: relative; /* Necessário para criar sombra / overlay */
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Sombra com opacidade */
+  z-index: -1; /* Coloca o overlay atrás do texto */
+}
+  </style>
+</head>
+<body>
+
+  <h1 id="welcomeMessage"></h1>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+
+// Função para simular digitação
+async function typeMessage(element, message, interval = 100) {
+  let index = 0;
+  while (index < message.length) {
+    element.innerText = message.substring(0, index + 1);
+    index++;
+    await new Promise(resolve => setTimeout(resolve, interval));
+  }
+}
+
+// Verificar se o usuário está autenticado
+onAuthStateChanged(auth, async (user) => {
+  // Aguardar 2 segundos antes de iniciar qualquer ação
+  setTimeout(async () => {
+    try {
+      if (user) {
+        // Obter o nome antes do "@"
+        const username = user.email.split('@')[0];
+        const photoRef = storageRef(storage, `profilePhotos/${user.uid}/profile.jpg`);
+
+        try {
+          const photoURL = await getDownloadURL(photoRef);
+          document.body.style.backgroundImage = `url(${photoURL})`;
+        } catch (error) {
+          console.error("Erro ao carregar a foto de perfil:", error);
+        }
+
+        // Mostrar a mensagem com efeito de digitação
+        await typeMessage(document.getElementById('welcomeMessage'), `_Seja Bem-vindo, ${username}!_`);
+      } else {
+        console.log("Usuário não autenticado.");
+      }
+    } catch (error) {
+      console.error("Erro na execução:", error);
+    } finally {
+      // Redirecionar após 5 segundos, independentemente do resultado
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 5000); // 5 segundos
+    }
+  }, 2000); // 2 segundos de atraso
+});
+</script>
+
+</body>
+</html>

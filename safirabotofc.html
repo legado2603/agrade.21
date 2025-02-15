@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-Grade(Safira Bot)</title>
+  <style>
+    body {
+    font-family: monospace;
+    background-image: url('eecdb55768e30c90fe9e91ba6db1e9b0.jpg'); /* Caminho da imagem */
+    background-color: #000; /* Cor de fundo para caso a imagem não carregue */
+    background-size: cover; /* Faz a imagem preencher toda a tela */
+    background-position: center; /* Centraliza a imagem no fundo */
+    background-repeat: no-repeat; /* Evita repetição da imagem */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Garante que a altura do body seja de 100% da viewport */
+    margin: 0;
+}
+
+    #chat-box {
+      width: 80%;
+      max-width: 700px;
+      height: 50vh;
+      overflow-y: auto;
+      border: 1px solid #333;
+      background-image: url('Digital_rain_animation_small_letters_shine.gif');
+      background-color: #111;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    #input-container {
+      width: 80%;
+      max-width: 800px;
+      display: flex;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #444;
+      color: #fff;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    .user {
+  color: #ffff00; /* Amarelo */
+  background-color: rgba(0, 0, 0, 0.5); /* Preto com 50% de transparência */
+  padding: 5px; /* Adiciona um pouco de espaçamento ao redor do texto */
+  border-radius: 5px; /* Opcional: bordas arredondadas */
+}
+
+.bot {
+  color: #ff0000; /* Vermelho */
+  background-color: rgba(0, 0, 0, 0.5); /* Preto com 50% de transparência */
+  padding: 5px; /* Adiciona um pouco de espaçamento ao redor do texto */
+  border-radius: 5px; /* Opcional: bordas arredondadas */
+}
+
+    .online-users {
+      margin-bottom: 10px;
+      color: #00ff00; /* Verde */
+    }
+    .logo-title {
+  display: inline-block;
+  vertical-align: middle;
+  height: 3.0em;
+  width: auto;
+  position: relative;
+  top: -30px; /* Move a logo 10px para cima, ajuste conforme necessário */
+}
+p {
+  font-family: monospace;
+  font-size: 1.2em; /* Ajusta o tamanho da fonte conforme necessário */
+  color: #00ff00; /* Verde para destacar o texto */
+  background-color: rgba(0, 0, 0, 0.7); /* Preto com 70% de transparência */
+  padding: 10px; /* Adiciona espaço ao redor do texto */
+  border-radius: 5px; /* Opcional: bordas arredondadas */
+  border: 1px solid #333; /* Opcional: borda ao redor do fundo */
+  margin: 1px 0; /* Reduz o espaço acima e abaixo do parágrafo para movê-lo mais para cima */
+  text-align: center; /* Centraliza o texto dentro do elemento */
+}
+#typing-indicator {
+  margin-bottom: 10px;
+  font-style: italic;
+  color: #ff0000; /* Vermelho */
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+  padding: 5px;
+  border-radius: 5px;
+}
+  </style>
+</head>
+<body>
+  <h1>
+    <img src="safirabot.png" alt="Logo com Efeito Chamas Amarelas" class="logo-title">
+  </h1>
+  <p>Digite(/?)</p>
+  <div id="chat-box"></div>
+  <div id="online-users" class="online-users">
+    <span id="online-count">Usuários online: 0</span>
+  </div>
+  <div id="typing-indicator" style="display: none;">
+  <span class="bot">O bot está digitando...</span>
+</div>
+  <div id="input-container">
+    <input type="text" id="user-input" placeholder="Digite seu comando...">
+    <button onclick="sendCommand()">Enviar</button>
+  </div>
+  
+  <script src="siderbar.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+    import { getDatabase, ref, push, child, get, set, onChildAdded, onValue } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js';
+    import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+
+    // Configuração do Firebase
+    
+
+    // Inicialize o Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    let currentRoom = null;
+    let commands = {};
+
+    // Função para carregar comandos do Firebase
+    function loadCommands() {
+      const commandsRef = ref(database, 'commands');
+      get(commandsRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          commands = snapshot.val();
+        } else {
+          addMessage('bot', 'Nenhum comando disponível.');
+        }
+      }).catch((error) => {
+        addMessage('bot', `Erro ao carregar comandos: ${error.message}`);
+      });
+    }
+
+    // Função para autenticar o usuário
+    function loginUser(email, password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          addMessage('bot', `Login bem-sucedido para ${email}.`);
+        })
+        .catch((error) => {
+          addMessage('bot', `Erro ao fazer login: ${error.message}`);
+        });
+    }
+
+    // Função para enviar comandos
+    window.sendCommand = function() {
+      const input = document.getElementById('user-input').value.trim();
+      const [command, ...args] = input.split(' ');
+
+      if (!command) {
+        addMessage('bot', 'Comando inválido.');
+        return;
+      }
+
+      const sanitizedCommand = command.replace(/[/\\#.$[\]]/g, '_');
+
+      if (commands[sanitizedCommand]) {
+        addMessage('bot', commands[sanitizedCommand]);
+      } else {
+        switch (command.toLowerCase()) {
+          case '/login':
+            const [email, password] = args.join(' ').split(':');
+            if (email && password) {
+              loginUser(email, password);
+            } else {
+              addMessage('bot', 'Formato do comando /login inválido. Use /login email:senha');
+            }
+            break;
+
+          case '/criar':
+            const roomName = args.join(' ').trim();
+            if (roomName) {
+              createRoom(roomName);
+            } else {
+              addMessage('bot', 'Formato do comando /criar inválido. Use /criar nomeDaSala');
+            }
+            break;
+
+          case '/salas':
+            listRooms();
+            break;
+
+          case '/entrar':
+            const enterRoomName = args.join(' ').trim();
+            if (enterRoomName) {
+              enterRoom(enterRoomName);
+            } else {
+              addMessage('bot', 'Formato do comando /entrar inválido. Use /entrar nomeDaSala');
+            }
+            break;
+
+          case '/sair':
+            if (currentRoom) {
+              leaveRoom(currentRoom);
+            } else {
+              addMessage('bot', 'Você não está em nenhuma sala.');
+            }
+            break;
+
+          case '/deletar':
+            const deleteRoomName = args.join(' ').trim();
+            if (deleteRoomName) {
+              deleteRoom(deleteRoomName);
+            } else {
+              addMessage('bot', 'Formato do comando /deletar inválido. Use /deletar nomeDaSala');
+            }
+            break;
+
+          default:
+            if (currentRoom) {
+              sendMessage(input);
+            } else {
+              addMessage('bot', 'Comando não reconhecido. Digite /entrar nomeDaSala para entrar em uma sala.');
+            }
+            break;
+        }
+      }
+
+      document.getElementById('user-input').value = '';
+    };
+
+    // Função para adicionar o usuário à sala
+    function addUserToRoom() {
+      const userRef = ref(database, 'rooms/' + currentRoom + '/users/' + (auth.currentUser ? auth.currentUser.uid : 'unknown'));
+      set(userRef, {
+        email: auth.currentUser ? auth.currentUser.email : 'unknown',
+        joinedAt: new Date().toISOString()
+      });
+    }
+
+    // Função para criar uma sala
+    function createRoom(roomName) {
+      const roomRef = ref(database, 'rooms/' + roomName);
+      set(roomRef, {
+        createdBy: auth.currentUser ? auth.currentUser.uid : 'unknown',
+        createdAt: new Date().toISOString()
+      }).then(() => {
+        addMessage('bot', `Sala "${roomName}" criada com sucesso.`);
+      }).catch((error) => {
+        addMessage('bot', `Erro ao criar a sala: ${error.message}`);
+      });
+    }
+
+    // Função para listar as salas disponíveis
+    function listRooms() {
+      const roomsRef = ref(database, 'rooms');
+      get(roomsRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const rooms = snapshot.val();
+          addMessage('bot', `Salas disponíveis: ${Object.keys(rooms).join(', ')}`);
+        } else {
+          addMessage('bot', 'Nenhuma sala disponível no momento.');
+        }
+      }).catch((error) => {
+        addMessage('bot', `Erro ao listar salas: ${error.message}`);
+      });
+    }
+
+    // Função para entrar em uma sala
+    function enterRoom(roomName) {
+      const roomRef = ref(database, 'rooms/' + roomName);
+      get(roomRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          currentRoom = roomName;
+          addUserToRoom(); // Adiciona o usuário à sala
+          addMessage('bot', `Você entrou na sala "${roomName}".`);
+          updateOnlineUsers();
+
+          // Configura o listener para carregar as mensagens da sala
+          const messagesRef = ref(database, 'rooms/' + currentRoom + '/messages');
+          onChildAdded(messagesRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+              addMessage('user', `${data.user}: ${data.message}`);
+            }
+          });
+
+        } else {
+          addMessage('bot', `Sala "${roomName}" não encontrada.`);
+        }
+      }).catch((error) => {
+        addMessage('bot', `Erro ao entrar na sala: ${error.message}`);
+      });
+      }
+      
+      // Função para sair de uma sala
+      function leaveRoom(roomName) {
+        if (auth.currentUser) {
+          const userRef = ref(database, 'rooms/' + roomName + '/users/' + auth.currentUser.uid);
+          set(userRef, null).then(() => {
+            addMessage('bot', `Você saiu da sala "${roomName}".`);
+            currentRoom = null;
+            updateOnlineUsers();
+          }).catch((error) => {
+            addMessage('bot', `Erro ao sair da sala: ${error.message}`);
+          });
+        }
+      }
+      
+      // Função para deletar uma sala
+      function deleteRoom(roomName) {
+        const roomRef = ref(database, 'rooms/' + roomName);
+        set(roomRef, null).then(() => {
+          addMessage('bot', `Sala "${roomName}" foi deletada com sucesso.`);
+        }).catch((error) => {
+          addMessage('bot', `Erro ao deletar a sala: ${error.message}`);
+        });
+      }
+      
+      // Função para enviar uma mensagem na sala atual
+      function sendMessage(message) {
+        if (auth.currentUser) {
+          const messagesRef = ref(database, 'rooms/' + currentRoom + '/messages');
+          push(messagesRef, {
+            user: auth.currentUser.email,
+            message: message,
+            timestamp: new Date().toISOString()
+          }).catch((error) => {
+            addMessage('bot', `Erro ao enviar mensagem: ${error.message}`);
+          });
+        }
+      }
+      
+      // Função para adicionar uma mensagem ao chat box
+     function addMessage(sender, message) {
+  const chatBox = document.getElementById('chat-box');
+
+  // Exibe o indicador de digitação
+  const typingIndicator = document.getElementById('typing-indicator');
+  if (sender === 'bot') {
+    typingIndicator.style.display = 'block';
+  }
+
+  // Simula a digitação letra por letra
+  setTimeout(() => {
+    if (sender === 'bot') {
+      typingIndicator.style.display = 'none'; // Oculta o indicador de digitação
+    }
+
+    // Adiciona a mensagem letra por letra
+    const messageElement = document.createElement('div');
+    messageElement.classList.add(sender === 'bot' ? 'bot' : 'user');
+    chatBox.appendChild(messageElement);
+
+    let i = 0;
+    const typingEffect = setInterval(() => {
+      messageElement.textContent += message.charAt(i);
+      i++;
+      if (i === message.length) {
+        clearInterval(typingEffect);
+        chatBox.scrollTop = chatBox.scrollHeight; // Rola para a mensagem mais recente
+      }
+    }, 30); // Ajuste a velocidade de digitação (50ms por caractere)
+  }, 1000); // Simula o tempo antes de o bot começar a "digitar"
+}
+      
+      // Função para atualizar a contagem de usuários online
+      function updateOnlineUsers() {
+        if (currentRoom) {
+          const usersRef = ref(database, 'rooms/' + currentRoom + '/users');
+          onValue(usersRef, (snapshot) => {
+            const users = snapshot.val();
+            const onlineCount = users ? Object.keys(users).length : 0;
+            document.getElementById('online-count').textContent = `Usuários online: ${onlineCount}`;
+          });
+        } else {
+          document.getElementById('online-count').textContent = 'Usuários online: 0';
+        }
+      }
+      
+      // Carregar comandos ao iniciar
+      loadCommands();
+      </script>
+      <script>
+  function setRandomBackground(images) {
+    const bodyElement = document.body; // Seleciona o elemento body
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    bodyElement.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    bodyElement.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    bodyElement.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    bodyElement.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens dentro da pasta "pag"
+  const backgroundImages = [
+    '0ceb197c69a8baa465b9d975461f40db.gif',
+    '9a241df1ea364421e7bbca9c854e1e0a.gif',
+    '69411d74044d5950f3f48f734c5b1f0d.gif',
+    'a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'cyberpunk-cloud-dreams-stockcake.jpg',
+    'f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'fzUl.gif',
+    'giphy.gif',
+    'images.jpeg',
+    'l84w3m111r471.gif',
+    's6vvlkkbn.gif',
+    'siyzbhzpzwv61.gif',
+    'ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+      </body> 
+      </html>
+      

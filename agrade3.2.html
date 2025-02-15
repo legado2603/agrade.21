@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+    <title>A-Grade(Página 3.1</title>
+    <style>
+        body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out; /* Transição suave */
+    }
+    h1 {
+      text-shadow: 0 0 5px black;
+    }
+        .header {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 100px;
+            height: 100vh;
+            background-color: #D0D0FF;
+            text-align: center;
+            z-index: 10;
+        }
+        .header a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #000;
+            border: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .header a:hover {
+            border-color: #8A2BE2; /* Neon violeta */
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px; /* Sidebar menor */
+            height: 100vh;
+            background-color: #D0D0FF;
+            padding: 10px;
+            transform: translateX(-100%);
+            transition: transform 0.5s ease, background-color 0.5s ease;
+            box-shadow: 0 0 10px #8A2BE2; /* Neon violeta */
+            z-index: 9;
+        }
+        .sidebar.visible {
+            transform: translateX(0);
+            background: linear-gradient(to right, #D0D0FF, #B0B0FF);
+        }
+        .sidebar .close-sidebar-btn {
+            display: block;
+            width: 100%;
+            padding: 6px;
+            background-color: #8A2BE2; /* Neon violeta */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 12px; /* Fonte menor */
+        }
+        .sidebar .close-sidebar-btn:hover {
+            background-color: #6A0D91; /* Tom mais escuro de neon violeta */
+        }
+        .sidebar input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 2px;
+            margin-bottom: 10px;
+            border: 2px solid #8A2BE2; /* Neon violeta */
+            border-radius: 4px;
+            box-shadow: 0 0 5px #8A2BE2; /* Neon violeta */
+            font-size: 12px; /* Fonte menor */
+        }
+        .sidebar button.secret-button,
+        .sidebar button.visible-button {
+            display: block;
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 10px;
+            background-color: #B0B0FF;
+            border: none;
+            color: #000;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            font-size: 12px; /* Fonte menor */
+        }
+        .sidebar button.secret-button {
+            display: none; /* Inicialmente oculto */
+        }
+        .sidebar button.secret-button:hover,
+        .sidebar button.visible-button:hover {
+            border-color: #8A2BE2; /* Neon violeta */
+        }
+        .marquee {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #D0D0FF;
+            box-shadow: 0 0 10px #4B0082; /* Neon roxo escuro */
+            text-align: center;
+            padding: 10px;
+        }
+        .marquee span {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 21s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            background: #fff;
+            border: 2px solid #8A2BE2; /* Neon violeta */
+            box-shadow: 0 0 10px #8A2BE2; /* Neon violeta */
+            padding: 10px;
+            z-index: 1000;
+        }
+        .modal .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #8A2BE2; /* Neon violeta */
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+        .modal .close-btn:hover {
+            background: #6A0D91; /* Tom mais escuro de neon violeta */
+        }
+        .open-sidebar-btn {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            background-color: #8A2BE2; /* Neon violeta */
+            color: #fff;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            z-index: 11;
+            transition: opacity 0.5s ease;
+            font-size: 12px; /* Fonte menor */
+        }
+        .open-sidebar-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .open-sidebar-btn:hover {
+            background-color: #6A0D91; /* Tom mais escuro de neon violeta */
+        }
+    </style>
+</head>
+<body>
+    <button id="openSidebarBtn" class="open-sidebar-btn" onclick="toggleSidebar()">Abrir</button>
+    <div class="header">
+        <a href="return.index3.html">Home</a>
+        <a href="agrade1(green).html">Página 1</a>
+        <a href="agrade2(red).html">Página 2</a>
+        <a href="agrade3(violet).html">Voltar</a>
+    </div>
+    <div id="sidebar" class="sidebar">
+        <h3>Menu Inicial</h3>
+        <input type="text" id="passwordInput" placeholder="##########">
+        <button class="visible-button" onclick="alert('Botão 1 clicado')">Botão Visível 1</button>
+        <button class="visible-button" onclick="alert('Botão 2 clicado')">Botão Visível 2</button>
+        <button class="visible-button" onclick="alert('Botão 3 clicado')">Botão Visível 3</button>
+        <button class="visible-button" onclick="alert('Botão 4 clicado')">Botão Visível 4</button>
+        <button class="visible-button" onclick="alert('Botão 5 clicado')">Botão Visível 5</button>
+        <button class="close-sidebar-btn" onclick="closeSidebar()">Fechar</button>
+        <!-- Botões secretos -->
+        <button class="secret-button" data-modal="modal1" data-password="senha1">Botão Secreto 1</button>
+        <button class="secret-button" data-modal="modal2" data-password="senha2">Botão Secreto 2</button>
+        <button class="secret-button" data-modal="modal3" data-password="senha3">Botão Secreto 3</button>
+        <button class="secret-button" data-modal="modal4" data-password="senha4">Botão Secreto 4</button>
+        <button class="secret-button" data-modal="modal5" data-password="senha5">Botão Secreto 5</button>
+        <button class="secret-button" data-modal="modal6" data-password="senha6">Botão Secreto 6</button>
+        <button class="secret-button" data-modal="modal7" data-password="senha7">Botão Secreto 7</button>
+        <button class="secret-button" data-modal="modal8" data-password="senha8">Botão Secreto 8</button>
+        <button class="secret-button" data-modal="modal9" data-password="senha9">Botão Secreto 9</button>
+        <button class="secret-button" data-modal="modal10" data-password="senha10">Botão Secreto 10</button>
+        <button class="secret-button" data-modal="modal11" data-password="senha11">Botão Secreto 11</button>
+        <button class="secret-button" data-modal="modal12" data-password="senha12">Botão Secreto 12</button>
+        <button class="secret-button" data-modal="modal13" data-password="senha13">Botão Secreto 13</button>
+        <button class="secret-button" data-modal="modal14" data-password="senha14">Botão Secreto 14</button>
+        <button class="secret-button" data-modal="modal15" data-password="senha15">Botão Secreto 15</button>
+        <button class="secret-button" data-modal="modal16" data-password="senha16">Botão Secreto 16</button>
+        <button class="secret-button" data-modal="modal17" data-password="senha17">Botão Secreto 17</button>
+        <button class="secret-button" data-modal="modal18" data-password="senha18">Botão Secreto 18</button>
+        <button class="secret-button" data-modal="modal19" data-password="senha19">Botão Secreto 19</button>
+        <button class="secret-button" data-modal="modal20" data-password="senha20">Botão Secreto 20</button>
+    </div>
+
+    <!-- Modais -->
+    <div id="modal1" class="modal">
+        <button class="close-btn" onclick="closeModal('modal1')">X</button>
+        <p>Conteúdo do Modal 1</p>
+    </div>
+    <div id="modal2" class="modal">
+        <button class="close-btn" onclick="closeModal('modal2')">X</button>
+        <p>Conteúdo do Modal 2</p>
+    </div>
+    <div id="modal3" class="modal">
+        <button class="close-btn" onclick="closeModal('modal3')">X</button>
+        <p>Conteúdo do Modal 3</p>
+    </div>
+    <div id="modal4" class="modal">
+        <button class="close-btn" onclick="closeModal('modal4')">X</button>
+        <p>Conteúdo do Modal 4</p>
+    </div>
+    <div id="modal5" class="modal">
+        <button class="close-btn" onclick="closeModal('modal5')">X</button>
+        <p>Conteúdo do Modal 5</p>
+    </div>
+    <div id="modal6" class="modal">
+        <button class="close-btn" onclick="closeModal('modal6')">X</button>
+        <p>Conteúdo do Modal 6</p>
+    </div>
+    <div id="modal7" class="modal">
+        <button class="close-btn" onclick="closeModal('modal7')">X</button>
+        <p>Conteúdo do Modal 7</p>
+    </div>
+    <div id="modal8" class="modal">
+        <button class="close-btn" onclick="closeModal('modal8')">X</button>
+        <p>Conteúdo do Modal 8</p>
+    </div>
+    <div id="modal9" class="modal">
+        <button class="close-btn" onclick="closeModal('modal9')">X</button>
+        <p>Conteúdo do Modal 9</p>
+    </div>
+    <div id="modal10" class="modal">
+        <button class="close-btn" onclick="closeModal('modal10')">X</button>
+        <p>Conteúdo do Modal 10</p>
+    </div>
+    <div id="modal11" class="modal">
+        <button class="close-btn" onclick="closeModal('modal11')">X</button>
+        <p>Conteúdo do Modal 11</p>
+    </div>
+    <div id="modal12" class="modal">
+        <button class="close-btn" onclick="closeModal('modal12')">X</button>
+        <p>Conteúdo do Modal 12</p>
+    </div>
+    <div id="modal13" class="modal">
+        <button class="close-btn" onclick="closeModal('modal13')">X</button>
+        <p>Conteúdo do Modal 13</p>
+    </div>
+    <div id="modal14" class="modal">
+        <button class="close-btn" onclick="closeModal('modal14')">X</button>
+        <p>Conteúdo do Modal 14</p>
+    </div>
+    <div id="modal15" class="modal">
+        <button class="close-btn" onclick="closeModal('modal15')">X</button>
+        <p>Conteúdo do Modal 15</p>
+    </div>
+    <div id="modal16" class="modal">
+        <button class="close-btn" onclick="closeModal('modal16')">X</button>
+        <p>Conteúdo do Modal 16</p>
+    </div>
+    <div id="modal17" class="modal">
+        <button class="close-btn" onclick="closeModal('modal17')">X</button>
+        <p>Conteúdo do Modal 17</p>
+    </div>
+    <div id="modal18" class="modal">
+        <button class="close-btn" onclick="closeModal('modal18')">X</button>
+        <p>Conteúdo do Modal 18</p>
+    </div>
+    <div id="modal19" class="modal">
+        <button class="close-btn" onclick="closeModal('modal19')">X</button>
+        <p>Conteúdo do Modal 19</p>
+    </div>
+    <div id="modal20" class="modal">
+        <button class="close-btn" onclick="closeModal('modal20')">X</button>
+        <p>Conteúdo do Modal 20</p>
+    </div>
+
+    <div class="marquee">
+        <span>A Grade---------------------//-------------------{Rede Social A Grade V.0.0.01}--------------------\\--------------------Rede Social</span>
+    </div>
+    <script src="siderbar.js"></script>
+    <script>
+        const secretButtons = document.querySelectorAll('.sidebar .secret-button');
+        const openSidebarBtn = document.getElementById('openSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('visible');
+            openSidebarBtn.classList.toggle('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('visible');
+            openSidebarBtn.classList.remove('hidden');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            secretButtons.forEach(button => {
+                if (button.dataset.password === input) {
+                    button.style.display = 'block';
+                }
+            });
+        }
+
+        secretButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const modalId = this.dataset.modal;
+                openModal(modalId);
+                this.style.display = 'none'; // Oculta o botão secreto após ser clicado
+            });
+        });
+
+        document.getElementById('passwordInput').addEventListener('input', checkPassword);
+    </script>
+      <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js';
+    
+
+    
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+    
+        // Função de logout
+        window.logout = function() {
+          signOut(auth).then(() => {
+            // Redirecionar para a página de login após o logout
+            window.location.href = 'login.html';
+          }).catch((error) => {
+            console.error("Erro ao fazer logout:", error);
+          });
+        }
+    
+        // Verificar estado de autenticação
+        onAuthStateChanged(auth, (user) => {
+          if (!user) {
+            // Se o usuário não estiver autenticado, redirecione para a página de login
+            window.location.href = 'teladeloguin.html';
+          } else {
+            // Usuário autenticado
+            console.log("Usuário autenticado:", user);
+    
+            // Exemplo de leitura de dados do usuário autenticado
+            const userId = user.uid;
+            const userRef = ref(database, 'users/' + userId);
+            get(userRef).then((snapshot) => {
+              if (snapshot.exists()) {
+                const userData = snapshot.val();
+                console.log("Dados do usuário:", userData);
+              } else {
+                console.log("Dados não encontrados.");
+              }
+            }).catch((error) => {
+              console.error("Erro ao ler dados do usuário:", error);
+            });
+          }
+        });
+      </script>
+      <script>
+    function atualizarFundo() {
+      const horaAtual = new Date().getHours();
+      let imagemFundo = "";
+
+      if (horaAtual >= 6 && horaAtual < 12) {
+        // Manhã
+        imagemFundo = "url('img/Cyberpunk 2077 by Neoncity.jpeg')"; // Substitua por sua imagem da manhã
+      } else if (horaAtual >= 12 && horaAtual < 18) {
+        // Tarde
+        imagemFundo = "url('img/cyberpunk room wallpaper.jpeg')"; // Substitua por sua imagem da tarde
+      } else {
+        // Noite
+        imagemFundo = "url('img/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg')"; // Substitua por sua imagem da noite
+      }
+
+      document.body.style.backgroundImage = imagemFundo;
+    }
+
+    // Chama a função ao carregar a página
+    atualizarFundo();
+
+    // Atualiza o fundo a cada hora
+    setInterval(atualizarFundo, 60 * 60 * 1000); // 1 hora
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk Biblioteca</title>
+  <style>
+    body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Garante que o corpo tenha, no mínimo, a altura da tela */
+    display: flex;
+    flex-direction: column; /* Organiza os elementos em colunas */
+    background-size: cover; /* Faz a imagem preencher a tela */
+    background-position: center; /* Centraliza a imagem de fundo */
+    background-repeat: no-repeat; /* Evita a repetição da imagem */
+    background-attachment: fixed; /* Fixa o fundo, independente do scroll */
+    font-family: Arial, sans-serif;
+    color: #00FFFF;
+    text-shadow: 1px 1px 5px #000;
+}
+
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 15px #00ffff, 0 0 20px #00ffff;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 2px solid #00ffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      margin-top: 20px;
+    }
+
+    .book {
+      background-color: #161b22;
+      border: 1px solid #00ffff;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+
+    .book h2 {
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .book p {
+      font-size: 1rem;
+      color: #00ccff;
+      text-shadow: 0 0 5px #00ffff;
+    }
+
+    .book .author {
+      font-weight: bold;
+      color: #ffcc00;
+    }
+
+    .book .description {
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .button {
+      background-color: rgba(0, 255, 255, 0.4);
+      color: #00ffff;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      text-shadow: 0 0 5px #00ffff;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .button:hover {
+      background-color: rgba(0, 255, 255, 0.6);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+  h6 {
+    
+  }
+  </style>
+</head>
+<body>
+  <h1>Cyberpunk Biblioteca</h1>
+  <div class="container">
+    <h2>Explore nossa coleção de livros futuristas</h2>
+
+    <div class="book">
+      <h2>Neuromancer</h2>
+      <p class="author">William Gibson</p>
+      <p class="description">Uma obra seminal que definiu o gênero cyberpunk, 'Neuromancer' segue a história de Case, um hacker que busca vingança e uma última chance de trabalhar em um mundo virtual distópico.</p>
+    </div>
+
+    <div class="book">
+      <h2>Snow Crash</h2>
+      <p class="author">Neal Stephenson</p>
+      <p class="description">'Snow Crash' mistura informática, linguística e mitologia para criar uma história emocionante sobre um hacker e um samurai virtual em um mundo controlado por corporações e hackers.</p>
+    </div>
+
+    <div class="book">
+      <h2>Altered Carbon</h2>
+      <p class="author">Richard K. Morgan</p>
+      <p class="description">Ambientado em um futuro onde a mente humana pode ser transferida para diferentes corpos, a história segue Takeshi Kovacs, um ex-soldado que é contratado para investigar um aparente suicídio.</p>
+    </div>
+
+    <div class="book">
+      <h2>The Matrix and Philosophy</h2>
+      <p class="author">William Irwin</p>
+      <p class="description">Este livro explora a filosofia por trás do filme 'Matrix', abordando questões sobre realidade, mente e consciência em um mundo controlado por uma inteligência artificial.</p>
+    </div>
+
+    <button class="button" onclick="window.location.reload();">Voltar ao Topo</button>
+  </div>
+  <script>
+  function setRandomBackground(images) {
+    const bodyElement = document.body; // Seleciona o elemento body
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    bodyElement.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    bodyElement.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    bodyElement.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    bodyElement.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens dentro da pasta "pag"
+  const backgroundImages = [
+    '0ceb197c69a8baa465b9d975461f40db.gif',
+    '9a241df1ea364421e7bbca9c854e1e0a.gif',
+    '69411d74044d5950f3f48f734c5b1f0d.gif',
+    'a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'cyberpunk-cloud-dreams-stockcake.jpg',
+    'f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'fzUl.gif',
+    'giphy.gif',
+    'images.jpeg',
+    'l84w3m111r471.gif',
+    's6vvlkkbn.gif',
+    'siyzbhzpzwv61.gif',
+    'ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

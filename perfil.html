@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-Grade(Perfil)</title>
+  <style>
+ body {
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: #00FF00; /* Verde neon */
+  text-shadow: 0 0 10px #00FF00;
+}
+
+.profile-container {
+  max-width: 1000px;
+  margin: auto;
+  background: black; /* Fundo da container */
+  background-image: url('Digital_rain_animation_small_letters_shine.gif');
+  background-size: cover;
+  background-blend-mode: overlay;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.8), 0 0 50px rgba(0, 255, 0, 0.5);
+  border: 2px solid #00FF00; /* Borda verde neon */
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  background-image: url('Digital_rain_animation_small_letters_shine.gif');
+}
+
+.cover-photo {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px #00FF00, 0 0 25px rgba(0, 255, 0, 0.5);
+}
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #00FF00; /* Borda verde neon */
+  object-fit: cover;
+  margin-top: -75px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px #00FF00;
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-info h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #00FF00; /* Verde neon */
+  text-shadow: 0 0 15px #00FF00, 0 0 25px rgba(0, 255, 0, 0.8);
+}
+
+.profile-info p {
+  margin: 5px 0;
+  color: #FF00FF; /* Roxo neon */
+  text-shadow: 0 0 10px #FF00FF, 0 0 20px rgba(255, 0, 255, 0.5);
+}
+
+.profile-container form {
+  margin-bottom: 20px;
+  background-image: url('Digital_rain_animation_small_letters_shine.gif');
+}
+
+.profile-container input,
+.profile-container textarea,
+.profile-container select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 2px solid #00FF00; /* Borda verde neon */
+  border-radius: 10px;
+  background-color: black;
+  color: #FF00FF; /* Texto roxo neon */
+  box-shadow: 0 0 15px #00FF00, 0 0 30px rgba(0, 255, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.profile-container input:focus,
+.profile-container textarea:focus,
+.profile-container select:focus {
+  border-color: #FF00FF;
+  box-shadow: 0 0 20px #FF00FF, 0 0 30px rgba(255, 0, 255, 0.5);
+  outline: none;
+}
+
+.profile-container button {
+  padding: 12px 25px;
+  background-color: black;
+  color: #00FF00; /* Verde neon */
+  border: 2px solid #FF0000; /* Borda vermelha neon */
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 20px #FF0000, 0 0 30px rgba(255, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+}
+
+.profile-container button:hover {
+  background-color: #FF0000; /* Vermelho neon */
+  color: black;
+  box-shadow: 0 0 30px #FF0000, 0 0 50px rgba(255, 0, 0, 1);
+}
+
+.profile-container input[type="file"] {
+  padding: 0;
+}
+
+/* Elementos dinâmicos */
+.profile-container input::placeholder,
+.profile-container textarea::placeholder {
+  color: #00FF00;
+  opacity: 0.8;
+  text-shadow: 0 0 10px #00FF00;
+}
+
+.profile-container input:hover,
+.profile-container textarea:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #00FF00;
+}
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <!-- Imagem de Capa -->
+    <img id="cover-photo" src="default-cover.jpg" alt="Imagem de Capa" class="cover-photo" />
+
+    <!-- Cabeça do Perfil -->
+    <div class="profile-header">
+      <img id="profile-photo" src="default-profile.jpg" alt="Foto de Perfil" class="profile-photo" />
+      <div class="profile-info">
+        <h1 id="name">Nome do Usuário</h1>
+        <p id="age">Idade: 0</p>
+        <p id="gender">Gênero: Não especificado</p>
+        <p id="bio">Biografia do usuário.</p>
+      </div>
+    </div>
+
+    <!-- Formulário de Edição de Perfil -->
+    <form id="profile-form">
+      Digite seu Nome ou Apelido
+      <input type="text" id="name-input" placeholder="Nome" required />
+      Coloque sua idade
+      <input type="number" id="age-input" placeholder="Idade" required />
+      Escolha seu Genero
+      <select id="gender-input" required>
+        <option value="">Selecione o gênero</option>
+        <option value="male">Masculino</option>
+        <option value="female">Feminino</option>
+        <option value="other">Outro</option>
+      </select>
+      Escreva sua Biografia
+      <textarea id="bio-input" placeholder="Biografia" required></textarea>
+      Foto do perfil
+      <input type="file" id="photo-input" accept="image/*" />
+      Foto de Capa
+      <input type="file" id="cover-input" accept="image/*" />
+      <button type="submit">Salvar</button>
+    </form>
+  </div>
+
+  <!-- Scripts do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="siderbar.js"></script>
+  <script>
+    // Configuração do Firebase
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const storage = firebase.storage();
+    const database = firebase.database();
+
+    // Função para carregar perfil do usuário
+    const loadUserProfile = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const userRef = storage.ref(`profilePhotos/${user.uid}`);
+          const coverRef = storage.ref(`coverPhotos/${user.uid}`);
+
+          const [photoURL, coverURL] = await Promise.all([
+            userRef.getDownloadURL().catch(() => 'default-profile.jpg'),
+            coverRef.getDownloadURL().catch(() => 'default-cover.jpg')
+          ]);
+
+          document.getElementById('profile-photo').src = photoURL;
+          document.getElementById('cover-photo').src = coverURL;
+
+          const userProfileRef = database.ref(`users/${user.uid}`);
+          const userProfileSnapshot = await userProfileRef.once('value');
+          const userProfile = userProfileSnapshot.val() || {};
+
+          document.getElementById('name').textContent = userProfile.displayName || 'Nome do Usuário';
+          document.getElementById('age').textContent = `Idade: ${userProfile.age || 'Não especificada'}`;
+          document.getElementById('gender').textContent = `Gênero: ${userProfile.gender || 'Não especificado'}`;
+          document.getElementById('bio').textContent = userProfile.bio || 'Biografia do usuário.';
+        } catch (error) {
+          console.error('Erro ao carregar perfil:', error);
+        }
+      } else {
+        console.error('Usuário não autenticado. Faça login para acessar esta página.');
+      }
+    };
+
+    // Função para salvar perfil do usuário
+    const saveUserProfile = async (e) => {
+      e.preventDefault();
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const name = document.getElementById('name-input').value;
+          const age = document.getElementById('age-input').value;
+          const gender = document.getElementById('gender-input').value;
+          const bio = document.getElementById('bio-input').value;
+          const photoFile = document.getElementById('photo-input').files[0];
+          const coverFile = document.getElementById('cover-input').files[0];
+
+          let photoURL = user.photoURL || 'default-profile.jpg';
+          let coverURL = user.coverURL || 'default-cover.jpg';
+
+          if (photoFile) {
+            const photoRef = storage.ref(`profilePhotos/${user.uid}`);
+            await photoRef.put(photoFile);
+            photoURL = await photoRef.getDownloadURL();
+          }
+
+          if (coverFile) {
+            const coverRef = storage.ref(`coverPhotos/${user.uid}`);
+            await coverRef.put(coverFile);
+            coverURL = await coverRef.getDownloadURL();
+          }
+
+          // Atualizar o perfil do usuário com o nome e URL das fotos
+          await user.updateProfile({ displayName: name, photoURL });
+
+          // Salvar idade, gênero e biografia no Realtime Database
+          const userProfileRef = database.ref(`users/${user.uid}`);
+          await userProfileRef.set({
+            displayName: name,
+            age,
+            gender,
+            bio,
+            photoURL,
+            coverURL
+          });
+
+          // Atualizar os elementos da página
+          document.getElementById('profile-photo').src = photoURL;
+          document.getElementById('cover-photo').src = coverURL;
+          document.getElementById('name').textContent = name;
+          document.getElementById('age').textContent = `Idade: ${age}`;
+          document.getElementById('gender').textContent = `Gênero: ${gender}`;
+          document.getElementById('bio').textContent = bio;
+        } catch (error) {
+          console.error('Erro ao salvar perfil:', error.message || error);
+          alert('Ocorreu um erro ao salvar o perfil. Verifique o console para detalhes.');
+        }
+      } else {
+        console.error('Usuário não autenticado. Faça login para acessar esta página.');
+        alert('Usuário não autenticado. Faça login para acessar esta página.');
+      }
+    };
+
+    // Adicionar listener ao formulário
+    document.getElementById('profile-form').addEventListener('submit', saveUserProfile);
+
+    // Carregar perfil do usuário ao iniciar
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        loadUserProfile();
+      } else {
+        console.error('Usuário não autenticado. Faça login para acessar esta página.');
+        alert('Usuário não autenticado. Faça login para acessar esta página.');
+      }
+    });
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Função para carregar o fundo do Firebase
+    function loadBackground() {
+      const backgroundRef = ref(database, 'backgrounds/login'); // Referência ao nó "backgrounds/login" no Firebase
+
+      onValue(backgroundRef, (snapshot) => {
+        const base64Image = snapshot.val();
+        if (base64Image) {
+          document.body.style.backgroundImage = `url(${base64Image})`;
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundRepeat = "no-repeat";
+          document.body.style.backgroundAttachment = "fixed";
+        } else {
+          console.error("Nenhuma imagem de fundo definida no banco de dados.");
+        }
+      }, (error) => {
+        console.error("Erro ao carregar imagem de fundo:", error);
+      });
+    }
+
+    // Chamar a função para carregar o fundo ao iniciar
+    loadBackground();
+    </script>
+</body>
+</html>

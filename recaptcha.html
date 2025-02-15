@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login com Firebase e Recaptcha</title>
+    <style>
+        html, body {
+    height: 100%; /* Faz com que html e body ocupem toda a altura da janela */
+    margin: 0; /* Remove margens padrão */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('img/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg'); /* Adiciona a imagem de fundo */
+    background-size: cover; /* Ajusta a imagem para cobrir toda a área */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Evita repetição da imagem */
+    color: #fff; /* Define cor do texto */
+    display: flex; /* Habilita o uso de flexbox */
+    flex-direction: column; /* Organiza os elementos em coluna */
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    text-align: center; /* Garante alinhamento central para textos */
+    padding: 20px; /* Adiciona espaço interno */
+}
+
+h1 {
+    margin: 0 0 20px; /* Adiciona espaçamento inferior */
+    font-size: 2rem; /* Ajusta o tamanho da fonte */
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); /* Adiciona sombra ao texto */
+    overflow: hidden; /* Garante que o texto fora do limite seja oculto */
+    white-space: nowrap; /* Impede que o texto quebre linha */
+    border-right: 2px solid #fff; /* Cria o efeito de cursor */
+    animation: typing 3.5s steps(20, end), blink 0.5s step-end infinite; /* Aplica as animações */
+}
+
+/* Animação de digitação */
+@keyframes typing {
+    from {
+        width: 0; /* Começa com largura zero */
+    }
+    to {
+        width: 100%; /* O texto aparece completamente */
+    }
+}
+
+/* Animação de piscar do cursor */
+@keyframes blink {
+    50% {
+        border-color: transparent; /* Torna o cursor invisível em 50% do ciclo */
+    }
+}
+
+#recaptcha-container {
+    width: 300px; /* Define a largura do container */
+    padding: 10px; /* Espaçamento interno */
+    background: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
+    border-radius: 8px; /* Arredonda os cantos */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7); /* Adiciona sombra ao container */
+}
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getAuth, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+            authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+            databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+            projectId: "socialnetwork021-fad5a",
+            storageBucket: "socialnetwork021-fad5a.appspot.com",
+            messagingSenderId: "1040846806964",
+            appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+            measurementId: "G-0NC44RCWV6"
+        };
+
+        // Inicializar o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        console.log("Firebase inicializado com sucesso");
+
+        // Criação do Verificador Recaptcha
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            'size': 'normal',
+            'callback': (response) => {
+                // reCAPTCHA solved, allow signInWithPhoneNumber.
+                console.log("reCAPTCHA solucionado");
+
+                // Redirecionar para outro site após sucesso
+                window.location.href = 'bemvindo.html'; // Substitua 'https://example.com' pelo seu site desejado
+            },
+            'expired-callback': () => {
+                // Response expired. Ask user to solve reCAPTCHA again.
+                console.log("reCAPTCHA expirado. Tente novamente.");
+            }
+        });
+
+        recaptchaVerifier.render().then((widgetId) => {
+            window.recaptchaWidgetId = widgetId;
+            const recaptchaResponse = grecaptcha.getResponse(recaptchaWidgetId);
+            console.log("Resposta do reCAPTCHA:", recaptchaResponse);
+        });
+    </script>
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Função para carregar o fundo do Firebase
+    function loadBackground() {
+      const backgroundRef = ref(database, 'backgrounds/login'); // Referência ao nó "backgrounds/login" no Firebase
+
+      onValue(backgroundRef, (snapshot) => {
+        const base64Image = snapshot.val();
+        if (base64Image) {
+          document.body.style.backgroundImage = `url(${base64Image})`;
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundRepeat = "no-repeat";
+          document.body.style.backgroundAttachment = "fixed";
+        } else {
+          console.error("Nenhuma imagem de fundo definida no banco de dados.");
+        }
+      }, (error) => {
+        console.error("Erro ao carregar imagem de fundo:", error);
+      });
+    }
+
+    // Chamar a função para carregar o fundo ao iniciar
+    loadBackground();
+    </script>
+</head>
+<body>
+    <h1> 🕵️Você é um Robô?🤖</h1>
+    <div id="recaptcha-container"></div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk SAC - Atendimento ao Cliente</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #0a0f1f;
+      color: #00ffff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: auto;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 15px #00ffff, 0 0 20px #00ffff;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 2px solid #00ffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    .form-field {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    label {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      display: block;
+      text-shadow: 0 0 10px #00ffff, 0 0 15px #00ffff;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #00ffff;
+      border-radius: 5px;
+      background-color: #161b22;
+      color: #fff;
+      font-size: 1rem;
+      text-shadow: 0 0 5px #00ffff;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+
+    button {
+      background-color: rgba(0, 255, 255, 0.4);
+      color: #00ffff;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      cursor: pointer;
+      text-shadow: 0 0 5px #00ffff;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    button:hover {
+      background-color: rgba(0, 255, 255, 0.6);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    .response {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .info-box {
+      background-color: #1b1f28;
+      color: #ffcc00;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      text-shadow: 0 0 5px #ffcc00;
+      box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Cyberpunk SAC - Atendimento ao Cliente</h1>
+  <div class="container">
+    <h2>Envie sua solicitação</h2>
+    <form id="sacForm">
+      <div class="form-field">
+        <label for="name">Seu Nome</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-field">
+        <label for="email">Seu E-mail</label>
+        <input type="email" id="email" name="email" required placeholder="exemplo@gmail.com">
+        <div class="info-box">
+          Por favor, insira um e-mail externo válido (Gmail, Hotmail, Outlook, Yahoo, Live, iCloud, ou AOL).
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="message">Mensagem</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+      <button type="submit">Enviar Solicitação</button>
+    </form>
+    <div class="response" id="response"></div>
+  </div>
+
+  <script>
+    const sacForm = document.getElementById('sacForm');
+    const responseDiv = document.getElementById('response');
+
+    sacForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Coletando os dados do formulário
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      // Validando o e-mail
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com|yahoo\.com|live\.com|icloud\.com|aol\.com)$/;
+      if (!emailPattern.test(email)) {
+        responseDiv.innerHTML = "<strong>Erro:</strong> Por favor, insira um e-mail válido (Gmail, Hotmail, Outlook, Yahoo, Live, iCloud, ou AOL).";
+        return;
+      }
+
+      // Simulando o envio da solicitação
+      responseDiv.innerHTML = `<strong>Obrigado, ${name}!</strong><br> Sua solicitação foi enviada com sucesso! A equipe do Cyberpunk SAC entrará em contato com você via e-mail: ${email}.`;
+
+      // Limpar o formulário
+      sacForm.reset();
+    });
+  </script>
+</body>
+</html>

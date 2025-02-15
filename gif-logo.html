@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background GIF</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script>
+  function setRandomBackground(images) {
+    const bodyElement = document.body; // Seleciona o elemento body
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    bodyElement.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    bodyElement.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    bodyElement.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    bodyElement.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos dos 103 GIFs
+  const backgroundImages = [
+    'gif1.gif', 'gif2.gif', 'gif3.gif', 'gif4.gif', 'gif5.gif',
+    'gif6.gif', 'gif7.gif', 'gif8.gif', 'gif9.gif', 'gif10.gif',
+    'gif11.gif', 'gif12.gif', 'gif13.gif', 'gif14.gif', 'gif15.gif',
+    'gif16.gif', 'gif17.gif', 'gif18.gif', 'gif19.gif', 'gif20.gif',
+    'gif21.gif', 'gif22.gif', 'gif23.gif', 'gif24.gif', 'gif25.gif',
+    'gif26.gif', 'gif27.gif', 'gif28.gif', 'gif29.gif', 'gif30.gif',
+    'gif31.gif', 'gif32.gif', 'gif33.gif', 'gif34.gif', 'gif35.gif',
+    'gif36.gif', 'gif37.gif', 'gif38.gif', 'gif39.gif', 'gif40.gif',
+    'gif41.gif', 'gif42.gif', 'gif43.gif', 'gif44.gif', 'gif45.gif',
+    'gif46.gif', 'gif47.gif', 'gif48.gif', 'gif49.gif', 'gif50.gif',
+    'gif51.gif', 'gif52.gif', 'gif53.gif', 'gif54.gif', 'gif55.gif',
+    'gif56.gif', 'gif57.gif', 'gif58.gif', 'gif59.gif', 'gif60.gif',
+    'gif61.gif', 'gif62.gif', 'gif63.gif', 'gif64.gif', 'gif65.gif',
+    'gif66.gif', 'gif67.gif', 'gif68.gif', 'gif69.gif', 'gif70.gif',
+    'gif71.gif', 'gif72.gif', 'gif73.gif', 'gif74.gif', 'gif75.gif',
+    'gif76.gif', 'gif77.gif', 'gif78.gif', 'gif79.gif', 'gif80.gif',
+    'gif81.gif', 'gif82.gif', 'gif83.gif', 'gif84.gif', 'gif85.gif',
+    'gif86.gif', 'gif87.gif', 'gif88.gif', 'gif89.gif', 'gif90.gif',
+    'gif91.gif', 'gif92.gif', 'gif93.gif', 'gif94.gif', 'gif95.gif',
+    'gif96.gif', 'gif97.gif', 'gif98.gif', 'gif99.gif', 'gif100.gif',
+    'gif101.gif', 'gif102.gif', 'gif103.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

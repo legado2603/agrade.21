@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Background</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            color: #00FFFF;
+            text-shadow: 1px 1px 5px #000;
+        }
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        select {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escolha um tema para carregar a imagem</h1>
+    <select id="themeSelector">
+        <option value="cyberpunk">Cyberpunk</option>
+        <option value="brasil">Brasil</option>
+        <option value="cityporn">City Landscapes</option>
+        <option value="wallpapers">Wallpapers</option>
+    </select>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const themeSelector = document.getElementById('themeSelector');
+
+            // Recupera o tema armazenado no localStorage, se existir
+            const savedTheme = localStorage.getItem('selectedTheme') || 'cyberpunk';
+            themeSelector.value = savedTheme;
+
+            async function fetchBackground(subreddit) {
+                try {
+                    // Credenciais
+                    const clientId = 'WI99Vf5Dp-IFZp6AYp908Q';
+                    const clientSecret = 'IvzPDuSFDRT1BQyqOsA2Btiiwl_lBw';
+
+                    // Obter o token de acesso
+                    const authResponse = await fetch('https://www.reddit.com/api/v1/access_token', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Basic ' + btoa(`${clientId}:${clientSecret}`),
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'grant_type=client_credentials',
+                    });
+
+                    if (!authResponse.ok) {
+                        throw new Error('Erro na autenticação com a API do Reddit.');
+                    }
+
+                    const authData = await authResponse.json();
+                    const accessToken = authData.access_token;
+
+                    // Buscar posts do subreddit
+                    const response = await fetch(`https://oauth.reddit.com/r/${subreddit}/hot`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`,
+                            'User-Agent': 'RedditMediaViewer/0.1 by YourUsername',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar dados do subreddit.');
+                    }
+
+                    const data = await response.json();
+                    const posts = data.data.children;
+
+                    // Filtrar postagens com imagens
+                    const imagePosts = posts.filter(post => {
+                        const url = post.data.url_overridden_by_dest;
+                        return url && /\.(jpg|jpeg|png)$/i.test(url);
+                    });
+
+                    if (imagePosts.length > 0) {
+                        // Selecionar uma imagem aleatória
+                        const randomPost = imagePosts[Math.floor(Math.random() * imagePosts.length)];
+                        const imageUrl = randomPost.data.url_overridden_by_dest;
+
+                        // Aplicar a imagem como plano de fundo
+                        body.style.backgroundImage = `url(${imageUrl})`;
+                        body.querySelector('h1').textContent = `Tema ${subreddit.toUpperCase()} - ${randomPost.data.title}`;
+                    } else {
+                        body.querySelector('h1').textContent = 'Nenhuma imagem encontrada no subreddit.';
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar imagem:', error);
+                    body.querySelector('h1').textContent = 'Erro ao carregar imagem.';
+                }
+            }
+
+            // Carregar o tema inicial
+            fetchBackground(savedTheme);
+
+            // Alterar tema ao selecionar outro
+            themeSelector.addEventListener('change', () => {
+                const selectedTheme = themeSelector.value;
+                // Salvar a escolha no localStorage
+                localStorage.setItem('selectedTheme', selectedTheme);
+                fetchBackground(selectedTheme);
+            });
+        });
+    </script>
+</body>
+</html>

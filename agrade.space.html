@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Grade</title>
+  <style>
+    body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Garante altura mínima */
+    display: flex;
+    flex-direction: column; /* Organiza os elementos em colunas */
+    background-image: url('img1/76a3a59413a9afcfc429c5db3f8b2343.jpg'); /* Caminho da imagem */
+    background-size: cover; /* Faz a imagem preencher a tela */
+    background-position: center; /* Centraliza a imagem de fundo */
+    background-repeat: no-repeat; /* Evita a repetição da imagem */
+    background-attachment: fixed; /* Mantém a imagem fixa no fundo */
+    font-family: Arial, sans-serif;
+    color: #00FFFF;
+    text-shadow: 1px 1px 5px #000;
+}
+
+nav {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro com opacidade */
+    position: fixed; /* Fixa o menu no topo */
+    top: 0;
+    left: 0;
+    padding: 15px 0; /* Padding maior para melhorar o espaço interno */
+    text-align: center;
+    z-index: 1000; /* Garante que o menu fique acima do restante do conteúdo */
+}
+
+nav a {
+  color: #00FFFF; /* Cor neon padrão */
+  text-decoration: none;
+  margin: 0 15px; /* Margem entre os links */
+  font-size: 1.2rem;
+  font-weight: bold; /* Destaque no texto */
+  position: relative;
+  transition: color 0.3s ease, transform 0.3s ease; /* Transição suave para cor e efeito */
+}
+
+nav a:hover {
+  color: #FF00FF; /* Cor neon no hover */
+  transform: scale(1.2); /* Ampliação suave no hover */
+}
+
+/* Efeito neon com linhas animadas */
+nav a::before, nav a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #00FFFF, #FF00FF); /* Gradiente neon */
+  transition: width 0.3s ease;
+}
+
+nav a::before {
+  bottom: 0; /* Linha aparece abaixo do link */
+  left: 0;
+}
+
+nav a::after {
+  top: 0; /* Linha aparece acima do link */
+  right: 0;
+}
+
+nav a:hover::before, nav a:hover::after {
+  width: 100%; /* Linhas animadas se expandem no hover */
+}
+
+#comeco {
+    color: green;
+    margin-top: 100px; /* Espaço suficiente para não sobrepor o menu */
+    text-align: center;
+}
+
+p {
+    color: white;
+    margin-top: 20px; /* Espaço entre os parágrafos */
+}
+
+h1, h3 {
+    color: white;
+    margin-top: 20px; /* Espaço entre os títulos */
+}
+
+.img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    margin-top: 20px; /* Espaço entre a imagem e o conteúdo acima */
+}
+
+.auth-container {
+    text-align: center;
+    margin-top: 20px; /* Espaço entre os botões e o conteúdo acima */
+}
+
+.auth-container button {
+    padding: 10px 20px;
+    background-color: #00ffff;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.auth-container button:hover {
+    background-color: #00cccc;
+}
+h3 {
+  color: gold;
+}
+p {
+  color:orange;
+}
+h1 {
+  color: red;
+}
+a {
+  color:red;
+}
+div {
+  text-align: center
+  
+}
+  </style>
+</head>
+<body>
+  <!-- Barra de navegação -->
+  <nav>
+    <a href="estadonn.html">Estado NN</a>
+    <a href="usuarios.html">Usuários</a>
+    <a href="contato.html">Contato</a>
+    <a href="apk.html">Baixe nosso Aplicativo</a>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <div id="comeco" class="comeco">
+  <h1>A-GRADE</h1>
+  <p>www.agrade.space</p>
+  <p>Bem-vindo ao nosso site! Aqui você encontrará uma plataforma inovadora, repleta de conteúdos exclusivos, interatividade e funcionalidades para todos os usuários.</p>
+  <p>Explore um universo digital focado na criação de novas conexões, compartilhamento de conhecimentos e desenvolvimento de ideias revolucionárias. Nossa missão é transformar a forma como você interage online, oferecendo um espaço seguro, moderno e dinâmico.</p>
+  <p>Fique à vontade para navegar e conhecer tudo o que preparamos para você!</p>
+</div>
+
+<!-- Autenticação -->
+<div class="auth-container">
+  <h3>BEM-VINDO À GRADE</h3>
+  <div id="auth">
+    <p>Para acessar os recursos da A-Grade, por favor, autentique-se:</p>
+    <ul>
+      <li>Se você já possui uma conta, faça login usando seu e-mail e senha.</li>
+      <li>Se ainda não possui uma conta, registre-se agora mesmo para começar a explorar!</li>
+    </ul>
+    <p>Os usuários autenticados terão acesso a ferramentas avançadas, salas interativas, personalização do perfil, além de benefícios exclusivos como:</p>
+    <ul>
+      <li>Criar e participar de grupos temáticos.</li>
+      <li>Acesso a chats em tempo real com outros membros da comunidade.</li>
+      <li>Monitoramento do seu progresso através de conquistas e rankings.</li>
+    </ul>
+    <p>Junte-se a nós e torne-se parte de uma rede que valoriza inovação e comunidade.</p>
+  </div>
+</div>
+
+<div class="comeco" id="comeco">
+  <h3>Versão Premium</h3>
+  <p>A versão premium oferece benefícios exclusivos:</p>
+  <ul>
+    <li>Acesso prioritário a novos conteúdos e funcionalidades, sempre com exclusividade.</li>
+    <li>Capacidade de criar e gerenciar grupos e comunidades de forma avançada.</li>
+    <li>Suporte técnico dedicado e sem anúncios para uma experiência mais fluida.</li>
+    <li>Ferramentas de análise detalhada para acompanhar suas interações na plataforma.</li>
+    <li>Personalização avançada do perfil, incluindo temas e avatares exclusivos.</li>
+    <li>Convites para eventos e workshops organizados pela A-Grade.</li>
+  </ul>
+  <p>Seja você um criador de conteúdo, um profissional ou apenas alguém em busca de novas oportunidades, a versão premium é feita para atender suas necessidades.</p>
+  <p><strong>Como assinar:</strong> Clique no botão "Assine Agora" e desbloqueie todos os recursos premium da A-Grade!</p>
+</div>
+
+<!-- Seção Sobre -->
+<div class="sobre">
+  <h3>Sobre a A-Grade</h3>
+  <p>A A-Grade é mais do que uma rede social: é um ecossistema que une tecnologia, criatividade e inovação. Inspirados pelo futuro, criamos um ambiente onde a colaboração e a troca de ideias são os pilares fundamentais.</p>
+  <p>Fundada com a visão de construir uma nova cultura digital, a A-Grade tem como objetivo conectar pessoas, promover a educação e fomentar projetos criativos. Cada funcionalidade foi pensada para empoderar você e transformar sua experiência online.</p>
+  <p>Estamos comprometidos em evoluir continuamente, adaptando nossas ferramentas às suas necessidades e aos desafios do mundo moderno.</p>
+</div>
+
+<!-- Depoimentos -->
+<div class="depoimentos">
+  <h3>Depoimentos</h3>
+  <p><strong>Laura M.:</strong> "A A-Grade revolucionou minha forma de interagir online. As funcionalidades premium são incríveis e o suporte técnico é impecável!"</p>
+  <p><strong>Carlos S.:</strong> "Como criador de conteúdo, encontrei na A-Grade uma plataforma que realmente valoriza meu trabalho e me ajuda a crescer."</p>
+  <p><strong>Ana P.:</strong> "Adoro a interação com outros membros da comunidade. É um espaço onde realmente me sinto à vontade para compartilhar ideias."</p>
+</div>
+
+<!-- Chamada para Ação -->
+<div class="cta">
+  <h3>Junte-se à A-Grade Agora!</h3>
+  <p>Não fique de fora dessa revolução digital. Cadastre-se, explore e aproveite tudo o que a A-Grade tem a oferecer. Seja você um iniciante ou um entusiasta, aqui é o lugar certo para crescer e se conectar.</p>
+  <p><strong>Inscreva-se hoje e comece sua jornada!</strong></p>
+</div>
+
+um footer rodape aqui igual o do index.
+
+  <script>
+    // Exemplo de manipulação de autenticação com Firebase
+    const user = null; // Simulando o usuário (null = não autenticado)
+
+    const authContainer = document.getElementById('auth');
+
+    if (user) {
+  authContainer.innerHTML = `
+    <p>Bem-vindo, usuário ${user.uid}!</p>
+    <button onclick="logout()">Sair</button>
+  `;
+} else {
+  authContainer.innerHTML = `
+    <p>Você não está autenticado.</p>
+    <button onclick="redirectToLogin()">Faça Login</button>
+  `;
+}
+
+function redirectToLogin() {
+  window.location.href = 'teladeloguin.html';
+}
+
+function login() {
+  alert('Função de login aqui.');
+  // Exemplo: lógica de login com Firebase Auth
+}
+
+function logout() {
+  alert('Função de logout aqui.');
+  // Exemplo: lógica de logout com Firebase Auth
+}
+  </script>
+    <script>
+  function setRandomBackground(images) {
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    document.body.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    document.body.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    document.body.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    document.body.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 120 imagens
+  const backgroundImages = [
+    'img1/0bca5f9cb46c99c1a6161f710ec9d35a.jpg', 'img1/0d8533f8232c7f87e6bd90196ae77f4b.jpg', 'img1/1a53b67623d8383f9e049167f7e6a564.jpg', 'img1/1c3a5ab61d54fab74da09d3e42a55d0e.jpg', 'img1/1cd66e94243331993c94a8c59d74e507.jpg',
+    'img1/1ce9926a818f1d81b741851d9e80fe9f.jpg', 'img1/2dda60353b7391f66a776d6b6e500738.jpg', 'img1/3a1065417976b35db86829bd48b31098.jpg', 'img1/3e92dce9e5288a2813aa888600565c36.jpg', 'img1/3ed691eaf9d8508c438a84e2678e5ba2.jpg',
+    'img1/3ede294867b5f92ec2a4fb5894763ab3.jpg', 'img1/4e8aa26bf4fa27ded960d89167222f2a.jpg', 'img1/4ed7f1fa5a5feb0d4c4687b4e78f7cf3.jpg', 'img1/4ffffd861c4b4b4d6561566f29216484.jpg', 'img1/5a42b8d56e9c703f96fb966febadb940.jpg',
+    'img1/5c2d45a3dfdf197cd0de420c69f87940.jpg', 'img1/5c78ddaeb3e598334a417c854cb014fc.jpg', 'img1/5d51b7898fe19fbde6eafad84c01c893.jpg', 'img1/5e76ad7802b25d8d3818c45e3242ff2d.jpg', 'img1/5f8d2bbe8c8f2c1df4f360327c34721c.jpg',
+    'img1/5fdb37fe9258a9b7b91c25f0ad6d1943.jpg', 'img1/6c86e888939af9ea8be3980d5b8bc3f2.jpg', 'img1/6d5c11ad79e2e51e2925a156caaf6fb3.jpg', 'img1/6fc7fda0563163e94e9f8958236c8d48.jpg', 'img1/7a8dd4306fdf16b1dd21eeb85aec5855.jpg',
+    'img1/7b5a6b87-8d67-4d7c-bc65-1ffd3a471591.jpeg', 'img1/7d836b5418a6f0f4ed12eb8691c69ee2.jpg', 'img1/7fcdc7967dd2d125c3cf7ad66afb0636.jpg', 'img1/8ea67e875d39503bd1e45ba4c7de64d8.jpg', 'img1/8f3b2e4e6e82701faa4bfa7181bc8e12.jpg',
+    'img1/9ff95072ec5ccff8cff68033e9035e2f.jpg', 'img1/16fbd7347be80af9edbaae58610ef956.jpg', 'img1/023a464a8a2a27dd35ac55acb44170b7.jpg', 'img1/27b656f36472e2d16cca1c96e9fe4088.jpg', 'img1/31ae1d53bd79bd8e57e91be70613208e.jpg',
+    'img1/036cb275b625d653528aa154044dee92.jpg', 'img1/42fcdf72a1694e1045956abf08043b4b.jpg', 'img1/45ba20a7-536a-460d-b7f7-06768843bd5c.jpeg', 'img1/49c2a269dd3545b4374c2c7fea7f5898.jpg', 'img1/53cb1cba8f94ee8453f5b82e7056362b.jpg',
+    'img1/57fbecd6a194ee5d5dd07d6dfc25a04d.jpg', 'img1/58c2745cd74890ea1da6d2a3a05f248a.jpg', 'img1/71fcf2a38d011c19abdbe0f337a07ab3.jpg', 'img1/76a3a59413a9afcfc429c5db3f8b2343.jpg', 'img1/90e41b7ae53878acf171e18ed93cd7b4.jpg',
+    'img1/91a047a9e2830ae051f5f9848fabfb93.jpg', 'img1/93d7d798f2fd3525bfaad82f81a0f8ec.jpg', 'img1/93f0920219183f6e871ac0737a07fde2.jpg', 'img1/258f8800-a611-4fdd-8a69-ef73ad72ba6d.jpeg', 'img1/372d97eb643646856fc359dc45633c47.jpg',
+    'img1/411adf9916b8160905f98527adbf9c64.jpg', 'img1/411ed4eb85fc442beb1e136a0156ae71.jpg', 'img1/493f1919a25843f7e74e94269fff8c1b.jpg', 'img1/624dbdf5e8faaa102ab66a30a534373c.jpg', 'img1/657c88bd4894e0893a8c7b9cd7e708db.jpg',
+    'img1/703dc0fe13374e86df97efed9a396027.jpg', 'img1/736ffaeffc373017f4e317b1f7847ea0.jpg', 'img1/741dff7e128adb956b07c0d0d2e5fabc.jpg', 'img1/748dea9055d69598b4fa940d2ad90100.jpg', 'img1/990dfd44f65276695243d6ee20986816.jpg',
+    'img1/1325b966b2e16adcfa0d2db2a288bab7.jpg', 'img1/5386b07b78a320989ad2ab41c62bfb21.jpg', 'img1/6930b7798d5b4a164ec93166d7330ad5.jpg', 'img1/8283dae377c335f19b1d5178de10b2e3.jpg', 'img1/13650e0b717565c0ed0b729e43dc10d7.jpg',
+    'img1/16887f7f42b9e2c559521c94ce27d332.jpg', 'img1/17510b72cab7795885d19c3e02dbe9e4.jpg', 'img1/68120f730ec20c62256d9e187b470789.jpg', 'img1/77290a70c80e7d684f23b9a411c3315c.jpg', 'img1/630937b6e40aebbe57d97bd153fa50a0.jpg',
+    'img1/7251725a6cad21b502ffa7d4a56284bc.jpg', 'img1/16956480d12905f9f4a37abd0c1cd45e.jpg', 'img1/86709756d1558d39de59f6a877c45fb1.jpg', 'img1/995065544a63b055f879c051b10fa4a6.jpg', 'img1/2483497657e3749101cacb6e673ab888.jpg',
+    'img1/47051947982ecafe557ef15e77c98e91.jpg', 'img1/a73e8aa5fa6214394e5ee6d36bb641cc.jpg', 'img1/a1791fbc9659e2c6ed8eee37c19f38df.jpg', 'img1/aa748bf8203a2a085853c4637e0a5b45.jpg', 'img1/b7b99ed9c883a621d2ed649d339cf7eb.jpg',
+    'img1/b94fa953b79750166a9974d9ce2a5aa8.jpg', 'img1/b553c4cc13402a4e3d4510ce0f618831.jpg', 'img1/b762c58527a320be54e86746cdb76de9.jpg', 'img1/b4686d2da7e53153cf9f8b65c60ec46f.jpg', 'img1/bb2265bce402a96d5eb2ff23dce90624.jpg',
+    'img1/c3e5376792e8644bc96686a3152bafba.jpg', 'img1/c5d6fa87fed6d2fb816e7bb26de3b458.jpg', 'img1/c9eec95e34c23b7a4ad29d9908d58cd2.jpg', 'img1/c90d91426ae3384073474a42ab38f695.jpg', 'img1/c591a869e098bf60ee69a432ff57af93.jpg',
+    'img1/c8895e3b-5e74-4b9b-95af-1d24b0bf0ff9.jpeg', 'img1/c12239a8f9e348f2b0455b8a59ecb229.jpg', 'img1/Cyberpunk 2077 by Neoncity.jpeg', 'img1/cyberpunk room wallpaper.jpeg', 'img1/d6b727014ef70d1dc48fa1acd8221f7a.jpg',
+    'img1/d7e21ddb421cf82e670ddbc5f9bdd299.jpg', 'img1/d8f3e1d055743b618824ea3e5134307b.jpg', 'img1/d74b81b0ba30b2e7fcfcc415a5c6eb2a.jpg', 'img1/d973abe1b78d4d1fd2ba82d339e24c68.jpg', 'img1/d3670a57c8578322b4c4b2b220686065.jpg',
+    'img1/da2853a5e6390192717c8ff731ed2e5e.jpg', 'img1/Descargar futurista móvil comercio, teléfono inteligente tecnología, y digital comunicación 3d visualización vertical móvil fondo de pantalla ai generado gratis.jpeg', 'img1/e1d7328d7868fb4ca87ab7333f7d8751.jpg', 'img1/e1ea46f02044bbe91caade4f2881b60f.jpg', 'img1/e19cba7b7ec107b03ee1f5b7b9e94716.jpg',
+    'img1/e928e4f1a2fdd340f9739816ebbbc86b.jpg', 'img1/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg', 'img1/eef9ad56cc34826abd4de6ae77923b27.jpgf', 'img1/f1eb302ca7a7a84cd76981d07ae34172.jpg', 'img1/f8e8c81aae402fba12e9b049f3f7c296.jpg',
+    'img1/fe6e1df2a9aca6421ddda28c41cf7222.jpg', 'img1/fe9b7ea62be10ef4182bbc3be117e891.jpg', 'img1/7c8db109-d02b-4764-a6f5-16b195f9ae9b.jpeg', 'img1/40 Insanely Expensive and Unique Celebrity Purchas.jpeg', 'img1/cf9fc84d-4360-4331-aaa0-3ce7c88d984f.jpeg',
+    'img1/d727d9ce-473d-4675-bc90-dddb9cca03ad.jpeg', 'img1/5780b16e-4aa8-4149-9ede-607df1e805c3.jpeg', 'img1/921403dc-f54f-426d-b7b8-f7267897b435.jpeg', 'img1/a8af8676-cfb8-49d3-b563-7edd825c2969.jpeg', 'img1/d3705b74-baea-4d9d-b277-cd5c1bd75d0c.jpeg'
+];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>
