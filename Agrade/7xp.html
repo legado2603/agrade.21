@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ganhe XP</title>
+  <style>
+    body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* Define os elementos em colunas verticais */
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    color: #00FFFF;
+    text-shadow: 1px 1px 5px #000;
+}
+
+    #xpPanel {
+      background-color: #161b22;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #ff00ff;
+    }
+
+    .info {
+      margin-bottom: 15px;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .info label {
+      font-weight: bold;
+    }
+
+    #xpProgress {
+      width: 100%;
+      height: 10px;
+      background-color: #333;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    #xpBar {
+      height: 100%;
+      background-color: #00ffff;
+      width: 0%;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #ff00ff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #e600e6;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="xpPanel">
+    <h1>Ganhe XP</h1>
+    <div id="xp" class="info">
+      <label>XP Atual:</label> <span>0</span>
+    </div>
+    <div id="xpProgress" class="hidden">
+      <div id="xpBar"></div>
+    </div>
+    <button id="gainXpButton">Ganhar 7 XP</button>
+  </div>
+
+  <script type="module">
+    // Importando os módulos do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getDatabase, ref, get, set, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Obtém o ID do usuário logado
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        const userRef = ref(database, `users/${user.uid}/game`);
+
+        // Carregar as informações do painel
+        get(userRef).then(snapshot => {
+          let data = snapshot.val();
+          if (data) {
+            document.getElementById('xp').querySelector('span').textContent = data.xp || 0;
+            document.getElementById('xpBar').style.width = `${data.xp || 0}%`;
+            document.getElementById('xpProgress').classList.remove('hidden');
+            
+            // Verificar se o XP já foi dado
+            if (data.xpGiven) {
+              document.getElementById('gainXpButton').disabled = true; // Desabilitar o botão se já tiver ganho XP
+            }
+          } else {
+            // Se não houver dados, inicializa com 0 XP e xpGiven como falso
+            data = { xp: 0, xpGiven: false };
+            set(userRef, data);
+          }
+
+          // Definir o evento de click para ganhar 7 XP
+          document.getElementById('gainXpButton').addEventListener('click', () => {
+            if (!data.xpGiven) {
+              data.xp += 7; // Adiciona 7 XP
+              data.xpGiven = true; // Marca que o XP foi dado
+              update(userRef, { xp: data.xp, xpGiven: data.xpGiven });
+              document.getElementById('xp').querySelector('span').textContent = data.xp;
+              document.getElementById('xpBar').style.width = `${data.xp}%`;
+              alert('Você ganhou 7 XP!');
+              document.getElementById('gainXpButton').disabled = true; // Desabilita o botão após ganhar o XP
+            } else {
+              alert('Você já ganhou 7 XP!');
+            }
+          });
+        }).catch((error) => {
+          console.error('Erro ao carregar dados do usuário:', error);
+        });
+      } else {
+        alert('Você precisa estar logado para ganhar XP!');
+      }
+    });
+  </script>
+  <script>
+        const apiKey = "0tpvTQXxNqegI78hOfmrFXzdgq170uSgbEW7ufDIgRbfJxxoEJDWGUJz";
+
+        // Lista de 20 temas futuristas
+        const themes = [
+            "Nature Futuristic",
+            "Cybernetic Forest",
+            "Techno Oasis",
+            "Neon Wilderness",
+            "Digital Horizon",
+            "Futuristic Eden",
+            "Quantum Nature",
+            "Bio-Neon Realm",
+            "Synthwave Nature",
+            "Organic Futurism",
+            "Neon Flora",
+            "Holographic Jungle",
+            "Cyberpunk Garden",
+            "Virtual Nature",
+            "Neo-Gaia",
+            "Luminous Forest",
+            "Ethereal Biome",
+            "Solarpunk Haven",
+            "Neon Ecosystem",
+            "Augmented Wilds",
+            "Astral Nature"
+        ];
+
+        // Função para buscar uma imagem aleatória com um tema aleatório
+        async function setBackgroundImage() {
+            // Escolhe um tema aleatório
+            const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+
+            try {
+                const response = await fetch(`https://api.pexels.com/v1/search?query=${randomTheme}&per_page=20`, {
+                    headers: {
+                        Authorization: apiKey
+                    }
+                });
+
+                const data = await response.json();
+
+                // Seleciona uma imagem aleatória
+                const randomIndex = Math.floor(Math.random() * data.photos.length);
+                const randomPhoto = data.photos[randomIndex];
+
+                // Define a imagem como plano de fundo
+                document.body.style.backgroundImage = `url(${randomPhoto.src.landscape})`;
+            } catch (error) {
+                console.error('Erro ao buscar imagens:', error);
+                document.body.style.background = '#121212'; // Fallback para cor sólida
+            }
+        }
+
+        // Chamar a função ao carregar a página
+        document.addEventListener('DOMContentLoaded', setBackgroundImage);
+    </script>
+
+</body>
+</html>

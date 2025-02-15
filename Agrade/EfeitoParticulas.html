@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Particles.js - Cyberpunk</title>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    body { 
+      margin: 0; 
+      background-color: #222; 
+      background-image: url('c591a869e098bf60ee69a432ff57af93.jpg'); /* Substitua com o URL da sua imagem */
+      background-size: cover; /* Faz a imagem cobrir toda a tela */
+      background-position: center; /* Centraliza a imagem */
+      background-repeat: no-repeat; /* Impede a repetição da imagem */
+      height: 100vh; /* Garante que o corpo ocupe toda a altura da tela */
+    }
+    #particles-js { 
+      width: 100%; 
+      height: 100vh; 
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1; /* Faz com que as partículas fiquem atrás do conteúdo */
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 100 },
+        size: { value: 5 },
+        move: { speed: 3 },
+        color: { value: "#FF00FF" },
+        opacity: { value: 0.5 }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

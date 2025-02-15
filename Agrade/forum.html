@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórum</title>
+  <style>
+   body {
+  font-family: Arial, sans-serif;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  margin: 0;
+  padding: 0;
+}
+
+#forum-container {
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #34495e;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Usamos a altura total da tela */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+#posts-container {
+  flex-grow: 1; /* Isso faz o container de posts ocupar o restante do espaço disponível */
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ecf0f1;
+  overflow-y: auto;
+  padding-right: 10px; /* Para compensar a barra de rolagem */
+}
+
+#post-form {
+  position: relative; /* Mudamos de fixed para relative */
+  padding: 10px;
+  background-color: #34495e;
+  border-top: 1px solid #ecf0f1;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+#post-form textarea {
+  width: 90%;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  resize: none;
+  padding: 10px;
+}
+
+#post-form input[type="file"] {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 100%;
+  background-color: #2980b9;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#login-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+#login-container input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #7f8c8d;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#login-button, #logout-button {
+  width: 100%;
+}
+
+#logout-button {
+  display: none;
+  background-color: #e74c3c;
+}
+
+#logout-button:hover {
+  background-color: #c0392b;
+}
+
+#emoji-container {
+  display: none;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+#emoji-container span {
+  font-size: 20px;
+  cursor: pointer;
+  margin: 5px;
+}
+  </style>
+</head>
+<body>
+  <div id="forum-container">
+    <h1>Fórum</h1>
+    <div id="posts-container"></div>
+
+    <!-- Formulário de envio de post -->
+    <form id="post-form">
+  <textarea id="post-content" placeholder="Escreva sua mensagem..." required></textarea>
+  <input type="file" id="file-input" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt" />
+  <button type="submit">Enviar</button> <!-- Botão dentro do formulário -->
+</form>
+
+    <!-- Emojis -->
+    <button id="emoji-button">Escolher Emoji</button>
+    <div id="emoji-container">
+      <span>😁</span>
+<span>😂</span>
+<span>😍</span>
+<span>😎</span>
+<span>😜</span>
+<span>😊</span>
+<span>😅</span>
+<span>🤣</span>
+<span>😃</span>
+<span>😆</span>
+<span>😉</span>
+<span>😋</span>
+<span>😛</span>
+<span>😝</span>
+<span>😏</span>
+<span>😌</span>
+<span>😜</span>
+<span>🥳</span>
+<span>😔</span>
+<span>😕</span>
+<span>😟</span>
+<span>😢</span>
+<span>😭</span>
+<span>😤</span>
+<span>😩</span>
+<span>😖</span>
+<span>😣</span>
+<span>😠</span>
+<span>😡</span>
+<span>🤬</span>
+<span>🥺</span>
+<span>🤯</span>
+<span>😲</span>
+<span>😳</span>
+<span>🤪</span>
+<span>🧐</span>
+<span>🤓</span>
+<span>🤠</span>
+<span>🥸</span>
+<span>😺</span>
+<span>😸</span>
+<span>😹</span>
+<span>😻</span>
+<span>😼</span>
+<span>😽</span>
+<span>🙀</span>
+<span>😿</span>
+<span>😾</span>
+<span>🦁</span>
+<span>🐯</span>
+<span>🐅</span>
+<span>🐆</span>
+<span>🐴</span>
+<span>🦄</span>
+<span>🐶</span>
+<span>🐱</span>
+<span>🐭</span>
+<span>🐹</span>
+<span>🐰</span>
+<span>🦊</span>
+<span>🦝</span>
+<span>🐻</span>
+<span>🐼</span>
+<span>🦁</span>
+<span>🐧</span>
+<span>🐦</span>
+<span>🐤</span>
+<span>🐣</span>
+<span>🐺</span>
+<span>🐗</span>
+<span>🐴</span>
+<span>🦓</span>
+<span>🦒</span>
+<span>🐍</span>
+<span>🦎</span>
+<span>🐢</span>
+<span>🐊</span>
+<span>🐉</span>
+<span>🦕</span>
+<span>🦖</span>
+<span>🦔</span>
+<span>🐦</span>
+<span>🦇</span>
+<span>🦋</span>
+<span>🐌</span>
+<span>🐛</span>
+<span>🐜</span>
+<span>🦗</span>
+<span>🐝</span>
+<span>🦠</span>
+<span>🦧</span>
+<span>🐜</span>
+<span>🐞</span>
+<span>🦋</span>
+<span>🐞</span>
+<span>🦥</span>
+<span>🦦</span>
+<span>🦨</span>
+<span>🦩</span>
+<span>🦪</span>
+<span>🤡</span>
+<span>👻</span>
+<span>💀</span>
+<span>☠️</span>
+<span>👹</span>
+<span>👺</span>
+<span>🤖</span>
+<span>🎃</span>
+<span>👽</span>
+<span>👾</span>
+<span>🤕</span>
+<span>🤒</span>
+<span>🤢</span>
+<span>🤮</span>
+<span>🤧</span>
+<span>😷</span>
+<span>🥴</span>
+<span>😵</span>
+<span>😵‍💫</span>
+<span>🤠</span>
+<span>🦹</span>
+<span>🦸</span>
+<span>🧙</span>
+<span>🧛</span>
+<span>🧜</span>
+<span>🧚</span>
+<span>🧝</span>
+<span>🧞</span>
+<span>🧟</span>
+<span>🧞‍♂️</span>
+<span>🧞‍♀️</span>
+<span>🧛‍♂️</span>
+<span>🧛‍♀️</span>
+<span>🧚‍♂️</span>
+<span>🧚‍♀️</span>
+<span>🧝‍♂️</span>
+<span>🧝‍♀️</span>
+<span>🧙‍♂️</span>
+<span>🧙‍♀️</span>
+<span>🦸‍♂️</span>
+<span>🦸‍♀️</span>
+<span>🦹‍♂️</span>
+<span>🦹‍♀️</span>
+<span>🤦‍♂️</span>
+<span>🤦‍♀️</span>
+<span>🤷‍♂️</span>
+<span>🤷‍♀️</span>
+<span>👨‍🔬</span>
+<span>👩‍🔬</span>
+<span>👨‍💻</span>
+<span>👩‍💻</span>
+<span>👨‍🎨</span>
+<span>👩‍🎨</span>
+<span>👨‍🚀</span>
+<span>👩‍🚀</span>
+<span>👨‍⚖️</span>
+<span>👩‍⚖️</span>
+<span>🦸‍♀️</span>
+<span>🦸‍♂️</span>
+<span>🦹‍♀️</span>
+<span>🦹‍♂️</span>
+<span>👨‍👩‍👦</span>
+<span>👨‍👩‍👧</span>
+<span>👨‍👩‍👧‍👦</span>
+<span>👩‍👩‍👧</span>
+<span>👩‍👩‍👦</span>
+<span>👩‍👩‍👧‍👦</span>
+<span>👨‍👨‍👧</span>
+<span>👨‍👨‍👦</span>
+<span>👨‍👨‍👧‍👦</span>
+<span>🧑‍🎓</span>
+<span>👨‍🎓</span>
+<span>👩‍🎓</span>
+<span>🧑‍🏫</span>
+<span>👨‍🏫</span>
+<span>👩‍🏫</span>
+<span>🧑‍⚖️</span>
+<span>👨‍⚖️</span>
+<span>👩‍⚖️</span>
+<span>🧑‍🔬</span>
+<span>👨‍🔬</span>
+<span>👩‍🔬</span>
+<span>🧑‍💼</span>
+<span>👨‍💼</span>
+<span>👩‍💼</span>
+<span>🧑‍💻</span>
+<span>👨‍💻</span>
+<span>👩‍💻</span>
+<span>🧑‍🔧</span>
+<span>👨‍🔧</span>
+<span>👩‍🔧</span>
+<span>🧑‍🌾</span>
+<span>👨‍🌾</span>
+<span>👩‍🌾</span>
+<span>🧑‍🍳</span>
+<span>👨‍🍳</span>
+<span>👩‍🍳</span>
+<span>🧑‍🚒</span>
+<span>👨‍🚒</span>
+<span>👩‍🚒</span>
+<span>🧑‍🦳</span>
+<span>👨‍🦳</span>
+<span>👩‍🦳</span>
+<span>🧑‍🦰</span>
+<span>👨‍🦰</span>
+<span>👩‍🦰</span>
+<span>🧑‍🦱</span>
+<span>👨‍🦱</span>
+<span>👩‍🦱</span>
+<span>🧑‍🦲</span>
+<span>👨‍🦲</span>
+<span>👩‍🦲</span>
+<span>💌</span>
+<span>💘</span>
+<span>💝</span>
+<span>💖</span>
+<span>💗</span>
+<span>💓</span>
+<span>💞</span>
+<span>💕</span>
+<span>❣️</span>
+<span>💔</span>
+<span>💟</span>
+<span>💌</span>
+<span>🌹</span>
+<span>🥀</span>
+<span>🌷</span>
+<span>🌸</span>
+<span>💐</span>
+<span>🌺</span>
+<span>🌻</span>
+<span>🌼</span>
+<span>🌞</span>
+<span>🌝</span>
+<span>🌚</span>
+<span>🌕</span>
+<span>🌖</span>
+<span>🌗</span>
+<span>🌘</span>
+<span>🌑</span>
+<span>🌒</span>
+<span>🌓</span>
+<span>🌔</span>
+<span>🌙</span>
+<span>🌛</span>
+<span>🌜</span>
+<span>🌌</span>
+<span>🌟</span>
+<span>✨</span>
+<span>💫</span>
+<span>🌠</span>
+<span>🌈</span>
+<span>☁️</span>
+<span>🌧️</span>
+<span>🌦️</span>
+<span>🌩️</span>
+<span>🌨️</span>
+<span>❄️</span>
+<span>⛄</span>
+<span>🌬️</span>
+<span>🌪️</span>
+<span>🌫️</span>
+<span>🌍</span>
+<span>🌎</span>
+<span>🌏</span>
+<span>🌑</span>
+<span>🌒</span>
+<span>🌓</span>
+<span>🌔</span>
+<span>🌕</span>
+<span>🌖</span>
+<span>🌗</span>
+<span>🌘</span>
+<span>🪐</span>
+<span>🚀</span>
+<span>🛸</span>
+<span>🛰️</span>
+<span>🛶</span>
+<span>⛵</span>
+<span>🚢</span>
+<span>🚣‍♂️</span>
+<span>🚣‍♀️</span>
+<span>🚤</span>
+<span>⛴️</span>
+<span>🚠</span>
+<span>🚡</span>
+<span>🚟</span>
+<span>🚃</span>
+<span>🚋</span>
+<span>🚞</span>
+<span>🚝</span>
+<span>🚄</span>
+<span>🚅</span>
+<span>🚈</span>
+<span>🚉</span>
+<span>🚂</span>
+<span>🚆</span>
+<span>🚇</span>
+<span>🚊</span>
+<span>🚋</span>
+<span>🛤️</span>
+<span>🛣️</span>
+<span>🛤️</span>
+<span>🚘</span>
+<span>🚙</span>
+<span>🚗</span>
+<span>🚕</span>
+<span>🚖</span>
+<span>🚓</span>
+<span>🚔</span>
+<span>🚍</span>
+<span>🚎</span>
+<span>🚏</span>
+<span>🚚</span>
+<span>🚛</span>
+<span>🚜</span>
+<span>🏎️</span>
+<span>🏍️</span>
+<span>🛵</span>
+<span>🛺</span>
+<span>🚲</span>
+<span>🚶‍♂️</span>
+<span>🚶‍♀️</span>
+<span>🚶</span>
+<span>🏃‍♂️</span>
+<span>🏃‍♀️</span>
+<span>🏃</span>
+<span>🚴‍♂️</span>
+<span>🚴‍♀️</span>
+<span>🚴</span>
+<span>🚵‍♂️</span>
+<span>🚵‍♀️</span>
+<span>🚵</span>
+<span>🏇</span>
+<span>🏅</span>
+<span>🖤</span>
+<span>🤍</span>
+<span>🤎</span>
+<span>💛</span>
+<span>💚</span>
+<span>💙</span>
+<span>💜</span>
+<span>❤️</span>
+<span>💗</span>
+<span>💓</span>
+<span>💞</span>
+<span>💌</span>
+<span>💘</span>
+<span>💝</span>
+<span>💖</span>
+<span>💜</span>
+<span>💙</span>
+<span>💚</span>
+<span>💛</span>
+<span>💚</span>
+<span>💙</span>
+<span>💜</span>
+<span>🖤</span>
+<span>❤️</span>
+<span>💘</span>
+<span>💖</span>
+<span>💞</span>
+<span>💌</span>
+<span>❣️</span>
+<span>💔</span>
+<span>💟</span>
+<span>💕</span>
+<span>💓</span>
+<span>💗</span>
+<span>💖</span>
+<span>💛</span>
+<span>💚</span>
+<span>💙</span>
+<span>💜</span>
+<span>💝</span>
+<span>🎀</span>
+<span>🎁</span>
+<span>🎉</span>
+<span>🎊</span>
+<span>🎈</span>
+<span>🎂</span>
+<span>🍰</span>
+<span>🍩</span>
+<span>🍪</span>
+<span>🍫</span>
+<span>🍬</span>
+<span>🍭</span>
+<span>🍮</span>
+<span>🍴</span>
+<span>🥄</span>
+<span>🍷</span>
+<span>🍸</span>
+<span>🍺</span>
+<span>🍻</span>
+<span>🥂</span>
+<span>🍹</span>
+<span>🍶</span>
+<span>🥃</span>
+<span>🍷</span>
+<span>🍾</span>
+<span>🥤</span>
+<span>🍽️</span>
+<span>🥄</span>
+<span>🍽️</span>
+<span>🍕</span>
+<span>🍔</span>
+<span>🍟</span>
+<span>🌭</span>
+<span>🍿</span>
+<span>🍱</span>
+<span>🍲</span>
+<span>🍛</span>
+<span>🍜</span>
+<span>🍣</span>
+<span>🍤</span>
+<span>🍙</span>
+<span>🍚</span>
+<span>🍘</span>
+<span>🍥</span>
+<span>🍡</span>
+<span>🥟</span>
+<span>🍩</span>
+<span>🍪</span>
+<span>🍫</span>
+<span>🍬</span>
+<span>🍭</span>
+<span>🍮</span>
+<span>🍷</span>
+<span>🍸</span>
+<span>🍺</span>
+<span>🍻</span>
+<span>🥂</span>
+<span>🍹</span>
+<span>🍶</span>
+<span>🥃</span>
+<span>🥤</span>
+<span>🍽️</span>
+<span>🥄</span>
+<span>🍽️</span>
+<span>🍒</span>
+<span>🍑</span>
+<span>🍈</span>
+<span>🍉</span>
+<span>🍇</span>
+<span>🍓</span>
+<span>🍍</span>
+<span>🍊</span>
+<span>🍋</span>
+<span>🍌</span>
+<span>🍏</span>
+<span>🍒</span>
+<span>🍇</span>
+<span>🍊</span>
+<span>🍓</span>
+<span>🍒</span>
+<span>🍋</span>
+<span>☀️</span>
+<span>🌙</span>
+<span>⭐</span>
+<span>🌟</span>
+<span>💫</span>
+<span>🌞</span>
+<span>🌍</span>
+<span>🌎</span>
+<span>🌏</span>
+<span>🌌</span>
+<span>🌈</span>
+<span>⚡</span>
+<span>🔥</span>
+<span>❄️</span>
+<span>💧</span>
+<span>🌊</span>
+<span>🍂</span>
+<span>🍃</span>
+<span>🌿</span>
+<span>🌷</span>
+<span>🌹</span>
+<span>🌺</span>
+<span>🌻</span>
+<span>💐</span>
+<span>🍀</span>
+<span>🍁</span>
+<span>🌰</span>
+<span>🌼</span>
+<span>⚖️</span>
+<span>♻️</span>
+<span>✈️</span>
+<span>🚀</span>
+<span>🛸</span>
+<span>🚁</span>
+<span>🚖</span>
+<span>🚗</span>
+<span>🚙</span>
+<span>🚌</span>
+<span>🚎</span>
+<span>🚒</span>
+<span>🚓</span>
+<span>🚔</span>
+<span>🚨</span>
+<span>🛑</span>
+<span>⚠️</span>
+<span>⛔</span>
+<span>🔒</span>
+<span>🔓</span>
+<span>🔑</span>
+<span>🗝️</span>
+<span>⚙️</span>
+<span>🛠️</span>
+<span>🔨</span>
+<span>🔧</span>
+<span>🔩</span>
+<span>⚒️</span>
+<span>⛏️</span>
+<span>⚡</span>
+<span>💣</span>
+<span>🔫</span>
+<span>🗡️</span>
+<span>⚔️</span>
+<span>🛡️</span>
+<span>💎</span>
+<span>🪙</span>
+<span>💰</span>
+<span>💵</span>
+<span>💴</span>
+<span>💶</span>
+<span>💷</span>
+<span>💳</span>
+<span>🧳</span>
+<span>🎁</span>
+<span>🎀</span>
+<span>🎉</span>
+<span>🎊</span>
+<span>🎈</span>
+<span>🎠</span>
+<span>🎡</span>
+<span>🎢</span>
+<span>🎮</span>
+<span>🕹️</span>
+<span>📱</span>
+<span>💻</span>
+<span>⌨️</span>
+<span>🖥️</span>
+<span>🖨️</span>
+<span>📷</span>
+<span>📸</span>
+<span>📹</span>
+<span>📼</span>
+<span>💡</span>
+<span>🔦</span>
+<span>🕯️</span>
+<span>🧯</span>
+<span>🔌</span>
+<span>🔋</span>
+<span>⚡</span>
+<span>🔋</span>
+<span>🧨</span>
+<span>🧧</span>
+<span>🎙️</span>
+<span>📡</span>
+<span>📞</span>
+<span>📟</span>
+<span>📠</span>
+<span>📺</span>
+<span>📻</span>
+<span>🧭</span>
+<span>🔭</span>
+<span>🔬</span>
+<span>🧪</span>
+<span>🧫</span>
+<span>🧬</span>
+<span>📚</span>
+<span>📖</span>
+<span>📝</span>
+<span>✏️</span>
+<span>🖊️</span>
+<span>🖋️</span>
+<span>📝</span>
+<span>📑</span>
+<span>📊</span>
+<span>📉</span>
+<span>📈</span>
+<span>📅</span>
+<span>📆</span>
+<span>🗓️</span>
+<span>📜</span>
+<span>📃</span>
+<span>🗒️</span>
+<span>📰</span>
+<span>⚡</span>
+<span>🔥</span>
+<span>💀</span>
+<span>👑</span>
+<span>💎</span>
+<span>🌟</span>
+<span>🌙</span>
+<span>🌌</span>
+<span>☀️</span>
+<span>🌈</span>
+<span>🍃</span>
+<span>💫</span>
+<span>🕷️</span>
+<span>🖤</span>
+<span>🔮</span>
+<span>🦇</span>
+<span>🖤✨</span>
+<span>👁️‍🗨️</span>
+<span>🌿</span>
+<span>💘</span>
+<span>🌻</span>
+<span>🍂</span>
+<span>🧩</span>
+<span>⏳</span>
+<span>⛓️</span>
+<span>🔪</span>
+<span>🖤🕊️</span>
+<span>⚔️</span>
+<span>🌑</span>
+<span>💀💎</span>
+<span>🌹</span>
+<span>🎮</span>
+<span>🎸</span>
+<span>📀</span>
+<span>🧠</span>
+<span>🔒</span>
+<span>⚙️</span>
+<span>🧊</span>
+<span>🎯</span>
+<span>🎲</span>
+<span>💣</span>
+<span>💎👑</span>
+<span>💀👑</span>
+<span>👁️</span>
+<span>🧸</span>
+<span>🎨</span>
+<span>⚡🖤</span>
+<span>💥</span>
+<span>☠️</span>
+<span>🔑</span>
+<span>🚀</span>
+<span>🎧</span>
+<span>⏰</span>
+<span>🧪</span>
+<span>💀⚔️</span>
+<span>👾</span>
+<span>🔮🕷️</span>
+<span>💡</span>
+<span>🖋️</span>
+<span>🖼️</span>
+<span>🎮🔥</span>
+<span>🔋</span>
+<span>📜</span>
+<span>🎬</span>
+<span>💸</span>
+<span>💰</span>
+<span>🍕</span>
+<span>🧁</span>
+<span>🌽</span>
+<span>🍇</span>
+<span>🍉</span>
+<span>🦄</span>
+<span>🐉</span>
+<span>🐍</span>
+<span>🐅</span>
+<span>🐾</span>
+<span>🐙</span>
+<span>🍄</span>
+<span>🍀</span>
+<span>🌲</span>
+<span>🌳</span>
+<span>🌾</span>
+<span>🪐</span>
+<span>🚨</span>
+<span>🚦</span>
+<span>📡</span>
+<span>💼</span>
+<span>⚡️🖤</span>
+<span>⚡💥</span>
+<span>🇦🇷</span> <!-- Argentina -->
+<span>🇧🇷</span> <!-- Brasil -->
+<span>🇨🇦</span> <!-- Canadá -->
+<span>🇩🇪</span> <!-- Alemanha -->
+<span>🇪🇸</span> <!-- Espanha -->
+<span>🇫🇷</span> <!-- França -->
+<span>🇬🇧</span> <!-- Reino Unido -->
+<span>🇮🇹</span> <!-- Itália -->
+<span>🇯🇵</span> <!-- Japão -->
+<span>🇰🇷</span> <!-- Coreia do Sul -->
+<span>🇲🇽</span> <!-- México -->
+<span>🇳🇱</span> <!-- Países Baixos -->
+<span>🇮🇳</span> <!-- Índia -->
+<span>🇮🇸</span> <!-- Islândia -->
+<span>🇮🇪</span> <!-- Irlanda -->
+<span>🇵🇹</span> <!-- Portugal -->
+<span>🇷🇺</span> <!-- Rússia -->
+<span>🇨🇳</span> <!-- China -->
+<span>🇺🇸</span> <!-- Estados Unidos -->
+<span>🇺🇾</span> <!-- Uruguai -->
+<span>🇻🇪</span> <!-- Venezuela -->
+<span>🇳🇴</span> <!-- Noruega -->
+<span>🇸🇪</span> <!-- Suécia -->
+<span>🇨🇭</span> <!-- Suíça -->
+<span>🇸🇦</span> <!-- Arábia Saudita -->
+<span>🇰🇼</span> <!-- Kuwait -->
+<span>🇲🇾</span> <!-- Malásia -->
+<span>🇵🇬</span> <!-- Papua Nova Guiné -->
+<span>🇰🇪</span> <!-- Quênia -->
+<span>🇧🇪</span> <!-- Bélgica -->
+<span>🇬🇷</span> <!-- Grécia -->
+<span>🇻🇳</span> <!-- Vietnã -->
+<span>🇦🇺</span> <!-- Austrália -->
+<span>🇪🇪</span> <!-- Estônia -->
+<span>🇧🇬</span> <!-- Bulgária -->
+<span>🇷🇴</span> <!-- Romênia -->
+<span>🇧🇾</span> <!-- Bielorrússia -->
+<span>🇳🇿</span> <!-- Nova Zelândia -->
+<span>🇺🇦</span> <!-- Ucrânia -->
+<span>🇹🇷</span> <!-- Turquia -->
+<span>🇿🇦</span> <!-- África do Sul -->
+<span>🇦🇺</span> <!-- Austrália -->
+<span>🇹🇭</span> <!-- Tailândia -->
+<span>🇺🇿</span> <!-- Uzbequistão -->
+<span>🇸🇾</span> <!-- Síria -->
+<span>🇪🇬</span> <!-- Egito -->
+<span>🇪🇸</span> <!-- Espanha -->
+<span>🇯🇪</span> <!-- Jersey -->
+<span>🇬🇱</span> <!-- Groenlândia -->
+<span>🇫🇮</span> <!-- Finlândia -->
+<span>🇬🇹</span> <!-- Guatemala -->
+<span>🇩🇰</span> <!-- Dinamarca -->
+<span>🇳🇿</span> <!-- Nova Zelândia -->
+<span>🇧🇳</span> <!-- Brunei -->
+<span>🇨🇴</span> <!-- Colômbia -->
+<span>🇻🇨</span> <!-- São Vicente e Granadinas -->
+<span>🇨🇾</span> <!-- Chipre -->
+<span>🇱🇸</span> <!-- Lesoto -->
+<span>🇦🇿</span> <!-- Azerbaijão -->
+<span>🇦🇩</span> <!-- Andorra -->
+<span>🇧🇦</span> <!-- Bósnia e Herzegovina -->
+<span>🇧🇼</span> <!-- Botsuana -->
+<span>🇧🇾</span> <!-- Bielorrússia -->
+<span>🇧🇿</span> <!-- Belize -->
+<span>🇨🇴</span> <!-- Colômbia -->
+<span>🇩🇲</span> <!-- Dominica -->
+<span>🇩🇿</span> <!-- Argélia -->
+<span>🇪🇷</span> <!-- Eritreia -->
+<span>🇪🇪</span> <!-- Estônia -->
+<span>🇫🇮</span> <!-- Finlândia -->
+<span>🇬🇧</span> <!-- Reino Unido -->
+<span>🇬🇪</span> <!-- Geórgia -->
+<span>🇬🇮</span> <!-- Gibraltar -->
+<span>🇬🇭</span> <!-- Gana -->
+<span>🇬🇮</span> <!-- Gibraltar -->
+<span>🇬🇱</span> <!-- Groenlândia -->
+<span>🇬🇹</span> <!-- Guatemala -->
+<span>🇬🇸</span> <!-- Ilhas Georgias do Sul -->
+<span>🇬🇷</span> <!-- Grécia -->
+<span>🇭🇷</span> <!-- Croácia -->
+<span>🇭🇹</span> <!-- Haiti -->
+<span>🇭🇳</span> <!-- Honduras -->
+<span>🇮🇱</span> <!-- Israel -->
+<span>🇮🇸</span> <!-- Islândia -->
+<span>🇮🇹</span> <!-- Itália -->
+<span>🇯🇱</span> <!-- Jordânia -->
+<span>🇯🇪</span> <!-- Jersey -->
+<span>🇯🇴</span> <!-- Jordânia -->
+<span>🇰🇪</span> <!-- Quênia -->
+<span>🇰🇮</span> <!-- Kiribati -->
+<span>🇰🇲</span> <!-- Comores -->
+<span>🇰🇳</span> <!-- São Cristóvão e Nevis -->
+<span>🇰🇷</span> <!-- Coreia do Sul -->
+<span>🇱🇦</span> <!-- Laos -->
+<span>🇱🇧</span> <!-- Líbano -->
+<span>🇱🇸</span> <!-- Lesoto -->
+<span>🇱🇷</span> <!-- Libéria -->
+<span>🇱🇸</span> <!-- Lesoto -->
+<span>🇱🇾</span> <!-- Líbia -->
+<span>🇲🇩</span> <!-- Moldávia -->
+<span>🇲🇪</span> <!-- Montenegro -->
+<span>🇲🇫</span> <!-- Saint Martin (França) -->
+<span>🇲🇬</span> <!-- Madagascar -->
+<span>🇲🇭</span> <!-- Ilhas Marshall -->
+<span>🇲🇰</span> <!-- Macedônia -->
+<span>🇲🇱</span> <!-- Mali -->
+<span>🇲🇲</span> <!-- Myanmar -->
+<span>🇲🇳</span> <!-- Mongólia -->
+<span>🇲🇴</span> <!-- Macau -->
+<span>🇲🇷</span> <!-- Mauritânia -->
+<span>🇲🇺</span> <!-- Maurício -->
+<span>🇲🇻</span> <!-- Maldivas -->
+<span>🇲🇼</span> <!-- Malawi -->
+<span>🇲🇽</span> <!-- México -->
+<span>🇾🇹</span> <!-- Mayotte -->
+<span>🇳🇨</span> <!-- Nova Caledônia -->
+<span>🇳🇪</span> <!-- Níger -->
+<span>🇳🇫</span> <!-- Norfolk -->
+<span>🇳🇮</span> <!-- Nicarágua -->
+<span>🇳🇴</span> <!-- Noruega -->
+<span>🇳🇵</span> <!-- Nepal -->
+<span>🇳🇷</span> <!-- Nauru -->
+<span>🇳🇺</span> <!-- Niue -->
+<span>🇳🇿</span> <!-- Nova Zelândia -->
+<span>🇴🇲</span> <!-- Omã -->
+<span>🇵🇦</span> <!-- Panamá -->
+<span>🇵🇧</span> <!-- Pitcairn -->
+<span>🇵🇰</span> <!-- Paquistão -->
+<span>🇵🇱</span> <!-- Polônia -->
+<span>🇵🇲</span> <!-- Saint Pierre e Miquelon -->
+<span>🇵🇳</span> <!-- Ilha de Pitcairn -->
+<span>🇵🇷</span> <!-- Porto Rico -->
+<span>🇵🇸</span> <!-- Palestina -->
+<span>🇵🇹</span> <!-- Portugal -->
+<span>🇵🇬</span> <!-- Papua Nova Guiné -->
+<span>🇶🇦</span> <!-- Catar -->
+<span>🇷🇪</span> <!-- Reunião -->
+<span>🇷🇴</span> <!-- Romênia -->
+<span>🇷🇸</span> <!-- Sérvia -->
+<span>🇸🇦</span> <!-- Arábia Saudita -->
+<span>🇷🇺</span> <!-- Rússia -->
+<span>🇸🇨</span> <!-- Seychelles -->
+<span>🇸🇱</span> <!-- Serra Leoa -->
+<span>🇸🇬</span> <!-- Cingapura -->
+<span>🇸🇮</span> <!-- Eslovênia -->
+<span>🇸🇯</span> <!-- Svalbard e Jan Mayen -->
+<span>🇸🇿</span> <!-- Suazilândia -->
+<span>🇲🇸</span> <!-- Montserrat -->
+<span>🇹🇦</span> <!-- Ilhas Turks e Caicos -->
+<span>🇹🇩</span> <!-- Chade -->
+<span>🇹🇫</span> <!-- Territórios franceses do sul -->
+<span>🇹🇬</span> <!-- Togo -->
+<span>🇹🇭</span> <!-- Tailândia -->
+<span>🇹🇯</span> <!-- Tajiquistão -->
+<span>🇹🇰</span> <!-- Ilhas Tokelau -->
+<span>🇹🇱</span> <!-- Timor-Leste -->
+<span>🇹🇳</span> <!-- Tunísia -->
+<span>🇹🇴</span> <!-- Tonga -->
+<span>🇹🇷</span> <!-- Turquia -->
+<span>🇹🇹</span> <!-- Trinidad e Tobago -->
+<span>🇹🇻</span> <!-- Tuvalu -->
+<span>🇺🇦</span> <!-- Ucrânia -->
+<span>🇺🇬</span> <!-- Uganda -->
+<span>🇺🇲</span> <!-- Estados Unidos -->
+<span>🇺🇾</span> <!-- Uruguai -->
+<span>🇺🇿</span> <!-- Uzbequistão -->
+<span>🇻🇮</span> <!-- Ilhas Virgens (EUA) -->
+<span>🇻🇳</span> <!-- Vietnã -->
+<span>🇻🇺</span> <!-- Vanuatu -->
+<span>🇼🇫</span> <!-- Wallis e Futuna -->
+<span>🇼🇸</span> <!-- Samoa -->
+<span>🇾🇪</span> <!-- Iémen -->
+<span>🇾🇹</span> <!-- Mayotte -->
+<span>🇿🇦</span> <!-- África do Sul -->
+<span>🇿🇲</span> <!-- Zâmbia -->
+<span>🇿🇼</span> <!-- Zimbábue -->
+<span>💀</span> <!-- Caveira -->
+<span>👻</span> <!-- Fantasma -->
+<span>🕷️</span> <!-- Aranha -->
+<span>🦇</span> <!-- Morcego -->
+<span>🎃</span> <!-- Abóbora de Halloween -->
+<span>🪦</span> <!-- Lápide -->
+<span>💀</span> <!-- Caveira (repetido para mais destaque) -->
+<span>🕸️</span> <!-- Teia de aranha -->
+<span>👹</span> <!-- Monstro -->
+<span>👺</span> <!-- Máscara de monstro japonês -->
+<span>😈</span> <!-- Sorriso malicioso -->
+<span>👀</span> <!-- Olhos -->
+<span>🖤</span> <!-- Coração preto -->
+<span>⚰️</span> <!-- Caixão -->
+<span>⚡</span> <!-- Raio -->
+<span>🩸</span> <!-- Gota de sangue -->
+<span>🔪</span> <!-- Faca -->
+<span>👿</span> <!-- Demonio -->
+<span>⛓️</span> <!-- Correntes -->
+<span>🩹</span> <!-- Curativo (em uma vibe de tortura ou curativo macabro) -->
+<span>🥀</span> <!-- Flor murcha (tema de morte) -->
+<span>🦷</span> <!-- Abutre -->
+<span>🖤</span> <!-- Coração negro -->
+<span>(╬ಠ益ಠ)</span>
+<span>(XoX)</span>
+<span>(╯°□°）╯︵ ┻━┻</span>
+<span>( ಠ ͜ʖ ಠ)</span>
+<span>(ง •̀_•́)ง</span>
+<span>(⛧) (⛧)</span>
+<span>૮₍´• ˕ •`₎ა</span>
+<span>(∩｀-´)⊃━☆ﾟ.*･｡ﾟ</span>
+<span>(°⌓°)</span>
+<span>(⛧⛧⛧)</span>
+<span>╰(°□°)╯</span>
+<span>( ´•ω•` )</span>
+<span>¯\_(ツ)_/¯</span>
+<span>(•̪●)</span>
+<span>(╯_╰)</span>
+<span>˚₊· ͟͟͞͞➳❥   (✪⡆)</span>
+<span>┻━┻ ︵ヽ(`Д´)ﾉ︵ ┻━┻</span>
+<span>̛̛̛̛̛̛̛̛̛̛̛̛̛̛(⦿⦿⦿⦿)</span>
+<span>▄︻̷̿┻̿═━一</span>
+<span>(⛧⛧⛧⛧⛧⛧)</span>
+<span>¯\_(⛧)_/¯</span>
+<span>⎛⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧</span>
+<span>✠✠✠</span>
+<span>(⊙_☉)</span>
+<span>( ͡° ʖ̯ ͡°)</span>
+<span>(눈_눈)</span>
+<span>(>д<)</span>
+<span>(╥_╥)</span>
+<span>(╬￢_￢)</span>
+<span>༼ つ ◕_◕ ༽つ</span>
+<span>(ಠ⊙⊙ಠ)</span>
+<span>̛̛̛̛̛(ノ°Д°）ノ︵┻━┻</span>
+<span>(つ•̀ω•́)つ</span>
+<span>⛧⛧⛧⛧⛧⛧⛧⛧</span>
+<span>(˃̣̣̣̣̣̣︿˂̣̣̣̣̣̣)</span>
+<span>༼ ︶_︶༽</span>
+<span>(⩾_⩿)</span>
+<span>┼━┼━┼━┼━┼</span>
+<span>☠☠☠</span>
+<span>⛓⛓⛓</span>
+<span>(っ▀¯▀)っ</span>
+<span>(¬_¬)</span>
+<span>(╮°△°)╯</span>
+<span>⎛⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧⛧</span>
+<span>༼✿•̀◡•́✿༽</span>
+<span>┏━┏━┏━┏━┏━┏━┏━┏━</span>
+<span>☣☢⚠</span>
+<span>(◕‿◕✿)</span>
+<span>⟆⟆⟆⟆⟆⟆⟆</span>
+<span>(╬ Ò⌓Ó)</span>
+<span>⚔⚔⚔</span>
+<span>═(▭▭▭▭▭)═</span>
+<span>♪───Ｏ（≧∇≦）Ｏ────♪</span>
+<span>(︶︹︺)</span>
+<span>ᕙ(⇀‸↼‶)ᕗ</span>
+<span>(｡•́︿•̀｡)</span>
+<span>(⚆_⚆)</span>
+<span>⁽⁽ ◝(˃̣̣̣̣̣̣︿˂̣̣̣̣̣̣)◜ ⁾⁾</span>
+<span>(･_･ )</span>
+<span>( ˘︹˘ )</span>
+<span>(✖╭╮✖)</span>
+<span>╮(╯_╰)╭</span>
+<span>(¬_¬)</span>
+<span>⧫⧫⧫⧫⧫</span>
+<span>(・∀・)</span>
+<span>༼ ͡° ʖ̯ ͡°༽</span>
+<span>(´∩｡• ᵕ •｡∩`) ♡</span>
+<span>⫷⫸</span>
+<span>▭▭▭▭▭▭▭▭▭</span>
+<span>(∩｀-´)⊃━☆ﾟ.*</span>
+<span>༼ ⊙_☉ ༽</span>
+<span>▂▂▂▂▂▂▂▂▂</span>
+<span>⇌⧪⇋</span>
+<span>(ↀДↀ)</span>
+<span>⌐■-■</span>
+<span>♥‿♥</span>
+<span>ʘ‿ʘ</span>
+<span>⊙_⊙</span>
+<span>⁽⁽ ◝(˃̣̣̣̣̣̣︿˂̣̣̣̣̣̣)◜ ⁾⁾</span>
+<span>⸮</span>
+<span>✩⸗✩</span>
+<span>⊙⍥⊙</span>
+<span>⛧⛧⛧</span>
+<span>(⧫⧫⧫⧫⧫)</span>
+<span>(✿´‿`)</span>
+<span>⚒⚒⚒</span>
+<span>(•̀ᴗ•́)و</span>
+<span>⧸⧸⧸</span>
+<span>✪‿✪</span>
+<span>≡(▭▭▭▭▭▭)</span>
+<span>╰(°▽°)╯</span>
+<span>(；￣Д￣)</span>
+<span>↘↘↘</span>
+<span>(⟆⟆⟆)</span>
+<span>⚡⚡⚡</span>
+<span>✞✞✞</span>
+<span>⚔️⚔️⚔️</span>
+<span>╰━╯</span>
+<span>✪⤴✪</span>
+<span>(⧧⧧⧧⧧⧧)</span>
+<span>◯⍢◯</span>
+<span>❄❄❄</span>
+<span>(•▿•)</span>
+<span>⚒━⚒</span>
+<span>⊙⩚⊙</span>
+<span>⩚⧀⩚</span>
+<span>⭑⭑⭑</span>
+<span>╾(‾▿‾)╼</span>
+<span>(ಠ_ಠ)</span>
+<span>☠☠☠</span>
+<span>⏚⏚⏚</span>
+<span>(◣_◢)</span>
+<span>(⊙_☉)</span>
+<span>☯☯☯</span>
+<span>≧◡≦</span>
+<span>ʕ•ᴥ•ʔ</span>
+<span>(𓂀)</span>
+<span>⚔⨀⚔</span>
+<span>☠≡⊛≡☠</span>
+<span>⛔⛔⛔</span>
+<span>†††</span>
+<span>⛎⛎⛎</span>
+<span>⚡⚡⚡⚡</span>
+<span>(¬_¬)</span>
+<span>(⚪_⚪)</span>
+<span>(⸝⸝⸝⸝⸝⸝⸝⸝⸝)</span>
+<span>⚑⚑⚑</span>
+<span>⚖⚖⚖</span>
+<span>⛧⛧⛧</span>
+<span>(︶︿︶)</span>
+
+      <!-- Adicione mais emojis conforme necessário -->
+    </div>
+
+    <!-- Login -->
+    <div id="login-container">
+      <input type="email" id="login-email" placeholder="E-mail" required />
+      <input type="password" id="login-password" placeholder="Senha" required />
+      <button id="login-button">Entrar</button>
+      <button id="logout-button" style="display:none;">Sair</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+
+    // Elementos do DOM
+    const postForm = document.getElementById('post-form');
+    const postContent = document.getElementById('post-content');
+    const postsContainer = document.getElementById('posts-container');
+    const fileInput = document.getElementById('file-input');
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button');
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    const loginContainer = document.getElementById('login-container');
+    const emojiButton = document.getElementById('emoji-button');
+    const emojiContainer = document.getElementById('emoji-container');
+
+    // Mostrar posts no fórum
+    // Exibir posts
+function showPosts() {
+  const postsRef = ref(db, 'posts');
+  onValue(postsRef, snapshot => {
+    postsContainer.innerHTML = ''; // Limpar posts antigos
+    let count = 0;
+    snapshot.forEach(childSnapshot => {
+      if (count >= 300) return; // Limita a 300 posts
+      const post = childSnapshot.val();
+      const postElement = document.createElement('div');
+      postElement.classList.add('post');
+      let content = post.content;
+      
+      // Verifica se há uma imagem
+      if (post.imageUrl) {
+        content += `<br><img src="${post.imageUrl}" alt="Imagem enviada" style="max-width:100%;">`;
+      }
+      
+      // Verifica se há um vídeo
+      if (post.videoUrl) {
+        content += `<br><video controls style="max-width:100%;">
+                      <source src="${post.videoUrl}" type="video/mp4">
+                      Seu navegador não suporta o formato de vídeo.
+                    </video>`;
+      }
+      
+      // Monta o post com usuário e conteúdo
+      postElement.innerHTML = `<strong>${post.user}</strong>: ${content}`;
+      postsContainer.appendChild(postElement);
+      count++;
+    });
+
+    // Rolagem até o final
+    postsContainer.scrollTop = postsContainer.scrollHeight;
+  });
+}
+
+// Enviar post
+postForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (auth.currentUser) {
+    let post = {
+      user: auth.currentUser.email,
+      content: postContent.value
+    };
+
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const fileRef = storageRef(storage, 'posts/' + Date.now() + '-' + file.name);
+      await uploadBytes(fileRef, file);
+      const fileURL = await getDownloadURL(fileRef);
+
+      // Verifica o tipo de arquivo
+      const fileType = file.type;
+      if (fileType.startsWith('image/')) {
+        post.imageUrl = fileURL;
+      } else if (fileType.startsWith('video/')) {
+        post.videoUrl = fileURL;
+      } else if (fileType.startsWith('audio/')) {
+        post.audioUrl = fileURL;
+      }
+    }
+
+    const postsRef = ref(db, 'posts');
+    push(postsRef, post);
+    postContent.value = ''; // Limpar campo de texto
+    fileInput.value = ''; // Limpar campo de arquivo
+  } else {
+    alert('Por favor, faça login antes de postar.');
+  }
+});
+
+    // Emoji
+    emojiButton.addEventListener('click', () => {
+      emojiContainer.style.display = emojiContainer.style.display === 'none' ? 'flex' : 'none';
+    });
+
+    emojiContainer.addEventListener('click', (e) => {
+      if (e.target.tagName === 'SPAN') {
+        postContent.value += e.target.textContent; // Adiciona o emoji ao texto
+      }
+    });
+
+    // Login
+    loginButton.addEventListener('click', () => {
+      const email = loginEmail.value;
+      const password = loginPassword.value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          loginEmail.value = '';
+          loginPassword.value = '';
+          loginButton.style.display = 'none';
+          logoutButton.style.display = 'block';
+          loginContainer.style.display = 'none'; // Esconde a área de login após login
+        })
+        .catch(error => {
+          alert('Erro de login: ' + error.message);
+        });
+    });
+
+    // Logout
+    logoutButton.addEventListener('click', () => {
+      signOut(auth)
+        .then(() => {
+          loginButton.style.display = 'block';
+          logoutButton.style.display = 'none';
+          loginContainer.style.display = 'flex'; // Mostra a área de login novamente
+        })
+        .catch(error => {
+          alert('Erro ao sair: ' + error.message);
+        });
+    });
+
+    // Monitora estado de autenticação
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        loginButton.style.display = 'none';
+        logoutButton.style.display = 'block';
+        loginContainer.style.display = 'none'; // Esconde a área de login
+      } else {
+        loginButton.style.display = 'block';
+        logoutButton.style.display = 'none';
+        loginContainer.style.display = 'flex'; // Exibe a área de login
+      }
+    });
+
+    showPosts();
+    
+  document.getElementById("post-form").addEventListener("submit", function(event) {
+  event.preventDefault(); // Impede o envio tradicional do formulário
+
+  const postContent = document.getElementById("post-content").value;
+  const fileInput = document.getElementById("file-input");
+  const file = fileInput.files[0];
+  
+  const postContainer = document.createElement("div");
+  postContainer.classList.add("post");
+
+  // Cria o conteúdo do post
+  const postText = document.createElement("p");
+  postText.textContent = postContent;
+  postContainer.appendChild(postText);
+
+  // Verifica se há um arquivo e o exibe
+  if (file) {
+    const fileType = file.type;
+    const fileUrl = URL.createObjectURL(file);
+
+    if (fileType.startsWith("image")) {
+      const image = document.createElement("img");
+      image.src = fileUrl;
+      image.style.display = "block";
+      image.style.maxWidth = "100%";
+      postContainer.appendChild(image);
+    } else if (fileType.startsWith("video")) {
+      const video = document.createElement("video");
+      video.controls = true;
+      video.src = fileUrl;
+      video.style.display = "block";
+      video.style.maxWidth = "100%";
+      postContainer.appendChild(video);
+    } else {
+      const fileInfo = document.createElement("p");
+      fileInfo.textContent = `Arquivo: ${file.name}`;
+      postContainer.appendChild(fileInfo);
+    }
+  }
+
+  // Adiciona o post à lista de posts
+  document.getElementById("posts-container").appendChild(postContainer);
+
+  // Limpa o formulário
+  document.getElementById("post-form").reset();
+  document.getElementById("image-preview").style.display = "none";
+  document.getElementById("video-preview").style.display = "none";
+  document.getElementById("post-content").value = '';
+  document.getElementById("file-input").value = '';
+});
+
+// Pré-visualizar arquivo de mídia
+document.getElementById("file-input").addEventListener("change", function(event) {
+  const file = event.target.files[0];
+  const fileType = file ? file.type : '';
+  const imagePreview = document.getElementById("image-preview");
+  const videoPreview = document.getElementById("video-preview");
+
+  if (file) {
+    const fileUrl = URL.createObjectURL(file);
+
+    if (fileType.startsWith("image")) {
+      imagePreview.src = fileUrl;
+      imagePreview.style.display = "block";
+      videoPreview.style.display = "none";
+    } else if (fileType.startsWith("video")) {
+      videoPreview.src = fileUrl;
+      videoPreview.style.display = "block";
+      imagePreview.style.display = "none";
+    } else {
+      imagePreview.style.display = "none";
+      videoPreview.style.display = "none";
+    }
+  } else {
+    imagePreview.style.display = "none";
+    videoPreview.style.display = "none";
+  }
+});
+    // Carregar posts ao iniciar
+  </script>
+</body>
+</html>

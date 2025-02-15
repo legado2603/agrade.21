@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exibição do Banner 2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    #banner2 {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #FF00FF;
+      box-shadow: 0 0 15px #FF00FF;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Banner 2</h1>
+  <img id="banner2" src="" alt="Carregando banner..." />
+  <p id="status2">Verificando autenticação...</p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Elementos do DOM
+    const banner = document.getElementById('banner2');
+    const statusText = document.getElementById('status2');
+
+    // Função para carregar o banner 2
+    const loadBanner = async () => {
+      try {
+        const dbRefBanner = dbRef(database, 'banner2'); // Caminho no Realtime Database
+        const snapshot = await get(dbRefBanner);
+
+        if (snapshot.exists()) {
+          banner.src = snapshot.val(); // Define a URL da imagem
+          banner.alt = "Banner 2 carregado";
+        } else {
+          banner.alt = "Nenhum banner definido";
+        }
+      } catch (error) {
+        console.error("Erro ao carregar o banner 2:", error);
+        banner.alt = "Erro ao carregar o banner";
+      }
+    };
+
+    // Verificar autenticação do usuário
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        statusText.textContent = `Usuário autenticado: ${user.email}`;
+        loadBanner(); // Carregar o banner após autenticação
+      } else {
+        statusText.textContent = "Usuário não autenticado. Faça login para visualizar o banner.";
+        banner.alt = "Autenticação necessária";
+      }
+    });
+  </script>
+</body>
+</html>

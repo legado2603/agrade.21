@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Códigos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: #00ffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #codePanel {
+      background-color: #161b22;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #ff00ff;
+    }
+
+    .info {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #ff00ff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #e600e6;
+    }
+
+    #profileInfo {
+      margin-top: 20px;
+      display: none;
+      color: #00ffff;
+    }
+
+    #profileInfo img {
+      max-width: 100px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="codePanel">
+    <h1>Gerar Meu Código Único</h1>
+    <div id="code" class="info">
+      <label>Código:</label> <span id="generatedCode">Carregando...</span>
+    </div>
+    <button id="generateCodeButton">Gerar Código</button>
+  </div>
+
+  <div id="profileInfo">
+    <h2>Informações do Perfil</h2>
+    <img id="profileImage" src="" alt="Foto de Perfil">
+    <p><strong>Nome:</strong> <span id="profileName"></span></p>
+    <p><strong>Idade:</strong> <span id="profileAge"></span></p>
+    <p><strong>Bio:</strong> <span id="profileBio"></span></p>
+  </div>
+
+  <script type="module">
+    // Importando os módulos do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Função para gerar código único
+    function generateUniqueCode() {
+      const randomDigits = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+      return `ENN${randomDigits}-A-Grade`;
+    }
+
+    // Função para armazenar código no Firebase sem sobrescrever outros dados
+    function storeCode(userId, code) {
+      const userRef = ref(database, `users/${userId}`);
+      update(userRef, {
+        code: code
+      }).catch((error) => {
+        console.error('Erro ao armazenar o código:', error);
+      });
+    }
+
+    // Função para recuperar informações do perfil
+    function getProfileInfo(userId) {
+      const userProfileRef = ref(database, `users/${userId}`);
+      
+      get(userProfileRef).then(snapshot => {
+        if (snapshot.exists()) {
+          const profileData = snapshot.val();
+          // Exibir as informações do perfil
+          document.getElementById('profileImage').src = profileData.photoURL || 'default-image-url.jpg'; // Substitua com uma imagem padrão
+          document.getElementById('profileName').textContent = profileData.displayName || 'Sem nome';
+          document.getElementById('profileAge').textContent = profileData.age || 'Idade não definida';
+          document.getElementById('profileBio').textContent = profileData.bio || 'Bio não definida';
+          
+          // Exibir a seção de perfil
+          document.getElementById('profileInfo').style.display = 'block';
+        }
+      }).catch((error) => {
+        console.error('Erro ao recuperar perfil:', error);
+      });
+    }
+
+    // Função para gerar ou exibir código do usuário
+    function generateCodeForUser() {
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          const userRef = ref(database, `users/${user.uid}/code`);
+          
+          // Verificar se o código já existe para o usuário
+          get(userRef).then(snapshot => {
+            if (snapshot.exists()) {
+              // Se o código já existir, exibe o código existente
+              const existingCode = snapshot.val();
+              document.getElementById('generatedCode').textContent = existingCode;
+              alert("Você já tem um código gerado: " + existingCode);
+            } else {
+              // Se o código não existir, gerar um novo e armazenar
+              const generatedCode = generateUniqueCode();
+              document.getElementById('generatedCode').textContent = generatedCode;
+              storeCode(user.uid, generatedCode);
+              alert("Código gerado e armazenado com sucesso!");
+            }
+          }).catch((error) => {
+            console.error('Erro ao verificar código:', error);
+          });
+          
+          // Recuperar e exibir as informações do perfil
+          getProfileInfo(user.uid);
+        } else {
+          alert('Você precisa estar logado para gerar um código!');
+        }
+      });
+    }
+
+    // Configurar o botão para gerar o código
+    document.getElementById('generateCodeButton').addEventListener('click', generateCodeForUser);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página com Atualizar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+    }
+
+#update-button {
+  position: absolute; /* Para o botão ser arrastável */
+  bottom: 20px; /* Distância do fundo da tela */
+  right: 20px; /* Distância do lado direito da tela */
+  cursor: pointer;
+  border: none; /* Remove borda do botão */
+  background: transparent; /* Torna o fundo do botão transparente */
+}
+
+#update-button img {
+  width: 70px; /* Aumenta a largura do ícone */
+  height: 70px; /* Aumenta a altura do ícone */
+  object-fit: contain; /* Garante que a imagem se ajuste corretamente */
+}
+
+    #update-button:hover {
+      background-color: #0056b3;
+    }
+
+    #update-button:active {
+      background-color: #004085;
+    }
+
+    #update-icon {
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<button id="update-button">
+  <img src="gif/giphy.gif" alt="Ícone de atualização" />
+</button>
+
+  <script>
+    // Função para atualizar a página
+    document.getElementById('update-button').addEventListener('click', function() {
+      location.reload();
+    });
+
+    // Código para permitir o arrasto do botão (funcionando no celular)
+    const updateButton = document.getElementById('update-button');
+    let offsetX, offsetY;
+    let isDragging = false;
+
+    updateButton.addEventListener('touchstart', function(e) {
+      isDragging = true;
+      const touch = e.touches[0];
+      offsetX = touch.clientX - updateButton.getBoundingClientRect().left;
+      offsetY = touch.clientY - updateButton.getBoundingClientRect().top;
+
+      // Impede a seleção do texto enquanto arrasta
+      document.body.style.userSelect = 'none';
+
+      // Ouve o movimento do toque enquanto arrasta
+      document.addEventListener('touchmove', onTouchMove);
+      document.addEventListener('touchend', onTouchEnd);
+    });
+
+    function onTouchMove(e) {
+      if (isDragging) {
+        const touch = e.touches[0];
+        const left = touch.clientX - offsetX;
+        const top = touch.clientY - offsetY;
+        updateButton.style.left = `${left}px`;
+        updateButton.style.top = `${top}px`;
+      }
+    }
+
+    function onTouchEnd() {
+      isDragging = false;
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', onTouchEnd);
+
+      // Restaura a possibilidade de selecionar texto
+      document.body.style.userSelect = '';
+    }
+  </script>
+
+</body>
+</html>

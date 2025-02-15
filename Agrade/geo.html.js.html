@@ -1,0 +1,9 @@
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        alert(`Sua localização é: Latitude: ${latitude}, Longitude: ${longitude}`);
+    });
+} else {
+    alert("Geolocalização não é suportada pelo seu navegador.");
+}

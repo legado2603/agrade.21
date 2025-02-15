@@ -1,0 +1,7 @@
+if ('Notification' in window) {
+    Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+            new Notification('Você tem uma nova mensagem!');
+        }
+    });
+}

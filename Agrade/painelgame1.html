@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Jogo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: #00ffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #userPanel {
+      background-color: #161b22;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      margin-bottom: 20px;
+    }
+
+    h1, h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #ff00ff;
+    }
+
+    .info {
+      margin-bottom: 15px;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .info label {
+      font-weight: bold;
+    }
+
+    #xpProgress {
+      width: 100%;
+      height: 10px;
+      background-color: #333;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    #xpBar {
+      height: 100%;
+      background-color: #00ffff;
+      width: 0%;
+      border-radius: 5px;
+    }
+
+    .badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #ff00ff;
+      margin: 0 5px;
+      display: inline-block;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .feedbacks {
+      background-color: #333;
+      border-radius: 5px;
+      padding: 5px 10px;
+      color: #ff00ff;
+    }
+
+    #rankingGlobal {
+      background-color: #161b22;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    #rankingGlobal p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="userPanel">
+    <h1>Painel do Usuário</h1>
+    <div id="xp" class="info">
+      <label>XP:</label> <span>0</span>
+    </div>
+    <div id="xpProgress" class="hidden">
+      <div id="xpBar"></div>
+    </div>
+    <div id="badges" class="info">
+      <label>Badges:</label> <span>Nenhuma</span>
+    </div>
+    <div id="ranking" class="info">
+      <label>Ranking:</label> <span>0</span>
+    </div>
+    <div id="missionsCompleted" class="info">
+      <label>Missões Concluídas:</label> <span>0</span>
+    </div>
+    <div id="memberSince" class="info">
+      <label>Membro Desde:</label> <span>Não informado</span>
+    </div>
+    <div id="clan" class="info">
+      <label>Clã:</label> <span>Não pertence a nenhum</span>
+    </div>
+    <div id="feedbacks" class="info">
+      <label>Feedbacks:</label> <span class="feedbacks">0</span>
+    </div>
+  </div>
+
+  <div id="rankingGlobal">
+    <h2>Ranking Global</h2>
+    <p>Carregando...</p>
+  </div>
+
+  <script type="module">
+    // Importando os módulos do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getDatabase, ref, get, set, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Obtém o ID do usuário logado
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        // Referência ao nó do usuário no Firebase
+        const userRef = ref(database, `users/${user.uid}/game`);
+
+        // Atualizar XP com 1 ponto se não houver dados de XP
+        get(userRef).then(snapshot => {
+          let data = snapshot.val();
+          if (data) {
+            if (data.xp === undefined || data.xp === 0) {
+              // Se não houver XP ou o valor for zero, dá 1 XP
+              data.xp = 1;
+              update(userRef, { xp: 1 });
+            }
+          } else {
+            // Se não houver dados, inicializa com 1 XP
+            data = { xp: 1 };
+            set(userRef, data);
+          }
+
+          // Carregar as informações do painel
+          document.getElementById('xp').querySelector('span').textContent = data.xp;
+          document.getElementById('xpBar').style.width = `${data.xp}%`;
+          document.getElementById('xpProgress').classList.remove('hidden');
+          document.getElementById('badges').querySelector('span').textContent = data.badges || 'Nenhuma';
+          document.getElementById('ranking').querySelector('span').textContent = data.ranking || 0;
+          document.getElementById('missionsCompleted').querySelector('span').textContent = data.missionsCompleted || 0;
+          document.getElementById('memberSince').querySelector('span').textContent = formatDate(data.memberSince);
+          document.getElementById('clan').querySelector('span').textContent = data.clan || 'Não pertence a nenhum';
+          document.getElementById('feedbacks').querySelector('span').textContent = data.feedbacks || 0;
+
+          // Atualiza o nome do usuário no painel
+          const displayName = user.displayName || "Jogador Anônimo";
+          document.getElementById('userPanel').insertAdjacentHTML('beforeend', `<div class="info"><label>Nome:</label> <span>${displayName}</span></div>`);
+        });
+      }
+    });
+
+    // Função para carregar o ranking global
+    function loadGlobalRanking() {
+      const rankingRef = ref(database, "users");
+
+      get(rankingRef).then(snapshot => {
+        if (snapshot.exists()) {
+          const rankingData = [];
+
+          snapshot.forEach(childSnapshot => {
+            const userData = childSnapshot.val();
+            if (userData.game) {
+              rankingData.push({
+                name: userData.displayName || "Jogador Anônimo", // Usando displayName agora
+                xp: userData.game?.xp || 0
+              });
+            }
+          });
+
+          // Ordenar o ranking por XP
+          rankingData.sort((a, b) => b.xp - a.xp);
+
+          const rankingElement = document.getElementById("rankingGlobal");
+          rankingElement.innerHTML = "<h2>Ranking Global</h2>";
+          rankingData.forEach((player, index) => {
+            const rankItem = document.createElement("p");
+            rankItem.innerHTML = `<strong>${index + 1}º</strong> ${player.name} - XP: ${player.xp}`;
+            rankingElement.appendChild(rankItem);
+          });
+        } else {
+          console.log("Nenhum dado encontrado no Firebase.");
+        }
+      }).catch((error) => {
+        console.log("Erro ao carregar dados do Firebase:", error);
+      });
+    }
+
+    loadGlobalRanking();
+
+    // Função para formatar a data
+    function formatDate(date) {
+      if (!date) return 'Não informado';
+      return new Date(date).toLocaleDateString('pt-BR');
+    }
+  </script>
+
+</body>
+</html>

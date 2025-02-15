@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagem Salva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* Estilo do Popup */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+      font-size: 24px;
+      text-align: center;
+      white-space: pre-wrap;
+      border-right: 3px solid #00FFFF; /* Cursor neon */
+    }
+
+    /* Botão de Fechar */
+    #close-btn {
+      margin-top: 20px;
+      background-color: #00FFFF;
+      color: #121212;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #close-btn:hover {
+      background-color: #00b3b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Popup -->
+  <div id="popup">
+    <div id="message"></div>
+    <button id="close-btn">Fechar</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+    const popup = document.getElementById("popup");
+    const messageDiv = document.getElementById("message");
+    const closeBtn = document.getElementById("close-btn");
+
+    function typeText(text, element, speed = 50) {
+      element.innerHTML = "";
+      let i = 0;
+      function typing() {
+        if (i < text.length) {
+          element.innerHTML += text[i];
+          i++;
+          setTimeout(typing, speed);
+        } else {
+          element.style.borderRight = "none"; // Remove o cursor ao finalizar
+        }
+      }
+      typing();
+    }
+
+    // Verifica autenticação antes de exibir a mensagem
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Verifica se o popup já foi mostrado hoje
+        const today = new Date().toISOString().split('T')[0]; // Obtemos a data de hoje no formato YYYY-MM-DD
+        const lastShownDate = localStorage.getItem('lastPopupDate');
+
+        if (lastShownDate !== today) {
+          const messageRef = ref(database, "content/message");
+          onValue(messageRef, (snapshot) => {
+            const data = snapshot.val();
+            const messageText = data ? data.text : "Nenhuma mensagem disponível.";
+            typeText(messageText, messageDiv);
+            popup.style.display = 'block'; // Exibe o popup
+          });
+
+          // Armazena a data de hoje no localStorage
+          localStorage.setItem('lastPopupDate', today);
+        }
+      } else {
+        window.location.href = "login.html"; // Redireciona para login se não estiver autenticado
+      }
+    });
+
+    // Fechar o popup
+    closeBtn.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>

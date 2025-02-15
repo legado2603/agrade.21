@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat com Notificações Personalizadas</title>
+    <style>
+        /* Estilo da notificação */
+        .notificacao {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none; /* Inicialmente oculta */
+        }
+
+        /* Botão de fechar */
+        .fechar {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sala de Chat</h1>
+    <div id="chat"></div>
+    <input type="text" id="mensagem" placeholder="Digite uma mensagem">
+    <button onclick="enviarMensagem()">Enviar</button>
+
+    <!-- Div da notificação -->
+    <div id="minhaNotificacao" class="notificacao">
+        <span class="fechar" onclick="fecharNotificacao()">&times;</span>
+        <span id="notificacaoTexto"></span>
+    </div>
+
+    <script>
+        // Função para exibir uma notificação personalizada
+        function exibirNotificacao(mensagem) {
+            const notificacao = document.getElementById("minhaNotificacao");
+            const notificacaoTexto = document.getElementById("notificacaoTexto");
+            notificacaoTexto.textContent = mensagem;
+            notificacao.style.display = "block"; // Exibe a notificação
+
+            // Fecha a notificação após 5 segundos
+            setTimeout(() => {
+                fecharNotificacao();
+            }, 5000);
+        }
+
+        // Função para fechar a notificação
+        function fecharNotificacao() {
+            const notificacao = document.getElementById("minhaNotificacao");
+            notificacao.style.display = "none"; // Oculta a notificação
+        }
+
+        // Simulação de recebimento de mensagens
+        function simularNovaMensagem() {
+            const mensagem = "Usuário diz: Olá!";
+            exibirNotificacao(mensagem);
+            document.getElementById("chat").innerHTML += `<p>${mensagem}</p>`;
+        }
+
+        // Enviar mensagem (simulação)
+        function enviarMensagem() {
+            const mensagem = document.getElementById("mensagem").value;
+            document.getElementById("chat").innerHTML += `<p>Você diz: ${mensagem}</p>`;
+            document.getElementById("mensagem").value = "";
+        }
+
+        // Simula uma nova mensagem a cada 10 segundos
+        setInterval(simularNovaMensagem, 10000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status da Internet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #0d1117;
+      color: #00ffff;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 0.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    #status {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #ff0000;
+      animation: pulse 1s infinite alternate;
+    }
+    #status.online {
+      color: #00ff00;
+    }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Status da Internet</h1>
+  <p>Conexão: <span id="status">Verificando...</span></p>
+
+  <script>
+    const statusElement = document.getElementById('status');
+
+    function updateStatus() {
+      if (navigator.onLine) {
+        statusElement.textContent = 'Online';
+        statusElement.classList.add('online');
+      } else {
+        statusElement.textContent = 'Offline';
+        statusElement.classList.remove('online');
+      }
+    }
+
+    // Atualiza o status ao carregar a página
+    updateStatus();
+
+    // Escuta mudanças no status da conexão
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+  </script>
+</body>
+</html>

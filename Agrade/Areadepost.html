@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área de Postagens</title>
+  <style>
+    /* Estilo básico para a página */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #fff;
+    }
+
+    /* Container geral */
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Estilo para a área de postagens */
+    #postsContainer {
+      margin-bottom: 20px;
+    }
+
+    .post {
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .post p {
+      margin: 5px 0;
+    }
+
+    .post img {
+      width: 100%;
+      max-width: 500px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    .post video {
+      width: 100%;
+      max-width: 500px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    .post .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .post .actions button {
+      background-color: #00FFFF;
+      color: #121212;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .post .actions button:hover {
+      background-color: #00b3b3;
+    }
+
+    /* Estilo do formulário de postagem */
+    .post-form {
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .post-form h2 {
+      color: #00FFFF;
+    }
+
+    .post-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      background-color: #333;
+      border: 1px solid #444;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    .post-form input[type="file"] {
+      border: none;
+    }
+
+    .post-form button {
+      background-color: #FF00FF;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .post-form button:hover {
+      background-color: #cc00cc;
+    }
+
+    #formStatus {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #FF00FF;
+    }
+
+    /* Estilo para os comentários */
+    .comment {
+      background-color: #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comment-header img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+
+    .comment-header span {
+      font-weight: bold;
+    }
+
+    .comment p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="postsContainer"></div>
+    <div class="post-form">
+      <h2>Crie uma postagem</h2>
+      <input type="text" id="postText" placeholder="Digite sua legenda">
+      <input type="file" id="postMedia" accept="image/*,video/mp4">
+      <button id="submitPost">Postar</button>
+      <div id="formStatus"></div>
+    </div>
+  </div>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+  import { getDatabase, ref, push, update, onValue, get, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+  import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+    authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+    databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+    projectId: "socialnetwork021-fad5a",
+    storageBucket: "socialnetwork021-fad5a.appspot.com",
+    messagingSenderId: "1040846806964",
+    appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+    measurementId: "G-0NC44RCWV6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const database = getDatabase(app);
+  const storage = getStorage(app);
+
+  let currentUser = null;
+
+  // Função para verificar o estado do usuário
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (!user) {
+      alert("Você precisa estar logado para acessar esta área.");
+    }
+  });
+
+  // DOM elements
+  const postFormStatus = document.getElementById("formStatus");
+  const postsContainer = document.getElementById("postsContainer");
+  const postText = document.getElementById("postText");
+  const postMedia = document.getElementById("postMedia");
+  const submitPost = document.getElementById("submitPost");
+
+  // Função para criar uma postagem
+  const createPost = async () => {
+    if (!currentUser) {
+      postFormStatus.innerText = "Você precisa estar logado para postar.";
+      return;
+    }
+
+    const text = postText.value.trim();
+    const file = postMedia.files[0];
+
+    if (!text && !file) {
+      postFormStatus.innerText = "Adicione texto ou mídia à sua postagem.";
+      return;
+    }
+
+    try {
+      let mediaUrl = null;
+      let mediaType = null;
+
+      if (file) {
+        const fileRef = storageRef(storage, `posts/${currentUser.uid}/${file.name}`);
+        await uploadBytes(fileRef, file);
+        mediaUrl = await getDownloadURL(fileRef);
+        mediaType = file.type.startsWith("image/") ? "image" : "video";
+      }
+
+      const postData = {
+        userId: currentUser.uid,
+        userName: currentUser.displayName || currentUser.email.split("@")[0],
+        photoURL: await getProfilePhotoURL(currentUser.uid),
+        text,
+        mediaUrl,
+        mediaType,
+        timestamp: Date.now(),
+        likes: 0,
+        comments: [],
+      };
+
+      const postsRef = ref(database, "posts");
+      await push(postsRef, postData);
+
+      postFormStatus.innerText = "Postagem criada com sucesso!";
+      postText.value = "";
+      postMedia.value = "";
+    } catch (error) {
+      postFormStatus.innerText = "Erro ao criar postagem.";
+    }
+  };
+
+  submitPost.addEventListener("click", createPost);
+
+  // Função para exibir postagens
+  const postsRef = ref(database, "posts");
+onValue(postsRef, (snapshot) => {
+  postsContainer.innerHTML = ""; // Limpa a área de posts
+
+  snapshot.forEach((childSnapshot) => {
+    const postKey = childSnapshot.key;
+    const post = childSnapshot.val();
+
+    const postDiv = document.createElement("div");
+    postDiv.classList.add("post");
+
+    let mediaHtml = "";
+    if (post.mediaType === "image") {
+      mediaHtml = `<img src="${post.mediaUrl}" alt="Imagem da postagem">`;
+    } else if (post.mediaType === "video") {
+      mediaHtml = `<video controls><source src="${post.mediaUrl}" type="video/mp4"></video>`;
+    }
+
+    postDiv.innerHTML = `
+      <p><strong>${post.userName}</strong></p>
+      <p>${post.text || ""}</p>
+      ${mediaHtml}
+      <p><small>${new Date(post.timestamp).toLocaleString()}</small></p>
+      <div id="comments-${postKey}" class="comments-container"></div>
+      <input type="text" id="commentInput-${postKey}" placeholder="Adicione um comentário">
+      <button onclick="addComment('${postKey}')">Comentar</button>
+      <div class="actions">
+        <button onclick="likePost('${postKey}')">Curtir (${post.likes || 0})</button>
+        <button onclick="sharePost('${postKey}')">Compartilhar</button>
+        <button onclick="toggleFavorite('${postKey}')">Favoritar</button>
+        <button onclick="deletePost('${postKey}')">Apagar</button>
+      </div>
+    `;
+    
+    postsContainer.appendChild(postDiv);
+  });
+
+  // Rolando a tela para a última postagem
+  const lastPost = postsContainer.lastElementChild;
+  if (lastPost) {
+    lastPost.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+});
+
+  window.likePost = async (postKey) => {
+    const postRef = ref(database, `posts/${postKey}`);
+    const postSnap = await get(postRef);
+    const postData = postSnap.val();
+    const likes = (postData.likes || 0) + 1;
+    await update(postRef, { likes });
+  };
+
+  window.deletePost = async (postKey) => {
+    const postRef = ref(database, `posts/${postKey}`);
+    await remove(postRef);
+  };
+
+  // Função para obter a foto do perfil do usuário
+  const getProfilePhotoURL = async (userId) => {
+    const userRef = ref(database, `users/${userId}`);
+    const userSnap = await get(userRef);
+    return userSnap.exists() ? userSnap.val().photoURL : "default-profile.jpg";
+  };
+
+
+</script>
+</body>
+</html>

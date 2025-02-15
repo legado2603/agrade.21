@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music JSON Firebase</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #20232a;
+      color: #61dafb;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #282c34;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+    }
+    input {
+      background: #3a3f47;
+      color: #fff;
+    }
+    button {
+      background: #61dafb;
+      color: #20232a;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #21a1f1;
+    }
+    pre {
+      background: #1b1f24;
+      padding: 20px;
+      border-radius: 5px;
+      color: #fff;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Music JSON Editor (Firebase)</h1>
+  <form id="musicForm">
+    <label for="genre">Gênero</label>
+    <input type="text" id="genre" placeholder="Digite o gênero" required>
+
+    <label for="artist">Artista</label>
+    <input type="text" id="artist" placeholder="Digite o artista" required>
+
+    <label for="album">Álbum</label>
+    <input type="text" id="album" placeholder="Digite o álbum" required>
+
+    <label for="track">Faixa</label>
+    <input type="text" id="track" placeholder="Digite o nome da faixa" required>
+
+    <label for="url">Link da Música</label>
+    <input type="url" id="url" placeholder="Digite o link para reprodução" required>
+
+    <button type="button" id="addMusic">Adicionar Música</button>
+  </form>
+
+  <h2>Arquivo JSON</h2>
+  <pre id="output">{}</pre>
+
+  <script type="module">
+    // Importar as funções necessárias do SDK do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    console.log("Firebase inicializado com sucesso");
+
+    const musicData = {}; // Estrutura inicial do JSON
+
+    document.getElementById("addMusic").addEventListener("click", async () => {
+      const genre = document.getElementById("genre").value.trim();
+      const artist = document.getElementById("artist").value.trim();
+      const album = document.getElementById("album").value.trim();
+      const track = document.getElementById("track").value.trim();
+      const url = document.getElementById("url").value.trim();
+
+      if (!genre || !artist || !album || !track || !url) {
+        alert("Por favor, preencha todos os campos!");
+        return;
+      }
+
+      // Validar URL
+      try {
+        new URL(url);
+      } catch (e) {
+        alert("Por favor, insira uma URL válida!");
+        return;
+      }
+
+      // Atualizar a estrutura do JSON local
+      if (!musicData[genre]) {
+        musicData[genre] = {};
+      }
+      if (!musicData[genre][artist]) {
+        musicData[genre][artist] = {};
+      }
+      if (!musicData[genre][artist][album]) {
+        musicData[genre][artist][album] = [];
+      }
+      musicData[genre][artist][album].push({ track, url });
+
+      // Atualizar o JSON exibido na página
+      document.getElementById("output").textContent = JSON.stringify(musicData, null, 2);
+
+      // Enviar os dados para o Firebase
+      const musicRef = ref(db, "musicData");
+      await set(musicRef, musicData);
+
+      // Limpar campos
+      document.getElementById("musicForm").reset();
+
+      alert("Música adicionada ao Firebase com sucesso!");
+    });
+  </script>
+</body>
+</html>

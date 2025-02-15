@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000"> <!-- Cor inicial da barra de navegação -->
+    <title>Theme Color Dinâmico</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            transition: background-color 1s ease; /* Transição suave para fundo */
+        }
+        h1 {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+        button {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            padding: 10px 20px;
+            color: #000;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        button:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Barra de Navegação com Cores Dinâmicas</h1>
+    <p>A cor da barra do navegador mudará automaticamente.</p>
+    
+    <button onclick="mudarCor()">Mudar Cor Manualmente</button>
+
+    <script>
+        const cores = [
+            "#ff0000", "#00ff00", "#0000ff", "#ff00ff", "#ff6600", 
+            "#ffff00", "#ff007f", "#00ff7f", "#8000ff", "#ff8800", 
+            "#00ffff", "#ff8c00", "#ff1493", "#000000", "#ffffff",
+            "#c71585", "#32cd32", "#ff6347", "#4682b4", "#8a2be2",
+            "#ff4500", "#2e8b57", "#da70d6", "#ff69b4", "#00bfff",
+            "#a52a2a", "#5f9ea0", "#7fff00", "#d2691e", "#ff7f50", 
+            "#6495ed", "#fff8dc", "#dc143c", "#00bfff", "#ff1493",
+            "#ff6347", "#adff2f", "#f08080", "#e0ffff", "#98fb98",
+            "#ff8c00", "#9932cc", "#8b0000", "#8b008b", "#ff1493",
+            "#cd5c5c", "#ff4500", "#6a5acd", "#7cfc00", "#fffacd",
+            "#fafad2", "#90ee90", "#d3d3d3", "#ffdead", "#ffdab9",
+            "#f0e68c", "#add8e6", "#e6e6fa", "#fff0f5", "#f5f5f5",
+            "#ffb6c1", "#87cefa", "#8a2be2", "#a9a9a9", "#000080"
+        ];
+        let index = 0;
+
+        // Função para mudar a cor com transição suave
+        function mudarCor() {
+            document.querySelector('meta[name="theme-color"]').setAttribute("content", cores[index]);
+            localStorage.setItem("corEscolhida", cores[index]);  // Salva a cor no localStorage
+            index = (index + 1) % cores.length;
+        }
+
+        // Mudança de cor a cada 5 minutos (300000ms) usando cores sequenciais
+        setInterval(() => {
+            document.querySelector('meta[name="theme-color"]').setAttribute("content", cores[index]);
+            localStorage.setItem("corEscolhida", cores[index]);  // Salva a cor no localStorage
+            index = (index + 1) % cores.length;
+        }, 300000);
+
+        // Mudança de cor ao rolar a página
+        window.addEventListener("scroll", () => {
+            let scrollPos = window.scrollY;
+            let novaCor = scrollPos > 300 ? "#ff00ff" : "#00ffff";
+            document.querySelector('meta[name="theme-color"]').setAttribute("content", novaCor);
+            localStorage.setItem("corEscolhida", novaCor);  // Salva a cor de rolagem no localStorage
+        });
+
+        // Carrega a cor salva do localStorage quando a página for recarregada
+        window.onload = function() {
+            const corSalva = localStorage.getItem("corEscolhida");
+            if (corSalva) {
+                document.querySelector('meta[name="theme-color"]').setAttribute("content", corSalva);
+            } else {
+                mudarCor();  // Caso não tenha cor salva, escolhe uma inicial
+            }
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking Global</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: #00ffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #rankingGlobal {
+      background-color: #161b22;
+      border: 1px solid #00ffff;
+      border-radius: 10px;
+      padding: 15px;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    #rankingGlobal h2 {
+      color: #ff00ff;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    #rankingGlobal p {
+      margin: 5px 0;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .loading {
+      font-size: 18px;
+      color: #ff00ff;
+    }
+
+    #loginError {
+      color: #ff0000;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="rankingGlobal">
+    <h2>Ranking Global</h2>
+    <p class="loading">Carregando...</p>
+  </div>
+  <div id="loginError"></div>
+
+  <script type="module">
+    // Importando os módulos do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Função para carregar o ranking global
+    function loadGlobalRanking() {
+      const rankingRef = ref(database, "users");
+
+      get(rankingRef).then(snapshot => {
+        if (snapshot.exists()) {
+          const rankingData = [];
+
+          snapshot.forEach(childSnapshot => {
+            const userData = childSnapshot.val();
+            if (userData.game) {
+              rankingData.push({
+                name: userData.displayName || "Jogador Anônimo", // Usando displayName agora
+                xp: userData.game?.xp || 0
+              });
+            }
+          });
+
+          // Ordenar o ranking por XP
+          rankingData.sort((a, b) => b.xp - a.xp);
+
+          const rankingElement = document.getElementById("rankingGlobal");
+          rankingElement.innerHTML = "<h2>Ranking Global</h2>";
+          rankingData.forEach((player, index) => {
+            const rankItem = document.createElement("p");
+            rankItem.innerHTML = `<strong>${index + 1}º</strong> ${player.name} - XP: ${player.xp}`;
+            rankingElement.appendChild(rankItem);
+          });
+        } else {
+          console.log("Nenhum dado encontrado no Firebase.");
+        }
+      }).catch((error) => {
+        console.log("Erro ao carregar dados do Firebase:", error);
+      });
+    }
+
+    // Verifica o estado de autenticação do usuário
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Se o usuário estiver logado, carrega o ranking
+        loadGlobalRanking();
+      } else {
+        // Se não estiver logado, exibe uma mensagem de erro
+        document.getElementById("loginError").innerText = "Você precisa estar logado para acessar o ranking.";
+        document.getElementById("rankingGlobal").style.display = "none"; // Esconde o ranking
+      }
+    });
+  </script>
+
+</body>
+</html>

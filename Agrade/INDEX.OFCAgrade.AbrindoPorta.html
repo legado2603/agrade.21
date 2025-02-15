@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="Seu App"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Descrição do seu site ou app para SEO">
+  <meta name="keywords" content="palavras-chave, mobile, app, site">
+  <meta name="author" content="Seu Nome">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte Google -->
+  <title>Layout Estilo Egípcio com Porta Principal - Efeitos Cyberpunk</title>
+  <style>
+    /* Reset de margens e padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+  font-family: 'Arial', sans-serif;
+  background-color: #111;
+  background-image: url('img/ece9acbd-6305-42d9-9d85-79b26e137265.jpeg'); /* Caminho da imagem */
+  background-size: cover; /* Faz a imagem cobrir toda a tela */
+  background-position: center; /* Centraliza a imagem */
+  background-repeat: no-repeat; /* Impede que a imagem se repita */
+  color: #FFFF00;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw; /* Garantindo a largura total */
+  overflow: hidden; /* Impede o scroll */
+  transition: background-color 0.3s ease;
+}
+
+    /* Estilo da área principal do conteúdo */
+    .content {
+      display: flex;
+      flex-grow: 1;
+      position: relative;
+      margin-top: 20px;
+      margin-left: 160px; /* Ajustado para compatibilidade com as sidebars */
+      margin-right: 160px; /* Ajustado para compatibilidade com as sidebars */
+      height: calc(100vh - 60px); /* Altura ajustada para evitar rolagem */
+      overflow: hidden; /* Impede rolagem dentro da área de conteúdo */
+      transition: margin 0.3s ease;
+    }
+
+    /* Estilo para as sidebars */
+    .sidebar {
+      position: fixed;
+      background-color: #000;
+      border: 2px solid #00FF00;
+      padding: 15px;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+      z-index: 100;
+      transition: transform 0.3s ease, box-shadow 0.2s ease;
+      overflow: hidden;
+      border-radius: 14%;
+    }
+
+    .sidebar button {
+      background-color: #111;
+      color: #00FF00;
+      border: 2px solid #00FF00;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+      width: 100%;
+      cursor: pointer;
+      font-size: 18px;
+      letter-spacing: 2px;
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+      transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      border-radius: 7%;
+    }
+
+    .sidebar button:hover {
+      background-color: #00FF00;
+      color: #000;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 1);
+      transform: scale(1.05);
+    }
+
+    /* Sidebar da esquerda */
+    .left-sidebar {
+      top: auto;
+      bottom: 0;
+      left: 0;
+      width: 160px;  /* Largura da sidebar */
+      transform: translateY(100%);
+      border-radius: 7%;
+      background-color: rgba(0, 0, 0, 0.5); /* Fundo quase transparente */
+    }
+
+    .right-sidebar {
+  top: auto;
+  bottom: 0;
+  right: 0;
+  width: 160px;  /* Largura da sidebar */
+  transform: translateY(100%);
+  border-radius: 7%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo quase transparente */
+}
+
+    /* Sidebar superior */
+    .top-sidebar {
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 45px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border: none;
+      background-color: #222;
+      box-shadow: 0 2px 15px rgba(0, 255, 0, 0.8);
+      transform: translateY(-100%);
+      animation: topSidebarAnimation 0.3s ease-in-out;
+    }
+
+    .top-sidebar button {
+      width: auto;
+      flex: 1;
+      text-align: center;
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: #00FF00;
+      background-color: #111;
+      border: 2px solid #00FF00;
+      padding: 10px;
+      margin: 5px;
+      transition: all 0.2s ease;
+      border-radius: 7%;
+    }
+
+    .top-sidebar button:hover {
+      background-color: #00FF00;
+      color: #000;
+      transform: scale(1.1);
+    }
+
+    /* Efeito para as animações da sidebar superior */
+    @keyframes topSidebarAnimation {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Área de conteúdo principal (a "porta") */
+.main-content {
+  flex-grow: 1;
+  padding: 9px;
+  background-color: rgba(34, 34, 34, 0.7); /* Cor escura com opacidade */
+  box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.7);
+  text-align: center;
+  overflow-y: auto; /* Permite rolar verticalmente */
+  transition: margin 0.3s ease, background-color 0.3s ease;
+}
+
+    .main-content h1 {
+      font-size: 48px;
+      color: #FFFF00;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00FF00, 0 0 30px #00FF00;
+      animation: glowText 1.5s ease-in-out infinite alternate;
+    }
+
+    .main-content p {
+      font-size: 20px;
+      color: #ADD8E6;
+      text-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00;
+    }
+
+    /* Efeito de texto neon */
+    @keyframes glowText {
+      0% { text-shadow: 0 0 10px #00FF00, 0 0 30px #00FF00, 0 0 60px #00FF00; }
+      100% { text-shadow: 0 0 20px #FF0000, 0 0 40px #FF0000, 0 0 80px #FF0000; }
+    }
+
+/* Imagem no espaço de botão */
+.sidebar-image {
+  position: relative;
+  background-image: url('gif/229223156-0cbdaba9-3128-4d8e-8719-b6b4cf741b67.gif'); /* Substitua pela URL da sua imagem */
+  background-size: cover;
+  background-position: center;
+  height: 120px;  /* Altura do "botão" da imagem */
+  border: none;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 7%;
+}
+
+.sidebar-image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Cor semi-transparente */
+  border-radius: 7%;
+  pointer-events: none; /* Impede que a sobreposição bloqueie a interação com o botão */
+}
+
+    .sidebar-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 255, 0, 1);
+    }
+
+    /* Espaço clicável para fechar as sidebars */
+    .sidebar-close {
+      background-color: #222;
+      color: #00FF00;
+      border: 2px solid #00FF00;
+      height: 60px;  /* Tamanho do espaço */
+      margin: 10px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .sidebar-close:hover {
+      background-color: #00FF00;
+      color: #000;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 1);
+    }
+    .title1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10px; /* Ajuste conforme o layout desejado */
+}
+
+.title1 img {
+  max-width: 100%; /* Garante que a logo se ajuste ao espaço disponível */
+  height: auto;    /* Mantém a proporção */
+  max-height: 100px; /* Define um limite para a altura da logo */
+}
+            #newsContainer {
+    margin: 0px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0px; /* Espaçamento entre os artigos */
+    max-height: 50vh; /* Define uma altura máxima de 70% da viewport */
+    overflow-y: auto; /* Permite rolagem vertical */
+    padding: 0px;
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    background: rgba(18, 18, 18, 0.9); /* Fundo translúcido */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 255, 0.6);
+    }
+    .news-article {
+            background: linear-gradient(145deg, #222, #333);
+            border-radius: 12px;
+            padding: 10px;
+            margin: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 4px 15px rgba(0, 255, 255, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            flex: 1 1 150px; /* Ajustado para menor largura */
+            max-width: 150px; /* Ajustado para menor largura */
+        }
+
+        .news-article:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 45px rgba(0, 255, 255, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .news-article h3 {
+            font-size: 1em; /* Ajustado para menor tamanho */
+            margin: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #00ffff;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .news-article h3:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+        }
+
+        .news-article p {
+            font-size: 0.8em; /* Ajustado para menor tamanho */
+            margin: 5px 0;
+            color: #bbb;
+            transition: color 0.3s ease;
+        }
+
+        .news-article p:hover {
+            color: #fff;
+        }
+
+        .news-article a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid #00ffff;
+            transition: all 0.3s ease;
+        }
+
+        .news-article a:hover {
+            color: #ff00ff;
+            border-bottom: 2px solid #ff00ff;
+            transform: scale(1.05);
+        }
+
+        .news-article img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 5px; /* Diminuído */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .news-article img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Estilo do Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .modal-content {
+            background: #1e1e1e;
+            margin: 10% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 900px;
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 50px rgba(0, 255, 255, 0.5);
+        }
+
+        .close {
+            color: #fff;
+            font-size: 30px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ff00ff;
+        }
+
+        iframe {
+            width: 100%;
+            height: 75vh;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Animação do Modal */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Efeitos de Transição */
+        @keyframes glowing {
+            0% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+            50% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff; }
+            100% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: glowing 1.5s ease-in-out infinite;
+        }
+
+        /* Media Query para telas menores (Exemplo) */
+        @media (max-width: 768px) { 
+            #newsContainer {
+                justify-content: center; /* Centraliza os artigos em telas menores */
+            }
+            .news-article {
+                width: calc(50% - 7px); /* Ajusta para 2 colunas em telas menores */
+            }
+        }
+        #closeButton1 {
+  background-color: #FF00FF; /* Cor de fundo neon */
+  color: white; /* Texto branco */
+  border: none; /* Sem borda */
+  padding: 2px 4px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  cursor: pointer; /* Indica que é clicável */
+  border-radius: 5px; /* Bordas arredondadas */
+  transition: all 0.3s ease; /* Animação suave para a interação */
+  position: absolute; /* Torna possível posicionar no canto */
+  left: 10px; /* Distância da borda esquerda */
+  top: 7px; /* Distância da borda superior */
+}
+
+/* Efeito ao passar o mouse */
+#closeButton1:hover {
+  background-color: #00FFFF; /* Cor de fundo ao passar o mouse */
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.8); /* Sombra externa para destaque */
+}
+
+#chatContainer {
+      width: 300px;
+      height: 400px;
+      background-color: #222;
+      color: #fff;
+      padding: 10px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      border-radius: 10px;
+      display: block; /* Exibe o chat por padrão */
+      transition: opacity 0.3s ease;
+    }
+
+    #chatContainer.hidden {
+      display: none; /* Esconde o chat */
+    }
+
+    #messageInputContainer {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    #messageInput {
+      flex-grow: 1;
+      padding: 5px;
+      margin-right: 10px;
+    }
+
+    #sendMessage {
+      padding: 5px 10px;
+    }
+
+    #toggleChatButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #FF00FF;
+      color: white;
+      padding: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 30px;
+      z-index: 9999; /* Garante que o botão fique à frente de outros elementos */
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra para destacar o botão */
+    }
+    .container {
+  max-width: 750px; /* Diminuindo a largura */
+  margin: auto;
+  padding: 20px;
+}
+
+.post-form, .post {
+  background: rgba(34, 34, 34, 0.9);
+  padding: 12px; /* Menor padding */
+  border-radius: 8px; /* Menor borda arredondada */
+  margin-bottom: 18px; /* Menor margem */
+  box-shadow: 0 0 8px rgba(0, 255, 0, 0.7); /* Menor sombra */
+}
+
+input[type="file"], input[type="text"], textarea {
+  width: 100%;
+  margin: 8px 0; /* Menor margem */
+  padding: 8px; /* Menor padding */
+  border-radius: 4px;
+  border: none;
+}
+
+button {
+  padding: 8px 16px; /* Menor padding */
+  background-color: #00FFFF;
+  color: #111;
+  border: none;
+  border-radius: 4px; /* Menos arredondado */
+  cursor: pointer;
+  font-size: 14px; /* Menor fonte */
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #FF00FF;
+  color: #fff;
+}
+
+.post img, .post video {
+  max-width: 90%; /* Menor largura da mídia */
+  border-radius: 8px; /* Menos arredondado */
+  margin-top: 8px; /* Menor margem */
+}
+
+.actions {
+  margin-top: 8px; /* Menor margem */
+  display: flex;
+  gap: 8px; /* Menor gap */
+  align-items: center;
+}
+
+.comment-section {
+  margin-top: 8px; /* Menor margem */
+}
+
+.comment {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px; /* Menor padding */
+  margin-top: 4px; /* Menor margem */
+  border-radius: 4px; /* Menos arredondado */
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Menor gap */
+}
+
+.comment-header img {
+  width: 28px; /* Menor tamanho da imagem */
+  height: 28px; /* Menor tamanho da imagem */
+  border-radius: 50%;
+}
+
+.comment-header span {
+  font-size: 0.75em; /* Menor tamanho de fonte */
+  color: #aaa;
+}
+
+.comment input {
+  width: 75%; /* Menor largura do campo de comentário */
+  margin-top: 8px; /* Menor margem */
+}
+
+/* Estilo para o cabeçalho do post */
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Menor gap */
+  margin-bottom: 12px; /* Menor margem */
+}
+
+.post-photo {
+  width: 36px; /* Menor largura da foto */
+  height: 36px; /* Menor altura da foto */
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.post-header p {
+  margin: 0;
+  font-size: 12px; /* Menor tamanho do nome do autor */
+  color: #333;
+  font-weight: bold;
+}
+#marqueeContainer {
+      margin-top: 20px;
+      padding: 10px;
+      border-top: 2px solid #ccc;
+      background-color: #0e0e0e; /* Fundo escuro */
+      color: #fff; /* Texto claro */
+      border-radius: 8px; /* Arredondamento */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+
+    marquee {
+      color: #00FFFF; /* Neon Azul */
+      font-size: 20px; /* Tamanho do texto */
+      text-shadow: 0 0 8px #00FFFF, 0 0 16px #FF00FF, 0 0 24px #FF00FF; /* Efeitos de brilho */
+      animation: marqueeEffect 10s linear infinite; /* Animação personalizada */
+    }
+
+    @keyframes marqueeEffect {
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</head>
+  <body>
+
+  <!-- Sidebar Superior -->
+  <div class="top-sidebar">
+    <button onclick="window.location.href='https://josericardobarbosa.wordpress.com/'">Site</button>
+<button onclick="window.location.href='https://agrade21.blogspot.com/?m=1'">Blog</button>
+<button onclick="window.location.href='https://www.agrade.space/'">Home</button>
+<button onclick="window.location.href='URL_DO_CONTATO'">Contato</button>
+  </div>
+
+  <!-- Área central com sidebars laterais -->
+  <div class="container">
+    
+  </div>
+  <div class="title1">
+  <img id="uploadedLogo" src="" alt="A-Grade Logo">
+  
+</div>
+</div>
+</div>
+</div>
+</div>
+  <div class="content">
+    <!-- Sidebar Esquerda -->
+    <div class="sidebar left-sidebar">
+      <div class="sidebar-image" onclick="closeSidebar()"></div>  <!-- Imagem como "botão" -->
+      <button onclick="window.location.href='pag/mission.html'">Missões</button>
+<button onclick="window.location.href='pag/perfil.html'">Perfil</button>
+<button onclick="window.location.href='mural.html'">Mural</button>
+<button onclick="window.location.href='pag/starchat1.html'">StarChat</button>
+      <div class="sidebar-close" onclick="closeSidebar()">Sidebar Esquerda</div>  <!-- Espaço clicável -->
+    </div>
+
+    <!-- Conteúdo Principal (a "porta") -->
+    
+    <div class="main-content">
+      
+    <button id="closeButton1">Fechar</button>
+    
+    <div id="newsContainer">
+        <!-- Conteúdo da div aqui -->
+        <p>Este é o conteúdo da div que será fechado.</p>
+    </div>
+    <title1>TimeLine</title1>
+    <div id="clock"></div>
+     <div id="marqueeContainer">
+      <marquee id="marqueeText" behavior="scroll" direction="left"></marquee>
+    </div>
+    <div class="container">
+    <div id="postsContainer"></div>
+    <div class="post-form">
+      <h2>Crie uma postagem</h2>
+      <input type="text" id="postText" placeholder="Digite sua legenda">
+      <input type="file" id="postMedia" accept="image/*,video/mp4">
+      <button id="submitPost">Postar</button>
+      <div id="formStatus"></div>
+    </div>
+    <div id="postsContainer"></div>
+  </div>
+      <button id="toggleChatButton">💬</button>
+    
+    <!-- Botão para abrir/fechar o chat -->
+
+    <div id="chatContainer">
+    <div id="onlineUsersCount">0 usuário(s) online</div>
+    <div id="messages"></div>
+    <div id="messageInputContainer">
+      <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
+      <button id="sendMessage">Enviar</button>
+    </div>
+    <div id="authStatus"></div>
+    <button id="logoutButton" style="display:none;">Logout</button>
+  </div>
+</div>
+    
+
+    <!-- Modal -->
+    <div id="newsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="newsIframe" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+    </div>
+
+    <!-- Sidebar Direita -->
+    <div class="sidebar right-sidebar">
+      <div class="sidebar-image" onclick="closeSidebar()"></div>  <!-- Imagem como "botão" -->
+      <button onclick="window.location.href='player.html'">🎶Player</button>
+<button onclick="window.location.href='URL_DO_SAFIRABOT'">SafiraBot</button>
+<button onclick="window.location.href='URL_DO_ENN'">*ENN</button>
+<button onclick="window.location.href='URL_DOS_VIDEOS'">*Videos</button>
+      <div class="sidebar-close" onclick="closeSidebar()">Sidebar direita</div>  <!-- Espaço clicável -->
+    </div>
+  </div>
+    <script type="module">
+  // Script Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+  import { getDatabase, ref, set, push, onChildAdded, get, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+    authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+    databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+    projectId: "socialnetwork021-fad5a",
+    storageBucket: "socialnetwork021-fad5a.appspot.com",
+    messagingSenderId: "1040846806964",
+    appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+    measurementId: "G-0NC44RCWV6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const rtdb = getDatabase(app);
+
+  let userName = `Anônimo_${Math.floor(Math.random() * 1000)}`;
+  let userId = `${Math.random().toString(36).substr(2, 9)}`;
+  let lastAuthTime = Date.now(); // Armazena o tempo de autenticação
+
+  // Função para verificar se o usuário está autenticado e atualizar a lista de online
+  function checkAuthentication() {
+    const user = auth.currentUser;
+    if (user) {
+      if (userId !== user.uid) {
+        userName = user.displayName || user.email;
+        userId = user.uid;
+        document.getElementById('authStatus').textContent = `Bem-vindo, ${userName}`;
+        document.getElementById('logoutButton').style.display = 'inline-block';
+        addUserToOnlineList();
+      }
+    } else {
+      document.getElementById('authStatus').textContent = 'Você não está autenticado. Faça login para participar do chat.';
+      document.getElementById('logoutButton').style.display = 'none';
+      resetUser();
+    }
+  }
+
+  // Função para resetar o nome de usuário e ID
+  function resetUser() {
+    userName = `Anônimo_${Math.floor(Math.random() * 1000)}`;
+    userId = `${Math.random().toString(36).substr(2, 9)}`;
+    updateOnlineUsersCount(); // Atualiza a contagem de usuários online
+  }
+
+  // Função para atualizar o contador de usuários online
+  function updateOnlineUsersCount() {
+    const onlineUsersRef = ref(rtdb, `rooms/general/onlineUsers`);
+    get(onlineUsersRef).then(snapshot => {
+      const onlineUsers = snapshot.exists() ? snapshot.val() : {};
+      const userCount = Object.keys(onlineUsers).length;
+      document.getElementById('onlineUsersCount').textContent = `${userCount} usuário(s) online`;
+    });
+  }
+
+  // Função para adicionar um usuário à lista de online no Firebase (somente se autenticado)
+  function addUserToOnlineList() {
+    const onlineUsersRef = ref(rtdb, `rooms/general/onlineUsers/${userId}`);
+    set(onlineUsersRef, { userName: userName }).then(() => {
+      updateOnlineUsersCount(); // Atualiza a contagem de usuários online
+    });
+
+    // Remover o usuário da lista quando sair da página
+    window.addEventListener('beforeunload', () => {
+      remove(onlineUsersRef).then(() => {
+        updateOnlineUsersCount(); // Atualiza a contagem ao remover o usuário
+      });
+    });
+  }
+
+  // Enviar mensagem no chat
+  document.getElementById('sendMessage').addEventListener('click', () => {
+    const messageText = document.getElementById('messageInput').value;
+    if (messageText) {
+      const messagesRef = ref(rtdb, `rooms/general/messages`);
+      const newMessageRef = push(messagesRef);
+      set(newMessageRef, { text: messageText, userName: userName });
+      document.getElementById('messageInput').value = '';
+    }
+  });
+
+  // Carregar as mensagens
+  function loadMessages() {
+    const messagesContainer = document.getElementById('messages');
+    const messagesRef = ref(rtdb, `rooms/general/messages`);
+    onChildAdded(messagesRef, snapshot => {
+      const message = snapshot.val();
+      const messageElement = document.createElement('div');
+      messageElement.textContent = `${message.userName}: ${message.text}`;
+      messagesContainer.appendChild(messageElement);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+  }
+
+  // Função de logout
+  document.getElementById('logoutButton').addEventListener('click', () => {
+    signOut(auth).then(() => {
+      document.getElementById('authStatus').textContent = 'Você foi desconectado.';
+      document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de logout
+
+      // Remover o usuário da lista de online
+      const onlineUsersRef = ref(rtdb, `rooms/general/onlineUsers/${userId}`);
+      remove(onlineUsersRef).then(() => {
+        updateOnlineUsersCount(); // Atualiza a contagem ao remover o usuário
+      });
+
+      resetUser(); // Resetar o nome de usuário para "Anônimo"
+    }).catch((error) => {
+      console.error('Erro ao sair:', error);
+    });
+  });
+
+  // Verificação contínua de autenticação a cada 5 segundos
+  setInterval(() => {
+    checkAuthentication();
+  }, 5000);
+
+  function init() {
+    loadMessages(); // Carregar mensagens
+    updateOnlineUsersCount(); // Atualizar a contagem de usuários
+    checkAuthentication(); // Verificar autenticidade na inicialização
+  }
+
+  init();
+  
+</script>
+
+  <script>
+    
+    // Selecionando as sidebars e o conteúdo
+    const leftSidebar = document.querySelector('.left-sidebar');
+    const rightSidebar = document.querySelector('.right-sidebar');
+    const topSidebar = document.querySelector('.top-sidebar');
+    const content = document.querySelector('.content');
+
+    // Função para abrir as sidebars
+    function openSidebar() {
+      leftSidebar.style.transform = 'translateY(0)';
+      rightSidebar.style.transform = 'translateY(0)';
+      topSidebar.style.transform = 'translateY(0)';
+      content.style.marginLeft = '160px';
+      content.style.marginRight = '160px';
+    }
+
+    // Função para fechar as sidebars
+    function closeSidebar() {
+      leftSidebar.style.transform = 'translateY(100%)';
+      rightSidebar.style.transform = 'translateY(100%)';
+      topSidebar.style.transform = 'translateY(-100%)';
+      content.style.marginLeft = '0';
+      content.style.marginRight = '0';
+    }
+
+    // Adicionando o evento de clique em qualquer parte da tela
+    window.addEventListener('click', (event) => {
+      if (!leftSidebar.contains(event.target) && !rightSidebar.contains(event.target) && !topSidebar.contains(event.target)) {
+        closeSidebar();
+      }
+    });
+
+    //Inicializando com as sidebar abertas
+    
+    openSidebar();
+    
+    const maxDescriptionLength = 221; // Limite de caracteres
+const rssFeeds = [
+    { url: "https://feeds2.feedburner.com/canaltechbr", name: "Canaltech" },
+    { url: "https://extra.globo.com/rss/extra.xml", name: "Extra" }, // Corrigindo o URL do feed do Extra
+    { url: "https://agenciabrasil.ebc.com.br/feed/ultimasnoticias/feed.xml", name: "Agência Brasil" },
+    { url: "https://jovempan.com.br/feed", name: "Jovem Pan" },
+    { url: "https://www.cnnbrasil.com.br/feed/", name: "CNN Brasil" },
+    { url: "https://olhardigital.com.br/rss", name: "Olhar Digital" },
+    { url: "https://olhardigital.com.br/rss/ultimas_noticias.php", name: "Olhar Digital (Últimas)" }
+];
+
+function isNewsFromCurrentMonth(pubDate) {
+    const today = new Date();
+    const newsDate = new Date(pubDate);
+    return newsDate.getFullYear() === today.getFullYear() &&
+           newsDate.getMonth() === today.getMonth();
+}
+
+async function fetchRSS(url) {
+    try {
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
+        const data = await response.json();
+        if (data.status !== "ok") throw new Error(`Erro no feed: ${url}`);
+        return data.items;
+    } catch (error) {
+        console.error(`Erro ao carregar o feed ${url}:`, error);
+        return []; // Retornar array vazio para continuar processando os outros feeds
+    }
+}
+
+async function carregarNoticias() {
+    const container = document.getElementById('newsContainer');
+    container.innerHTML = ''; // Limpar o conteúdo atual
+
+    for (const { url, name } of rssFeeds) {
+        const artigos = await fetchRSS(url);
+        artigos
+            .filter(artigo => isNewsFromCurrentMonth(artigo.pubDate)) // Filtrar notícias do mês atual
+            .forEach(artigo => {
+                let description = artigo.description || "Sem descrição disponível.";
+                if (description.length > maxDescriptionLength) {
+                    description = description.slice(0, maxDescriptionLength) + '...';
+                }
+
+                const artigoElem = document.createElement('div');
+                artigoElem.classList.add('news-article');
+                artigoElem.innerHTML = `
+                    <h3><a href="#" data-url="${artigo.link}">${artigo.title}</a></h3>
+                    <p><strong>Fonte:</strong> ${name}</p>
+                    <p>Publicado em: ${new Date(artigo.pubDate).toLocaleDateString('pt-BR')}</p>
+                    <p>${description}</p>
+                    ${artigo.enclosure && artigo.enclosure.url ? `<img src="${artigo.enclosure.url}" alt="">` : ''}
+                    <hr/>
+                `;
+                artigoElem.querySelector('a')?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal(artigo.link);
+                });
+                container.appendChild(artigoElem);
+            });
+    }
+}
+
+function openModal(url) {
+    const modal = document.getElementById('newsModal');
+    const iframe = document.getElementById('newsIframe');
+    iframe.src = url;
+    modal.style.display = 'block';
+}
+
+document.querySelector('.close').addEventListener('click', () => {
+    document.getElementById('newsModal').style.display = 'none';
+    document.getElementById('newsIframe').src = ''; // Limpar o iframe ao fechar
+});
+
+// Carregar notícias a cada 10 minutos
+carregarNoticias();
+setInterval(carregarNoticias, 10 * 60 * 1000); // 10 minutos
+//função de fechar o container
+document.getElementById('closeButton1').addEventListener('click', function() {
+  var newsContainer = document.getElementById('newsContainer');
+  var button = document.getElementById('closeButton1');
+  
+  if (newsContainer.style.display === 'none') {
+    newsContainer.style.display = 'block'; // Abre o contêiner
+    button.textContent = 'Fechar'; // Muda o texto do botão para "Fechar"
+  } else {
+    newsContainer.style.display = 'none'; // Fecha o contêiner
+    button.textContent = 'Abrir'; // Muda o texto do botão para "Abrir"
+  }
+});
+//chatgeral
+let userName = `Anônimo_${Math.floor(Math.random() * 1000)}`;
+  let userId = `${Math.random().toString(36).substr(2, 9)}`;
+  let lastAuthTime = Date.now(); // Armazena o tempo de autenticação
+
+  // Função para verificar se o usuário está autenticado e atualizar a lista de online
+  function checkAuthentication() {
+    const user = auth.currentUser;
+    if (user) {
+      if (userId !== user.uid) {
+        userName = user.displayName || user.email;
+        userId = user.uid;
+        document.getElementById('authStatus').textContent = `Bem-vindo, ${userName}`;
+        document.getElementById('logoutButton').style.display = 'oinline-block';
+        addUserToOnlineList();
+      }
+    } else {
+      document.getElementById('authStatus').textContent = 'Você não está autenticado. Faça login para participar do chat.';
+      document.getElementById('logoutButton').style.display = 'none';
+      resetUser();
+    }
+  }
+
+  // Função para resetar o nome de usuário e ID
+  function resetUser() {
+    userName = `Anônimo_${Math.floor(Math.random() * 1000)}`;
+    userId = `${Math.random().toString(36).substr(2, 9)}`;
+    updateOnlineUsersCount(); // Atualiza a contagem de usuários online
+  }
+
+  // Função para atualizar o contador de usuários online
+  function updateOnlineUsersCount() {
+    const onlineUsersRef = ref(rtdb, `rooms/general/onlineUsers`);
+    get(onlineUsersRef).then(snapshot => {
+      const onlineUsers = snapshot.exists() ? snapshot.val() : {};
+      const userCount = Object.keys(onlineUsers).length;
+      document.getElementById('onlineUsersCount').textContent = `${userCount} usuário(s) online`;
+    });
+  }
+
+  // Função para adicionar um usuário à lista de online no Firebase (somente se autenticado)
+  function addUserToOnlineList() {
+    const onlineUsersRef = ref(rtdb, `rooms/general/onlineUsers/${userId}`);
+    set(onlineUsersRef, { userName: userName }).then(() => {
+      updateOnlineUsersCount(); // Atualiza a contagem de usuários online
+    });
+
+    // Remover o usuário da lista quando sair da página
+    window.addEventListener('beforeunload', () => {
+      remove(onlineUsersRef).then(() => {
+        updateOnlineUsersCount(); // Atualiza a contagem ao remover o usuário
+      });
+    });
+  }
+
+  // Enviar mensagem no chat
+  document.getElementById('sendMessage').addEventListener('click', () => {
+    const messageText = document.getElementById('messageInput').value;
+    if (messageText) {
+      const messagesRef = ref(rtdb, `rooms/general/messages`);
+      const newMessageRef = push(messagesRef);
+      set(newMessageRef, { text: messageText, userName: userName });
+      document.getElementById('messageInput').value = '';
+    }
+  });
+
+  // Carregar as mensagens
+  function loadMessages() {
+    const messagesContainer = document.getElementById('messages');
+    const messagesRef = ref(rtdb, `rooms/general/messages`);
+    onChildAdded(messagesRef, snapshot => {
+      const message = snapshot.val();
+      const messageElement = document.createElement('div');
+      messageElement.textContent = `${message.userName}: ${message.text}`;
+      messagesContainer.appendChild(messageElement);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+  }
+
+  // Função de logout
+  document.getElementById('logoutButton').addEventListener('click', () => {
+    signOut(auth).then(() => {
+      document.getElementById('authStatus').textContent = 'Você foi desconectado.';
+      document.getElementById('logoutButton').style.display = 'none'; // Esconde o botão de logout
+
+      // Remover o usuário da lista de online
+      const onlineUsersRef = ref(rtdb, `rooms/general/onlineUsers/${userId}`);
+      remove(onlineUsersRef).then(() => {
+        updateOnlineUsersCount(); // Atualiza a contagem ao remover o usuário
+      });
+
+      resetUser(); // Resetar o nome de usuário para "Anônimo"
+    }).catch((error) => {
+      console.error('Erro ao sair:', error);
+    });
+  });
+
+  // Verificação contínua de autenticação a cada 5 segundos
+  setInterval(() => {
+    checkAuthentication();
+  }, 5000);
+
+  function init() {
+    loadMessages(); // Carregar mensagens
+    updateOnlineUsersCount(); // Atualizar a contagem de usuários
+    checkAuthentication(); // Verificar autenticidade na inicialização
+  }
+
+  init();
+  </script>
+  <script>
+        function updateClock() {
+            const options = {
+                timeZone: 'America/Sao_Paulo',
+                weekday: 'long', // Dia da semana completo
+                year: 'numeric',
+                month: 'long',  // Nome completo do mês
+                day: 'numeric',
+                hour12: false,
+            };
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+            const dateString = now.toLocaleDateString('pt-BR', options);
+
+            document.getElementById('clock').textContent = `${dateString} ${timeString}`;
+        }
+
+        setInterval(updateClock, 1000); // Atualiza a cada 1 segundo
+        updateClock(); // Chama a função para exibir a hora imediatamente
+    </script>
+  <script>
+    // Referência para o chat e o botão
+    const chatContainer = document.getElementById('chatContainer');
+    const toggleChatButton = document.getElementById('toggleChatButton');
+
+    // Alternar a visibilidade do chat
+    toggleChatButton.addEventListener('click', function() {
+      chatContainer.classList.toggle('hidden'); // Alterna a classe 'hidden'
+      
+      // Muda o ícone do botão dependendo do estado do chat
+      if (chatContainer.classList.contains('hidden')) {
+        toggleChatButton.textContent = '💬';  // Abre o chat
+      } else {
+        toggleChatButton.textContent = '❌';  // Fecha o chat
+      }
+    });
+  </script>
+   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getDatabase, ref, push, update, onValue, get, set, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+    const storage = getStorage(app);
+
+    let currentUser = null;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+      } else {
+        alert("Você precisa estar logado para acessar esta área.");
+      }
+    });
+
+    const postFormStatus = document.getElementById("formStatus");
+    const postsContainer = document.getElementById("postsContainer");
+    const postText = document.getElementById("postText");
+    const postMedia = document.getElementById("postMedia");
+    const submitPost = document.getElementById("submitPost");
+
+    submitPost.addEventListener("click", async () => {
+      if (!currentUser) {
+        postFormStatus.innerText = "Você precisa estar logado para postar.";
+        return;
+      }
+
+      const text = postText.value.trim();
+      const file = postMedia.files[0];
+
+      if (!text && !file) {
+        postFormStatus.innerText = "Adicione texto ou mídia à sua postagem.";
+        return;
+      }
+
+      try {
+        let mediaUrl = null;
+        let mediaType = null;
+
+        if (file) {
+          const fileRef = storageRef(storage, `posts/${currentUser.uid}/${file.name}`);
+          await uploadBytes(fileRef, file);
+          mediaUrl = await getDownloadURL(fileRef);
+          mediaType = file.type.startsWith("image/") ? "image" : "video";
+        }
+
+        const postData = {
+  userId: currentUser.uid,
+  userName: currentUser.displayName || currentUser.email.split("@")[0], // Exibe o nome ou parte antes do "@"
+  photoURL: await getProfilePhotoURL(currentUser.uid), // Adiciona a URL da foto de perfil
+  text,
+  mediaUrl,
+  mediaType,
+  timestamp: Date.now(),
+  likes: 0,
+  comments: [],
+};
+
+        const postsRef = ref(database, "posts");
+        const newPostRef = await push(postsRef, postData);
+
+        postFormStatus.innerText = "Postagem criada com sucesso!";
+        postText.value = "";
+        postMedia.value = "";
+      } catch (error) {
+        postFormStatus.innerText = "Erro ao criar postagem.";
+      }
+    });
+
+    const postsRef = ref(database, "posts");
+onValue(postsRef, (snapshot) => {
+  postsContainer.innerHTML = ""; // Limpa a área de posts
+
+  snapshot.forEach((childSnapshot) => {
+    const postKey = childSnapshot.key;
+    const post = childSnapshot.val();
+
+    const postDiv = document.createElement("div");
+    postDiv.classList.add("post");
+
+    let mediaHtml = "";
+    if (post.mediaType === "image") {
+      mediaHtml = `<img src="${post.mediaUrl}" alt="Imagem da postagem">`;
+    } else if (post.mediaType === "video") {
+      mediaHtml = `<video controls><source src="${post.mediaUrl}" type="video/mp4"></video>`;
+    }
+
+    postDiv.innerHTML = `
+      <p><strong>${post.userName}</strong></p>
+      <p>${post.text || ""}</p>
+      ${mediaHtml}
+      <p><small>${new Date(post.timestamp).toLocaleString()}</small></p>
+      <div id="comments-${postKey}" class="comments-container"></div>
+      <input type="text" id="commentInput-${postKey}" placeholder="Adicione um comentário">
+      <button onclick="addComment('${postKey}')">Comentar</button>
+      <div class="actions">
+        <button onclick="likePost('${postKey}')">Curtir (${post.likes || 0})</button>
+        <button onclick="sharePost('${postKey}')">Compartilhar</button>
+        <button onclick="toggleFavorite('${postKey}')">Favoritar</button>
+        <button onclick="deletePost('${postKey}')">Apagar</button>
+      </div>
+    `;
+    
+    postsContainer.appendChild(postDiv);
+  });
+
+  // Rolando a tela para a última postagem
+  const lastPost = postsContainer.lastElementChild;
+  if (lastPost) {
+    lastPost.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+});
+
+    // Função para curtir postagem
+window.likePost = async (postKey) => {
+  const postRef = ref(database, `posts/${postKey}`);
+  const postSnap = await get(postRef);
+  const postData = postSnap.val();
+
+  const userLikesRef = ref(database, `posts/${postKey}/likes/${currentUser.uid}`);
+  const userLikeSnap = await get(userLikesRef);
+
+  if (userLikeSnap.exists()) {
+    alert("Você já curtiu essa postagem!");
+    return;
+  }
+
+  const newLikesCount = (postData.likes || 0) + 1;
+  await update(postRef, { likes: newLikesCount });
+  await set(userLikesRef, true);
+
+  alert("Postagem curtida com sucesso!");
+};
+
+// Função para adicionar comentário
+window.addComment = async (postKey) => {
+  const commentInput = document.getElementById(`commentInput-${postKey}`);
+  const comment = commentInput.value.trim();
+
+  if (!currentUser) {
+    alert("Você precisa estar logado para comentar.");
+    return;
+  }
+
+  if (comment) {
+    try {
+      const postRef = ref(database, `posts/${postKey}`);
+      const postSnap = await get(postRef);
+      const postData = postSnap.val();
+
+      // Obter a URL da foto de perfil do usuário
+      const photoURL = await getProfilePhotoURL(currentUser.uid);
+
+      const comments = postData.comments || [];
+      const userName = (currentUser.displayName || currentUser.email.split("@")[0]).split("@")[0]; // Apenas antes do '@'
+
+      comments.push({
+        userName,
+        photoURL,
+        text: comment,
+        timestamp: new Date().toISOString(),
+      });
+
+      await update(postRef, { comments });
+
+      // Atualizar os comentários na interface
+      renderComments(comments, postKey);
+
+      commentInput.value = ""; // Limpar o campo de comentário
+      alert("Comentário adicionado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao adicionar comentário:", error);
+      alert("Erro ao adicionar comentário.");
+    }
+  } else {
+    alert("O comentário não pode estar vazio.");
+  }
+};
+
+// Função para obter a foto de perfil do usuário
+const getProfilePhotoURL = async (userUid) => {
+  try {
+    const userRef = ref(database, `users/${userUid}/profilePhotoUrl`);
+    const userSnap = await get(userRef);
+    if (userSnap.exists()) {
+      return userSnap.val(); // Retorna o link da foto de perfil do banco de dados
+    } else {
+      console.error("Foto de perfil não encontrada no banco de dados.");
+      return "path/to/default-profile.png"; // Caso não tenha foto, retorna uma imagem padrão
+    }
+  } catch (error) {
+    console.error("Erro ao obter a foto de perfil:", error);
+    return "path/to/default-profile.png"; // Em caso de erro, retorna imagem padrão
+  }
+};
+
+// Função para exibir os comentários
+const renderComments = (comments, postKey) => {
+  const commentsContainer = document.getElementById(`comments-${postKey}`);
+  commentsContainer.innerHTML = ""; // Limpar antes de renderizar novamente
+
+  if (comments && comments.length > 0) {
+    comments.forEach((comment) => {
+      const commentUserName = comment.userName.split("@")[0]; // Mostrar apenas a parte antes do '@'
+      const commentPhotoURL = comment.photoURL || "path/to/default-profile.png"; // Foto de perfil ou imagem padrão
+
+      const commentElement = document.createElement("div");
+      commentElement.className = "comment";
+      commentElement.innerHTML = `
+        <div class="comment-header">
+          <img src="${commentPhotoURL}" alt="Foto do usuário" class="comment-photo">
+          <p><strong>${commentUserName}:</strong></p>
+        </div>
+        <p>${comment.text}</p>
+        <small>${new Date(comment.timestamp).toLocaleString()}</small>
+      `;
+      commentsContainer.appendChild(commentElement);
+    });
+  } else {
+    commentsContainer.innerHTML = "<p>Sem comentários ainda. Seja o primeiro!</p>";
+  }
+};
+
+// Chamar renderComments após carregar os posts
+onValue(postsRef, (snapshot) => {
+  postsContainer.innerHTML = ""; // Limpar a interface antes de renderizar
+
+  snapshot.forEach((childSnapshot) => {
+    const postKey = childSnapshot.key;
+    const postData = childSnapshot.val();
+
+    // Criar o elemento de postagem
+    const postDiv = document.createElement("div");
+    postDiv.classList.add("post");
+
+    let mediaHtml = "";
+    if (postData.mediaType === "image") {
+      mediaHtml = `<img src="${postData.mediaUrl}" alt="Imagem da postagem">`;
+    } else if (postData.mediaType === "video") {
+      mediaHtml = `<video controls><source src="${postData.mediaUrl}" type="video/mp4"></video>`;
+    }
+
+    const postUserName = postData.userName.split("@")[0]; // Nome do autor do post (parte antes do '@')
+    const postPhotoURL = postData.photoURL || "path/to/default-profile.png"; // Foto do autor do post ou imagem padrão
+
+    postDiv.innerHTML = `
+      <div class="post-header">
+        <img src="${postPhotoURL}" alt="Foto do autor" class="post-photo">
+        <p><strong>${postUserName}</strong></p>
+      </div>
+      <p>${postData.text || ""}</p>
+      ${mediaHtml}
+      <p><small>${new Date(postData.timestamp).toLocaleString()}</small></p>
+      <div id="comments-${postKey}" class="comments-container"></div>
+      <input type="text" id="commentInput-${postKey}" placeholder="Adicione um comentário">
+      <button onclick="addComment('${postKey}')">Comentar</button>
+    `;
+
+    postsContainer.appendChild(postDiv);
+
+    // Renderizar os comentários para esta postagem
+    renderComments(postData.comments || [], postKey);
+  });
+});
+ </script>
+ 
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+  const app = initializeApp(firebaseConfig);
+  const rtdb = getDatabase(app);
+
+  onValue(ref(rtdb, 'marquee/messages'), (snapshot) => {
+    const marqueeElement = document.getElementById('marqueeText');
+    marqueeElement.innerHTML = ''; // Limpa conteúdo existente
+
+    snapshot.forEach(childSnapshot => {
+      const message = childSnapshot.val();
+      marqueeElement.innerHTML += `${message} | `;
+    });
+
+    // Remove o último separador "| "
+    marqueeElement.innerHTML = marqueeElement.innerHTML.slice(0, -2);
+  });
+</script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Referência correta para o logo no Realtime Database
+    const logoRef = ref(database, 'config/logo');
+
+    // Função para carregar logo
+    function carregarLogo() {
+      onValue(logoRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data && data.url) {
+          document.getElementById('uploadedLogo').src = data.url;
+        } else {
+          console.error("Imagem não encontrada no Realtime Database.");
+        }
+      });
+    }
+
+    // Verificar se o usuário está autenticado antes de carregar o logo
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        carregarLogo();
+      } else {
+        console.error("Usuário não autenticado.");
+      }
+    });
+  </script>
+  <script>
+  function setRandomBackground(images) {
+    const bodyElement = document.body; // Seleciona o elemento body
+    const randomIndex = Math.floor(Math.random() * images.length); // Seleciona um índice aleatório
+    bodyElement.style.backgroundImage = `url('${images[randomIndex]}')`; // Define a imagem aleatória como fundo
+    bodyElement.style.backgroundSize = 'cover'; // Ajusta a imagem para cobrir o fundo
+    bodyElement.style.backgroundRepeat = 'no-repeat'; // Evita repetição
+    bodyElement.style.backgroundPosition = 'center'; // Centraliza a imagem
+  }
+
+  // Array com caminhos das 14 imagens dentro da pasta "pag"
+  const backgroundImages = [
+    'pag/0ceb197c69a8baa465b9d975461f40db.gif',
+    'pag/9a241df1ea364421e7bbca9c854e1e0a.gif',
+    'pag/69411d74044d5950f3f48f734c5b1f0d.gif',
+    'pag/a30c642217c5759a3973f2aebbeb66b1_w200.gif',
+    'pag/b01c477f2726a9358825ba3d2c22a4f5.gif',
+    'pag/cyberpunk-cloud-dreams-stockcake.jpg',
+    'pag/f2746ae177a5f4bcb59cf08c8d164b13.gif',
+    'pag/fzUl.gif',
+    'pag/giphy.gif',
+    'pag/images.jpeg',
+    'pag/l84w3m111r471.gif',
+    'pag/s6vvlkkbn.gif',
+    'pag/siyzbhzpzwv61.gif',
+    'pag/ykr4t1tpzwv61.gif'
+  ];
+
+  // Chamada da função
+  setRandomBackground(backgroundImages);
+</script>
+</body>
+</html>

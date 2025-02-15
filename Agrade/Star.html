@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat com Notificação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: white;
+    }
+    .chat-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #1e1e1e;
+      border-radius: 10px;
+    }
+    #messagesContainer {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background-color: #1c1c1c;
+      color: white;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #00FFFF;
+      border: none;
+      border-radius: 5px;
+      color: black;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00B8B8;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .message {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .message span {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <h2>Escolha a Sala</h2>
+    <input type="text" id="roomNameInput" placeholder="Digite o nome da sala" />
+    <button id="joinRoomButton">Entrar na Sala</button>
+
+    <div id="messagesContainer"></div>
+  </div>
+
+  <script type="module">
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+    
+    // Inicializar o Firebase
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+    import { getDatabase, ref, onChildAdded } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    
+    // Variáveis
+    let activeRoom = '';
+    let isUserAtBottom = true; // Variável para verificar se o usuário está no final
+    const messagesContainer = document.getElementById('messagesContainer');
+    
+    // Elementos da UI
+    const roomNameInput = document.getElementById('roomNameInput');
+    const joinRoomButton = document.getElementById('joinRoomButton');
+    
+    // Função para começar a escutar as mensagens da sala
+    function startListeningForMessages(room) {
+      const messagesRef = ref(db, `rooms/${room}/messages`);
+    
+      onChildAdded(messagesRef, (snapshot) => {
+        const message = snapshot.val();
+    
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+    
+        // Exibe a imagem se houver
+        if (message.photoURL) {
+          const img = document.createElement('img');
+          img.src = message.photoURL;
+          img.style.cursor = 'pointer';
+          messageElement.appendChild(img);
+        }
+    
+        // Exibe o texto da mensagem
+        const text = document.createElement('span');
+        text.textContent = `${message.userName}: ${message.text}`;
+        messageElement.appendChild(text);
+    
+        messagesContainer.appendChild(messageElement);
+    
+        // Forçar a rolagem para o final, se o usuário estiver no final
+        if (isUserAtBottom) {
+          forceScrollToEnd(messagesContainer);
+        }
+      });
+    
+      // Forçar rolagem até o final quando o chat for aberto
+      forceScrollToEnd(messagesContainer);
+    }
+    
+    // Função que força o scroll até o final
+    function forceScrollToEnd(container) {
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    // Detectar se o usuário está no final da rolagem
+    messagesContainer.addEventListener('scroll', function() {
+      const isScrolledToBottom = messagesContainer.scrollHeight - messagesContainer.scrollTop === messagesContainer.clientHeight;
+      isUserAtBottom = isScrolledToBottom;
+    });
+    
+    // Aguardar o usuário clicar no botão para entrar na sala
+    joinRoomButton.addEventListener('click', () => {
+      activeRoom = roomNameInput.value.trim();
+    
+      if (activeRoom) {
+        alert(`Você entrou na sala: ${activeRoom}`);
+        startListeningForMessages(activeRoom);
+      } else {
+        alert('Por favor, digite o nome de uma sala.');
+      }
+    });
+  </script>
+
+</body>
+</html>

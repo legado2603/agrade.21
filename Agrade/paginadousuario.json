@@ -1,0 +1,114 @@
+{
+  "usuarios": {
+    "UID_DO_USUARIO_1": {
+      "usuario": {
+        "fotoPerfil": "link_da_foto_aqui",
+        "fotoCapa": "default-cover.jpg",
+        "nome": {
+          "completo": "Ricardo Tau",
+          "badge": "Criador"
+        },
+        "idade": 27,
+        "genero": "Masculino",
+        "estadoCivil": "Solteiro",
+        "biografia": "Entusiasta de tecnologia e criador de ideias inovadoras.",
+        "musicaPerfil": "link_da_musica_aqui",
+        "aniversario": "1997-07-12",
+        "religiao": "Sem religião",
+        "codigo": "RT-123456",
+        "clan": {
+          "nome": "Os Guardiões do Legado",
+          "funcao": "Líder"
+        },
+        "localizacao": {
+          "estado": "São Paulo",
+          "cidade": "São Paulo",
+          "clima": "Ensolarado"
+        },
+        "exp": 1500,
+        "idioma": "Português",
+        "hobbiesInteresses": ["Programação", "Jogos FPS", "Filmes de terror", "História"],
+        "pontos": 200,
+        "redesSociais": {
+          "twitter": "https://twitter.com/seu_perfil",
+          "instagram": "https://instagram.com/seu_perfil",
+          "linkedin": "https://linkedin.com/in/seu_perfil"
+        },
+        "badges": ["Verificado", "Contribuidor", "Expert em Firebase"],
+        "avatarAnimado": "link_do_avatar_animado_aqui",
+        "background": "link_do_background_aqui",
+        "estilosFontePreferido": ["Cyberpunk", "Neon"],
+        "mural": [
+          { "postId": 1, "conteudo": "Adoro criar projetos futuristas!", "data": "2025-01-10" },
+          { "postId": 2, "conteudo": "Alguém quer compartilhar ideias sobre Firebase?", "data": "2025-01-09" }
+        ],
+        "feedbacks": [
+          { "usuario": "Ana", "mensagem": "Adorei seu trabalho!", "data": "2025-01-08" }
+        ],
+        "missoesConcluidas": ["Configuração inicial do Firebase", "Integração com Realtime Database", "Criação de layout futurista"],
+        "usuarioDesde": "2024-07-01",
+        "verificado": true,
+        "tecnologiasFerramentas": ["HTML", "CSS", "JavaScript", "Firebase", "Expo", "React Native"],
+        "statusAtual": "online",
+        "ultimaAtividade": "2025-01-11T14:30:00Z",
+        "conquistasDesbloqueadas": ["Primeira publicação", "Perfil completo"],
+        "seguidores": 120,
+        "seguindo": 75,
+        "configuracoesPrivacidade": {
+          "mostrarPerfil": true,
+          "aceitarMensagens": ["amigos", "todos"]
+        },
+        "estatisticas": {
+          "tempoOnline": "45 horas",
+          "postsCriados": 12,
+          "mensagensEnviadas": 34,
+          "rankingGlobal": 48
+        },
+        "preferenciasNotificacao": {
+          "mensagens": true,
+          "novidades": false,
+          "convites": true
+        },
+        "temaAplicado": "Cyberpunk",
+        "preferenciasTema": ["cyberpunk", "neon", "minimalista"],
+        "contato": {
+          "email": "usuario@exemplo.com",
+          "telefone": "+55 11 91234-5678"
+        },
+        "conquistas": {
+          "desbloqueadas": ["Primeira publicação", "Perfil completo"],
+          "missoes": ["Configuração inicial do Firebase", "Integração com Realtime Database", "Criação de layout futurista"]
+        },
+        "logsAtividade": [
+          { "acao": "Login", "data": "2025-01-11T14:30:00Z" },
+          { "acao": "Post no mural", "data": "2025-01-10T10:00:00Z" }
+        ]
+      },
+      "amizades": {
+        "amigos": [
+          { "id": 101, "nome": "Ana", "status": "online" },
+          { "id": 102, "nome": "Carlos", "status": "offline" }
+        ],
+        "pedidosPendentes": [
+          { "id": 103, "nome": "João", "data": "2025-01-10" }
+        ],
+        "bloqueados": [
+          { "id": 104, "nome": "Lucas" }
+        ]
+      },
+      "seguranca": {
+        "autenticacaoDuasEtapas": true,
+        "perguntasSeguranca": [
+          {
+            "pergunta": "Qual o nome do seu primeiro pet?",
+            "resposta": "Neon"
+          }
+        ],
+        "ultimosAcessos": [
+          { "data": "2025-01-12T12:00:00Z", "localizacao": "São Paulo, Brasil", "dispositivo": "PC" },
+          { "data": "2025-01-10T18:30:00Z", "localizacao": "São Paulo, Brasil", "dispositivo": "Smartphone" }
+        ]
+      }
+    }
+  }
+}

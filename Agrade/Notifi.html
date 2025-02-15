@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações com SweetAlert2</title>
+    <!-- Inclua a biblioteca SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <h1>Notificações com SweetAlert2</h1>
+    <button onclick="mostrarNotificacao()">Mostrar Notificação</button>
+
+    <script>
+        function mostrarNotificacao() {
+            Swal.fire({
+                title: "Olá!",
+                text: "Esta é uma notificação usando SweetAlert2.",
+                icon: "success",
+                confirmButtonText: "OK"
+            });
+        }
+    </script>
+</body>
+</html>

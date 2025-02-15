@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player de Música Futurista</title>
+  <style>
+  body {
+      font-family: 'Arial', sans-serif;
+      background-color: #121212;
+      color: #00ffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      text-align: center;
+      animation: pulse 10s infinite;
+    }
+    @keyframes pulse {
+      0% { background-color: #121212; }
+      50% { background-color: #0a0a0a; }
+      100% { background-color: #121212; }
+    }
+    .player {
+  background: linear-gradient(145deg, #1e1e1e, #292929);
+  padding: 15px;
+  border-radius: 10px;
+  animation: glow 2s infinite alternate;
+  width: 220px;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  border: 2px solid rgba(0, 255, 255, 0.6);
+}
+
+select, button, input[type="range"] {
+  width: 100%;
+  padding: 6px;
+  margin: 4px 0;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #1a1a1a;
+  color: #00ffff;
+  outline: none;
+  transition: 0.3s ease-in-out;
+}
+
+button {
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #00ffff;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  box-shadow: 0 0 20px #ff00ff;
+}
+
+.message {
+  margin-top: 5px;
+  color: #00ff00;
+  font-size: 12px;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.controls button {
+  width: 30%;
+  padding: 6px;
+  font-size: 12px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  box-shadow: 0 0 5px #00ffff;
+  transition: width 0.3s ease-in-out;
+}
+    .message {
+      margin-top: 20px;
+      color: #00ff00;
+      font-size: 14px;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+    }
+    .controls button {
+      width: 32%;
+      background-color: transparent;
+      border: 2px solid #00ffff;
+      transition: background-color 0.3s ease;
+    }
+    .controls button:hover {
+      background-color: #00ffff;
+      color: #121212;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #444;
+      border-radius: 5px;
+      margin-top: 15px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      background-color: #00ffff;
+      border-radius: 5px;
+      transition: width 0.2s ease;
+    }
+    #authMessage {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ff00ff;
+    }
+    /* ... (mantenha os estilos anteriores) ... */
+
+    /* Estilos para o botão redondo e móvel */
+    #musicButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #1e90ff;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      user-select: none;
+      touch-action: none; /* Impede comportamentos padrão de toque, como rolagem */
+    }
+
+    /* Estilos para o modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background-color: #121212;
+      padding: 20px;
+      border-radius: 15px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    }
+    .close {
+      color: #00ffff;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #ff00ff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botão redondo e móvel -->
+  <div id="musicButton" draggable="true">🎵</div>
+
+  <!-- Modal -->
+  <div id="musicModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="player" id="playerPanel" style="display: none;">
+        <h2>Player de Música Futurista</h2>
+        <select id="musicSelect">
+          <option value="">Selecione uma música</option>
+        </select>
+        <button id="playButton">Reproduzir</button>
+        <audio id="audioPlayer" controls style="width: 100%; margin-top: 15px; display: none;"></audio>
+        <div id="message" class="message"></div>
+        <div class="controls">
+          <button id="prevButton">Anterior</button>
+          <button id="pauseButton">Pausar</button>
+          <button id="nextButton">Próxima</button>
+        </div>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" />
+        <div class="progress-bar">
+          <span id="progress" style="width: 0;"></span>
+        </div>
+      </div>
+      <p id="authMessage" class="message"></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    const playerPanel = document.getElementById('playerPanel');
+    const authMessage = document.getElementById('authMessage');
+    const musicSelect = document.getElementById('musicSelect');
+    const playButton = document.getElementById('playButton');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const message = document.getElementById('message');
+    const prevButton = document.getElementById('prevButton');
+    const pauseButton = document.getElementById('pauseButton');
+    const nextButton = document.getElementById('nextButton');
+    const volumeControl = document.getElementById('volumeControl');
+    const progressBar = document.getElementById('progress');
+    const musicButton = document.getElementById('musicButton');
+    const musicModal = document.getElementById('musicModal');
+    const closeModal = document.querySelector('.close');
+
+    let musicList = [];
+    let currentTrackIndex = -1;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        playerPanel.style.display = "block";
+        authMessage.textContent = "";
+        loadMusicList();
+      } else {
+        playerPanel.style.display = "none";
+        authMessage.textContent = "Faça login no Firebase antes de acessar o player!";
+      }
+    });
+
+    function loadMusicList() {
+      const musicRef = ref(database, "mp3_library");
+      onValue(musicRef, (snapshot) => {
+        musicSelect.innerHTML = '<option value="">Selecione uma música</option>';
+        musicList = [];
+        if (snapshot.exists()) {
+          snapshot.forEach((genreSnap) => {
+            genreSnap.forEach((artistSnap) => {
+              artistSnap.forEach((albumSnap) => {
+                albumSnap.forEach((musicSnap) => {
+                  const music = musicSnap.val();
+                  musicList.push(music);
+                  const option = document.createElement("option");
+                  option.value = music.fileURL;
+                  option.textContent = `${music.song} - ${music.artist} [${music.genre}]`;
+                  musicSelect.appendChild(option);
+                });
+              });
+            });
+          });
+        } else {
+          message.textContent = "Nenhuma música encontrada!";
+        }
+      });
+    }
+
+    playButton.addEventListener("click", () => {
+      const selectedMusic = musicSelect.value;
+      if (selectedMusic) {
+        currentTrackIndex = musicList.findIndex(music => music.fileURL === selectedMusic);
+        audioPlayer.src = selectedMusic;
+        audioPlayer.style.display = "block";
+        audioPlayer.play();
+      } else {
+        message.textContent = "Selecione uma música!";
+      }
+    });
+
+    pauseButton.addEventListener("click", () => {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        pauseButton.textContent = "Pausar";
+      } else {
+        audioPlayer.pause();
+        pauseButton.textContent = "Retomar";
+      }
+    });
+
+    prevButton.addEventListener("click", () => {
+      if (currentTrackIndex > 0) {
+        currentTrackIndex--;
+        audioPlayer.src = musicList[currentTrackIndex].fileURL;
+        audioPlayer.play();
+      }
+    });
+
+    nextButton.addEventListener("click", () => {
+      if (currentTrackIndex < musicList.length - 1) {
+        currentTrackIndex++;
+        audioPlayer.src = musicList[currentTrackIndex].fileURL;
+        audioPlayer.play();
+      }
+    });
+
+    volumeControl.addEventListener("input", () => {
+      audioPlayer.volume = volumeControl.value;
+    });
+
+    audioPlayer.addEventListener("timeupdate", () => {
+      const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+      progressBar.querySelector("span").style.width = `${progress}%`;
+    });
+
+    // Abrir modal ao clicar no botão de música
+    musicButton.addEventListener("click", () => {
+      musicModal.style.display = "flex";
+    });
+
+    // Fechar modal ao clicar no "X"
+    closeModal.addEventListener("click", () => {
+      musicModal.style.display = "none";
+    });
+
+    // Fechar modal ao clicar fora do conteúdo
+    window.addEventListener("click", (event) => {
+      if (event.target === musicModal) {
+        musicModal.style.display = "none";
+      }
+    });
+
+    // Funcionalidade de arrastar o botão (para desktop e mobile)
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    // Eventos de mouse (desktop)
+    musicButton.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      offsetX = e.clientX - musicButton.getBoundingClientRect().left;
+      offsetY = e.clientY - musicButton.getBoundingClientRect().top;
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (isDragging) {
+        musicButton.style.left = `${e.clientX - offsetX}px`;
+        musicButton.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+
+    // Eventos de toque (mobile)
+    musicButton.addEventListener("touchstart", (e) => {
+      isDragging = true;
+      const touch = e.touches[0];
+      offsetX = touch.clientX - musicButton.getBoundingClientRect().left;
+      offsetY = touch.clientY - musicButton.getBoundingClientRect().top;
+    });
+
+    window.addEventListener("touchmove", (e) => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        musicButton.style.left = `${touch.clientX - offsetX}px`;
+        musicButton.style.top = `${touch.clientY - offsetY}px`;
+      }
+    });
+
+    window.addEventListener("touchend", () => {
+      isDragging = false;
+    });
+  </script>
+</body>
+</html>

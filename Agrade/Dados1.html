@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rastreamento de Usuário</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: #00ffff;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      margin: 20px;
+    }
+    #logContainer {
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 10px;
+      border: 1px solid #00ffff;
+      border-radius: 5px;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+    .logEntry {
+      margin-bottom: 10px;
+      padding: 5px;
+      border-bottom: 1px solid #00ffff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rastreamento de Usuário</h1>
+  <div id="logContainer"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    let sessionStart = Date.now();
+    let userId = null;
+
+    const logContainer = document.getElementById("logContainer");
+
+    function logAction(action, details) {
+      if (!userId) return;
+      const actionRef = ref(database, `users/${userId}/actions`);
+      push(actionRef, {
+        action,
+        details,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    function displayLog(data) {
+      const logEntry = document.createElement("div");
+      logEntry.className = "logEntry";
+      logEntry.innerHTML = `
+        <strong>Ação:</strong> ${data.action}<br>
+        <strong>Detalhes:</strong> ${JSON.stringify(data.details)}<br>
+        <strong>Timestamp:</strong> ${data.timestamp}
+      `;
+      logContainer.prepend(logEntry);
+    }
+
+    async function getStreetNameFromLocation(lat, lng) {
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${lat},${lng}/json/`);
+        if (!response.ok) throw new Error("Erro ao buscar o endereço.");
+        const data = await response.json();
+        return data.logradouro || "Endereço não encontrado";
+      } catch (error) {
+        console.error(error);
+        return "Erro ao buscar endereço";
+      }
+    }
+
+    async function trackLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const streetName = await getStreetNameFromLocation(latitude, longitude);
+
+            logAction("location", {
+              latitude,
+              longitude,
+              streetName,
+              accuracy: position.coords.accuracy
+            });
+          },
+          (error) => {
+            logAction("locationError", { error: error.message });
+          }
+        );
+      } else {
+        logAction("locationError", { error: "Geolocation não suportada pelo navegador" });
+      }
+    }
+
+    function startTrackingLocation() {
+      trackLocation();
+      setInterval(trackLocation, 30 * 60 * 1000);
+    }
+
+    window.addEventListener("beforeunload", () => {
+      const timeSpent = (Date.now() - sessionStart) / 1000;
+      logAction("timeSpent", { page: location.pathname, timeSpent });
+    });
+
+    document.addEventListener("input", (event) => {
+      logAction("input", { target: event.target.name || event.target.id, value: event.target.value });
+    });
+
+    function trackConnectionStatus() {
+      const status = navigator.onLine ? "online" : "offline";
+      logAction("connectionStatus", { status });
+    }
+
+    window.addEventListener("online", trackConnectionStatus);
+    window.addEventListener("offline", trackConnectionStatus);
+
+    function logDeviceInfo() {
+      const deviceInfo = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language
+      };
+      logAction("deviceInfo", deviceInfo);
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userId = user.uid;
+        logAction("login", { email: user.email });
+
+        const actionsRef = ref(database, `users/${userId}/actions`);
+        onChildAdded(actionsRef, (snapshot) => {
+          const data = snapshot.val();
+          displayLog(data);
+        });
+
+        startTrackingLocation();
+        trackConnectionStatus();
+        logDeviceInfo();
+      } else {
+        userId = null;
+      }
+    });
+  </script>
+</body>
+</html>

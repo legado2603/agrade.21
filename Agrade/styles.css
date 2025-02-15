@@ -1,0 +1,240 @@
+/* Reset de margens e padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #121212;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* Cabeçalho */
+header {
+  background-color: #1c1c1c;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  color: #00FFFF;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+/* Navegação */
+nav ul {
+  list-style: none;
+  margin-top: 15px;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #FF00FF;
+  text-decoration: none;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+nav ul li a:hover {
+  color: #00FFFF;
+  transition: color 0.3s ease;
+}
+
+/* Main */
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Formulários */
+form {
+  background-color: #222;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+  font-size: 1.1rem;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #333;
+  border: 1px solid #444;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #00FFFF;
+  outline: none;
+}
+
+form button {
+  background-color: #FF00FF;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #00FFFF;
+}
+
+form button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+/* Resultados de pesquisa */
+#resultados {
+  margin-top: 30px;
+  text-align: left;
+}
+
+#resultados h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+#resultados ul {
+  list-style: none;
+  padding: 0;
+}
+
+#resultados li {
+  background-color: #333;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+#resultados li:hover {
+  background-color: #444;
+  transition: background-color 0.3s ease;
+}
+
+/* Seções de detalhes */
+#detalhes-clan {
+  margin-top: 30px;
+}
+
+#detalhes-clan h2 {
+  font-size: 1.5rem;
+  color: #00FFFF;
+  margin-bottom: 15px;
+}
+
+#detalhes-clan p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+/* Notificações */
+#notificacoes {
+  margin-top: 20px;
+}
+
+#notificacoes ul {
+  list-style: none;
+  padding: 0;
+}
+
+#notificacoes li {
+  background-color: #333;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#notificacoes li:hover {
+  background-color: #444;
+}
+
+/* Mensagens de chat */
+#mensagens {
+  margin-top: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#mensagens p {
+  background-color: #444;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+#mensagens .usuario {
+  color: #FF00FF;
+}
+
+#mensagens .texto {
+  font-size: 1rem;
+}
+
+/* Footer */
+footer {
+  background-color: #1c1c1c;
+  padding: 10px;
+  text-align: center;
+  color: #aaa;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.6);
+}
+
+footer p {
+  font-size: 0.9rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  form button {
+    width: 100%;
+  }
+
+  #resultados li,
+  #notificacoes li {
+    padding: 8px;
+  }
+
+  #mensagens p {
+    font-size: 0.9rem;
+  }
+}

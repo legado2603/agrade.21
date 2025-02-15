@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administrar Clã - A-Grade</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Administrar Clã</h1>
+    <nav>
+      <a href="index.html">Voltar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="membros">
+      <h2>Membros do Clã</h2>
+      <!-- Lista de membros com opções de promover/remover -->
+    </section>
+
+    <section id="regras">
+      <h2>Regras do Clã</h2>
+      <textarea id="regras-clan" readonly></textarea>
+    </section>
+
+    <section id="eventos">
+      <h2>Criar Evento</h2>
+      <form id="form-evento">
+        <label for="evento-nome">Nome do Evento:</label>
+        <input type="text" id="evento-nome" required>
+
+        <label for="evento-data">Data:</label>
+        <input type="date" id="evento-data" required>
+
+        <button type="submit">Criar Evento</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 A-Grade - Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações</title>
+  <style>
+    /* Estilos globais */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #0e1117;
+      color: #00ffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* Alinhamento para permitir rolagem */
+      min-height: 100vh;
+      overflow: auto; /* Garante que o conteúdo possa rolar */
+    }
+
+    .settings-container {
+      max-width: 600px; /* Tamanho mais compacto */
+      margin: 20px;
+      padding: 20px;
+      background-color: #161b22;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+      width: 100%;
+      overflow-y: auto; /* Permite rolagem se necessário */
+      max-height: 90vh; /* Limita a altura máxima */
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #ff00ff;
+    }
+
+    .settings-section {
+      margin-bottom: 30px;
+    }
+
+    .settings-section h2 {
+      font-size: 28px;
+      color: #ff00ff;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #00ffff;
+      padding-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 16px;
+    }
+
+    input[type="text"], input[type="password"], select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #00ffff;
+      background-color: #0e1117;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .settings-footer {
+      text-align: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      background-color: #1e90ff;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #005cbf;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .danger-btn {
+      background-color: #ff4c4c;
+    }
+
+    .danger-btn:hover {
+      background-color: #ff1f1f;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="settings-container">
+    <h1>Configurações de Conta</h1>
+    
+    <!-- Seção de Perfil -->
+    <div class="settings-section">
+      <h2>Perfil</h2>
+      <label for="username">Nome de Usuário:</label>
+      <input type="text" id="username" name="username" placeholder="Novo nome de usuário">
+    </div>
+    
+    <!-- Seção de Tema -->
+    <div class="settings-section">
+      <h2>Tema</h2>
+      <label for="theme">Escolha o Tema:</label>
+      <select id="theme" name="theme">
+        <option value="light">Claro</option>
+        <option value="dark">Escuro</option>
+        <option value="cyberpunk">Cyberpunk</option>
+        <option value="neon">Neon</option>
+        <option value="retro">Retro</option>
+        <option value="space">Espacial</option>
+        <option value="vintage">Vintage</option>
+      </select>
+    </div>
+    
+    <!-- Seção de Notificações -->
+    <div class="settings-section">
+      <h2>Notificações</h2>
+      <label for="email-notifications">Notificações por E-mail:</label>
+      <input type="checkbox" id="email-notifications" name="email-notifications">
+      
+      <label for="push-notifications">Notificações Push:</label>
+      <input type="checkbox" id="push-notifications" name="push-notifications">
+    </div>
+    
+    <!-- Seção de Privacidade -->
+    <div class="settings-section">
+      <h2>Privacidade e Segurança</h2>
+      <label for="password">Alterar Senha:</label>
+      <input type="password" id="password" name="password" placeholder="Nova senha">
+    </div>
+    
+    <!-- Seção de Deletar Conta -->
+    <div class="settings-section">
+      <h2>Excluir Conta</h2>
+      <p>Deseja excluir sua conta? Esta ação não pode ser desfeita.</p>
+      <button class="btn danger-btn">Excluir Conta</button>
+    </div>
+
+    <!-- Seção de Exportar e Importar Conta -->
+    <div class="settings-section">
+      <h2>Exportar / Importar Conta</h2>
+      <p>Você pode exportar seus dados ou importar sua conta de outro serviço.</p>
+      <button class="btn">Exportar Conta</button>
+      <button class="btn">Importar Conta</button>
+    </div>
+    
+    <div class="settings-footer">
+      <button class="btn">Salvar Configurações</button>
+    </div>
+  </div>
+
+</body>
+</html>

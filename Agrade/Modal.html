@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal com Links em Iframe</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .btn {
+      padding: 15px 25px;
+      background-color: #1e90ff;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #005cbf;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 5%;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .modal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .choices {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .choices button {
+      padding: 10px;
+      background-color: #1e90ff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      background-color: #ff4500;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .active {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botão principal -->
+  <button class="btn" id="mainButton">Abrir Escolhas</button>
+
+  <!-- Fundo escuro -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Painel de escolhas -->
+  <div class="choices" id="choices">
+    <button data-link="https://example.com/page1">Página 1</button>
+    <button data-link="https://example.com/page2">Página 2</button>
+    <button data-link="https://example.com/page3">Página 3</button>
+  </div>
+
+  <!-- Modal com iframe -->
+  <div class="modal" id="modal">
+    <button class="close-btn" id="closeModal">&times;</button>
+    <iframe id="iframe" src=""></iframe>
+  </div>
+
+  <script>
+    const mainButton = document.getElementById('mainButton');
+    const choices = document.getElementById('choices');
+    const overlay = document.getElementById('overlay');
+    const modal = document.getElementById('modal');
+    const iframe = document.getElementById('iframe');
+    const closeModal = document.getElementById('closeModal');
+
+    // Estado inicial do botão
+    let isChoosing = false;
+
+    // Abrir escolhas ao clicar no botão principal
+    mainButton.addEventListener('click', () => {
+      mainButton.style.display = 'none'; // Esconde o botão principal
+      choices.classList.add('active'); // Mostra as escolhas
+    });
+
+    // Fechar modal e resetar o estado
+    overlay.addEventListener('click', () => {
+      modal.classList.remove('active');
+      overlay.classList.remove('active');
+      iframe.src = '';
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      overlay.classList.remove('active');
+      iframe.src = '';
+    });
+
+    // Abrir modal com link selecionado
+    choices.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        const link = e.target.getAttribute('data-link');
+        iframe.src = link;
+        modal.classList.add('active'); // Exibe o modal
+        choices.classList.remove('active'); // Esconde o painel de escolhas
+        overlay.classList.add('active'); // Ativa o fundo escuro
+        mainButton.style.display = 'block'; // Traz de volta o botão principal
+        mainButton.textContent = 'Abrir Escolhas'; // Restaura o texto original
+      }
+    });
+  </script>
+</body>
+</html>

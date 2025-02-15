@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Grade - Link</title>
+  
+  <style>
+    /* Reset geral */
+/* Reset geral */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo e fundo */
+body {
+  font-family: 'Arial', sans-serif;
+  background: #121212; /* Fundo escuro */
+  color: #e0e0e0; /* Texto claro */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Container principal */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Cabeçalho */
+.header {
+  background: linear-gradient(45deg, #00CC99, #9900FF);
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 8px rgba(0, 204, 153, 0.5), 0px 0px 10px rgba(153, 0, 255, 0.5);
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2.5em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  animation: pulse 3s infinite;
+}
+
+.header nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.header nav ul li {
+  display: inline-block;
+  margin: 10px;
+}
+
+.header nav ul li a {
+  text-decoration: none;
+  font-size: 1.1em;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.header nav ul li a:hover {
+  background: #00CC99;
+  border-color: #00CC99;
+  color: #000000;
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 8px #00CC99, 0 0 16px #00CC99, 0 0 24px #9900FF;
+  }
+  50% {
+    text-shadow: 0 0 16px #9900FF, 0 0 32px #9900FF, 0 0 40px #00CC99;
+  }
+  100% {
+    text-shadow: 0 0 8px #00CC99, 0 0 16px #00CC99, 0 0 24px #9900FF;
+  }
+}
+
+/* Seção de conteúdo */
+.content {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.8); /* Fundo mais escuro */
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(153, 0, 255, 0.5);
+  margin-top: 20px;
+}
+
+.content h2 {
+  font-size: 2.2em;
+  color: #00CC99;
+  margin-bottom: 15px;
+}
+
+.content p {
+  font-size: 1.1em;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* Rodapé */
+.footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+}
+
+.footer p {
+  font-size: 1em;
+  color: #aaa;
+  letter-spacing: 1px;
+}
+
+/* Efeitos de transição */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  transform: scale(1.05);
+  color: #00CC99;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>A Grade - Bem-vindo ao Futuro</h1>
+      <nav>
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Perfil Chat</a></li>
+          <li><a href="#">Perfil Post</a></li>
+          <li><a href="#">Buscar Usuário</a></li>
+          <li><a href="#">Starchat</a></li>
+          <li><a href="#">Missões</a></li>
+          <li><a href="#">Loja</a></li>
+          <li><a href="#">Bot</a></li>
+          <li><a href="#">Safira Bot</a></li>
+          <li><a href="#">Quiz</a></li>
+          <li><a href="#">Vídeos</a></li>
+          <li><a href="#">Fórum</a></li>
+          <li><a href="#">Player</a></li>
+          <li><a href="#">Ranking</a></li>
+          <li><a href="#">XP Diário</a></li>
+          <li><a href="#">Configuração</a></li>
+          <li><a href="#">Clãs</a></li>
+          <li><a href="#">Chat Geral</a></li>
+          <li><a href="#">Biblioteca</a></li>
+          <li><a href="#">Vídeos (Blog)</a></li>
+          <li><a href="#">SAC</a></li>
+          <li><a href="#">Alterar Senha</a></li>
+          <li><a href="#">Permissões</a></li>
+          <li><a href="#">Feedback</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <main>
+      <section class="content">
+        <h2>Bem-vindo ao A Grade</h2>
+        <p>Explore todas as opções acima e aproveite a experiência futurista de interatividade e tecnologia.</p>
+      </section>
+    </main>
+    
+    <footer class="footer">
+      <p>&copy; 2025 A Grade. Todos os direitos reservados.</p>
+    </footer>
+  </div>
+  
+  <!-- Scripts (se necessário) -->
+  <script src="scripts.js"></script>
+</body>
+</html>

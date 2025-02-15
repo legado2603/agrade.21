@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja de Produtos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .banner {
+      background-color: #00FFFF;
+      color: #121212;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .content {
+      margin-top: 60px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .search-bar {
+      width: 50%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 2px solid #00FFFF;
+      background-color: #121212;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .product-list {
+      margin-top: 20px;
+      text-align: left;
+      padding: 10px;
+      background-color: #1e1e1e;
+      border-radius: 5px;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+
+    .product-item {
+      margin-bottom: 20px;
+      background-color: #2c2c2c;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .product-item div {
+      flex-grow: 1;
+    }
+
+    .auth-button {
+      padding: 10px 20px;
+      background-color: #00FFFF;
+      color: #121212;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .pagination button {
+      background-color: #00FFFF;
+      color: #121212;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+
+    .pagination button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">Loja de Produtos</div>
+
+  <div class="content">
+    <h1>Bem-vindo à nossa loja!</h1>
+    <p>Encontre os melhores produtos aqui.</p>
+
+    <button class="auth-button" id="authButton">Fazer Login</button>
+
+    <input type="text" id="searchBar" class="search-bar" placeholder="Buscar produtos..." style="display: none;" />
+
+    <div class="product-list" id="productList" style="display: none;"></div>
+
+    <div class="pagination" id="pagination" style="display: none;">
+      <button id="prevPage" disabled>Anterior</button>
+      <button id="nextPage" disabled>Próxima</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    const authButton = document.getElementById('authButton');
+    const searchBar = document.getElementById('searchBar');
+    const productList = document.getElementById('productList');
+    const pagination = document.getElementById('pagination');
+    const prevPageButton = document.getElementById('prevPage');
+    const nextPageButton = document.getElementById('nextPage');
+
+    let products = [];
+    let currentPage = 0;
+    const productsPerPage = 7;
+
+    const loadProducts = async () => {
+      const productsRef = ref(database, 'products');
+      const snapshot = await get(productsRef);
+      if (snapshot.exists()) {
+        products = Object.values(snapshot.val());
+        displayProducts();
+      } else {
+        productList.innerHTML = '<p>Nenhum produto encontrado.</p>';
+      }
+    };
+
+    const displayProducts = () => {
+      productList.innerHTML = '<h2>Produtos Disponíveis</h2>';
+      const startIndex = currentPage * productsPerPage;
+      const endIndex = startIndex + productsPerPage;
+      const currentProducts = products.slice(startIndex, endIndex);
+
+      currentProducts.forEach(product => {
+        const productItem = document.createElement('div');
+        productItem.className = 'product-item';
+        productItem.innerHTML = `
+          <img src="${product.imageUrl}" alt="${product.name}" />
+          <div>
+            <h3>${product.name}</h3>
+            <p>${product.description || 'Sem descrição disponível'}</p>
+            <p>Preço: R$${product.price || 'N/D'}</p>
+            <p>Quantidade: ${product.quantity || 0}</p>
+          </div>
+        `;
+        productList.appendChild(productItem);
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex >= products.length;
+    };
+
+    const login = () => {
+      const email = prompt("Digite seu email:");
+      const password = prompt("Digite sua senha:");
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert('Login bem-sucedido!');
+          authButton.style.display = 'none';
+          searchBar.style.display = 'inline-block';
+          productList.style.display = 'block';
+          pagination.style.display = 'flex';
+          loadProducts();
+        })
+        .catch(error => {
+          alert('Erro no login: ' + error.message);
+        });
+    };
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        authButton.style.display = 'none';
+        searchBar.style.display = 'inline-block';
+        productList.style.display = 'block';
+        pagination.style.display = 'flex';
+        loadProducts();
+      } else {
+        authButton.style.display = 'inline-block';
+        searchBar.style.display = 'none';
+        productList.style.display = 'none';
+        pagination.style.display = 'none';
+      }
+    });
+
+    authButton.addEventListener('click', login);
+
+    searchBar.addEventListener('input', () => {
+      const query = searchBar.value.toLowerCase();
+      const productItems = document.querySelectorAll('.product-item');
+      productItems.forEach(item => {
+        const productName = item.querySelector('h3').textContent.toLowerCase();
+        item.style.display = productName.includes(query) ? '' : 'none';
+      });
+    });
+
+    prevPageButton.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        displayProducts();
+      }
+    });
+
+    nextPageButton.addEventListener('click', () => {
+      if ((currentPage + 1) * productsPerPage < products.length) {
+        currentPage++;
+        displayProducts();
+      }
+    });
+  </script>
+
+</body>
+</html>

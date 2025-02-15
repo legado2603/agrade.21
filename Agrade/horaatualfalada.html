@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Falar Hora</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #0e1117;
+      color: #00ffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #countdown {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  (*adaptar*)
+  <div id="countdown">Preparando...</div>
+
+  <script>
+    // Função para falar a hora
+    function speakTime() {
+      const date = new Date();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const timeText = `A hora atual é ${hours} horas e ${minutes} minutos.`;
+
+      const speech = new SpeechSynthesisUtterance(timeText);
+      speech.rate = 1;
+      speech.pitch = 1;
+      speech.volume = 1;
+
+      // Garantir que a voz está carregada
+      const voices = speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        speech.voice = voices.find(voice => voice.lang === 'pt-BR' && voice.name.includes('Google')) || voices[0];
+      }
+
+      speechSynthesis.speak(speech);
+    }
+
+    // Função para iniciar o countdown de 3 segundos
+    function startCountdown() {
+      let count = 3;
+      const countdownElement = document.getElementById("countdown");
+
+      const timer = setInterval(() => {
+        countdownElement.textContent = `Falando em ${count}...`;
+        count--;
+
+        if (count < 0) {
+          clearInterval(timer);
+          countdownElement.textContent = "Falando agora!";
+          speakTime();
+        }
+      }, 1000);
+    }
+
+    // Usando o toque na tela para iniciar
+    window.addEventListener('touchstart', () => {
+      startCountdown();
+    });
+
+    // Esperar até que o SpeechSynthesis seja inicializado e as vozes estejam disponíveis
+    window.onload = () => {
+      // Aguardar vozes carregadas
+      speechSynthesis.onvoiceschanged = startCountdown;
+    };
+  </script>
+</body>
+</html>

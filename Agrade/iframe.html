@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site no Iframe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        iframe {
+            width: 100%;
+            height: 80vh;
+            border: none;
+        }
+        .fallback {
+            margin-top: 20px;
+        }
+        a {
+            color: #00ffff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Visualizando o site</h1>
+    
+    <iframe src="https://josericardobarbosa.wordpress.com/" id="siteFrame"></iframe>
+    
+    <div class="fallback">
+        <p>Se o site não carregar, clique no link abaixo:</p>
+        <a href="https://josericardobarbosa.wordpress.com/" target="_blank">Abrir em nova aba</a>
+    </div>
+
+</body>
+</html>

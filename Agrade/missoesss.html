@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Missões</title>
+  <style>
+    /* Estilos básicos para o layout */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #333;
+      color: white;
+      border: 1px solid #555;
+      border-radius: 5px;
+    }
+
+    .missao-container {
+      margin-top: 20px;
+    }
+
+    .missao {
+      background-color: #333;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+
+    .missao h3 {
+      color: #00FFFF;
+    }
+
+    .missao p {
+      margin: 5px 0;
+    }
+
+    button {
+      background-color: #FF00FF;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #00FFFF;
+    }
+
+    #detalhesMissao {
+      display: none;
+      background-color: #333;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+
+    #detalhesMissao p {
+      margin: 5px 0;
+    }
+
+    .acao {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Painel de Missões</h1>
+
+    <h2>Selecione uma Missão</h2>
+    <select id="selecaoMissao">
+      <option value="">Selecione uma missão...</option>
+    </select>
+
+    <!-- Detalhes da missão selecionada -->
+    <div id="detalhesMissao">
+      <h3>Detalhes da Missão</h3>
+      <p id="detalhesTitulo"></p>
+      <p id="detalhesDescricao"></p>
+      <p id="detalhesResponsavel"></p>
+      <p id="detalhesPrazo"></p>
+      <div class="acao">
+        <button id="concluirMissao">Marcar como Concluída</button>
+      </div>
+    </div>
+
+    <div class="missao-container" id="missaoContainer"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    // Verificar autenticação
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        carregarMissoes(user);
+      } else {
+        alert("Você precisa fazer login para acessar as missões.");
+        window.location.href = "login.html";
+      }
+    });
+
+    // Carregar missões
+    function carregarMissoes(user) {
+      const selecaoMissao = document.getElementById('selecaoMissao');
+      const missaoContainer = document.getElementById('missaoContainer');
+      const missoesRef = ref(database, 'missoes');
+
+      onValue(missoesRef, (snapshot) => {
+        const data = snapshot.val();
+        selecaoMissao.innerHTML = '<option value="">Selecione uma missão...</option>';
+        missaoContainer.innerHTML = ''; // Limpa o container de missões
+
+        if (data) {
+          for (let key in data) {
+            const missao = data[key];
+            const missaoDiv = document.createElement('div');
+            missaoDiv.classList.add('missao');
+            missaoDiv.innerHTML = `
+              <h3>${missao.nome}</h3>
+              <p><strong>Responsável:</strong> ${missao.responsavel}</p>
+              <p><strong>Prazo Final:</strong> ${missao.prazoFinal}</p>
+              <button onclick="mostrarDetalhes('${key}')">Ver Detalhes</button>
+            `;
+            missaoContainer.appendChild(missaoDiv);
+
+            selecaoMissao.innerHTML += `
+              <option value="${key}">${missao.nome}</option>
+            `;
+          }
+        } else {
+          selecaoMissao.innerHTML = '<option value="">Nenhuma missão disponível</option>';
+        }
+      });
+    }
+
+    // Mostrar detalhes da missão
+    window.mostrarDetalhes = function(missaoId) {
+      const missaoRef = ref(database, `missoes/${missaoId}`);
+      onValue(missaoRef, (snapshot) => {
+        const missao = snapshot.val();
+        document.getElementById('detalhesTitulo').textContent = `Título: ${missao.nome}`;
+        document.getElementById('detalhesDescricao').textContent = `Descrição: ${missao.descricao}`;
+        document.getElementById('detalhesResponsavel').textContent = `Responsável: ${missao.responsavel}`;
+        document.getElementById('detalhesPrazo').textContent = `Prazo Final: ${missao.prazoFinal}`;
+
+        // Exibir o painel de detalhes
+        document.getElementById('detalhesMissao').style.display = 'block';
+
+        // Configurar ação de concluir
+        document.getElementById('concluirMissao').onclick = () => {
+          // Atualizar status da missão
+          update(missaoRef, { status: 'concluída' });
+          alert("Missão marcada como concluída!");
+
+          // Redirecionar para a página de seleção de missão
+          window.location.href = "index.html";  // Altere para o nome da página que deseja redirecionar
+        };
+      });
+    };
+  </script>
+</body>
+</html>

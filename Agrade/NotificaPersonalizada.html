@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações Personalizadas</title>
+    <style>
+        /* Estilo da notificação */
+        .notificacao {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none; /* Inicialmente oculta */
+        }
+
+        /* Botão de fechar */
+        .fechar {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Notificações Personalizadas</h1>
+    <button onclick="mostrarNotificacao()">Mostrar Notificação</button>
+
+    <!-- Div da notificação -->
+    <div id="minhaNotificacao" class="notificacao">
+        <span class="fechar" onclick="fecharNotificacao()">&times;</span>
+        Esta é uma notificação personalizada!
+    </div>
+
+    <script>
+        function mostrarNotificacao() {
+            const notificacao = document.getElementById("minhaNotificacao");
+            notificacao.style.display = "block"; // Exibe a notificação
+
+            // Fecha a notificação após 5 segundos
+            setTimeout(() => {
+                fecharNotificacao();
+            }, 5000);
+        }
+
+        function fecharNotificacao() {
+            const notificacao = document.getElementById("minhaNotificacao");
+            notificacao.style.display = "none"; // Oculta a notificação
+        }
+    </script>
+</body>
+</html>

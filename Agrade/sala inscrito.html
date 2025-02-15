@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat com Notificação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: white;
+    }
+    .chat-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #1e1e1e;
+      border-radius: 10px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background-color: #1c1c1c;
+      color: white;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #00FFFF;
+      border: none;
+      border-radius: 5px;
+      color: black;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00B8B8;
+    }
+    #messages {
+      margin-top: 20px;
+      background-color: #333;
+      padding: 10px;
+      border-radius: 5px;
+      height: 200px;
+      overflow-y: scroll;
+    }
+    .message {
+      padding: 5px;
+      background-color: #444;
+      margin-bottom: 5px;
+      border-radius: 5px;
+    }
+    .room-list {
+      margin-top: 20px;
+    }
+    .room {
+      background-color: #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <h2>Escolha a Sala</h2>
+    <input type="text" id="roomNameInput" placeholder="Digite o nome da sala" />
+    <button id="joinRoomButton">Inscrever-se na Sala</button>
+    
+    <div id="messages"></div>
+    
+    <div class="room-list">
+      <h3>Salas Inscritas</h3>
+      <div id="subscribedRoomsList"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+      authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+      databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+      projectId: "socialnetwork021-fad5a",
+      storageBucket: "socialnetwork021-fad5a.appspot.com",
+      messagingSenderId: "1040846806964",
+      appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+      measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializar o Firebase
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+    import { getDatabase, ref, onChildAdded, get } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Função para inscrever o usuário na sala
+    function subscribeToRoom(room) {
+      const roomRef = ref(db, `rooms/${room}`);
+      
+      // Verificar se a sala existe
+      get(roomRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          let subscribedRooms = JSON.parse(localStorage.getItem('subscribedRooms')) || [];
+          if (!subscribedRooms.includes(room)) {
+            subscribedRooms.push(room);
+            localStorage.setItem('subscribedRooms', JSON.stringify(subscribedRooms));
+            alert(`Você se inscreveu na sala: ${room}`);
+            
+            // Mostrar a lista de salas inscritas
+            showSubscribedRooms();
+            
+            // Começar a escutar as mensagens assim que a inscrição for bem-sucedida
+            startListeningForMessages(room);
+          }
+        } else {
+          alert('A sala não existe!');
+        }
+      }).catch((error) => {
+        console.error("Erro ao verificar a sala:", error);
+      });
+    }
+
+    // Função para mostrar as salas inscritas
+    function showSubscribedRooms() {
+      const subscribedRooms = JSON.parse(localStorage.getItem('subscribedRooms')) || [];
+      const roomListDiv = document.getElementById('subscribedRoomsList');
+      roomListDiv.innerHTML = ''; // Limpa a lista antes de atualizar
+      
+      subscribedRooms.forEach(room => {
+        const roomDiv = document.createElement('div');
+        roomDiv.className = 'room';
+        roomDiv.textContent = room;
+        roomDiv.addEventListener('click', () => {
+          showRoomMessages(room);
+        });
+        roomListDiv.appendChild(roomDiv);
+      });
+    }
+
+    // Função para mostrar as mensagens de uma sala
+    function showRoomMessages(room) {
+      const messagesRef = ref(db, `rooms/${room}/messages`);
+      
+      // Limpa as mensagens da tela antes de carregar as novas
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML = '';
+      
+      // Exibir as mensagens da sala
+      get(messagesRef).then(snapshot => {
+        if (snapshot.exists()) {
+          const messages = snapshot.val();
+          for (let messageId in messages) {
+            const message = messages[messageId];
+            displayMessage(message);
+          }
+        }
+      }).catch((error) => {
+        console.error("Erro ao carregar mensagens:", error);
+      });
+    }
+
+    // Função para começar a escutar novas mensagens na sala
+    function startListeningForMessages(room) {
+      const messagesRef = ref(db, `rooms/${room}/messages`);
+    
+      // Escutar por novas mensagens
+      onChildAdded(messagesRef, (snapshot) => {
+        const message = snapshot.val();
+        console.log(`Nova mensagem na sala ${room}:`, message);
+        
+        // Exibir a mensagem no HTML
+        displayMessage(message);
+    
+        // Enviar a notificação se a permissão for concedida
+        if (Notification.permission === 'granted') {
+          const notificationOptions = {
+            body: `Nova mensagem na sala "${room}"`,
+            icon: 'default-icon.png'
+          };
+          new Notification(`Nova mensagem na sala "${room}"`, notificationOptions);
+        }
+      });
+    }
+
+    // Exibir mensagem na tela
+    function displayMessage(message) {
+      const messagesDiv = document.getElementById('messages');
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message';
+      messageElement.textContent = message.text || 'Mensagem sem texto'; // Se o campo 'text' não existir, exibe uma mensagem padrão
+      messagesDiv.appendChild(messageElement);
+      
+      // Rolar para a última mensagem
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Solicitar permissão para notificações
+    function requestNotificationPermission() {
+      if (Notification.permission !== 'granted') {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            console.log('Permissão para notificações concedida!');
+          } else {
+            console.log('Permissão para notificações negada.');
+          }
+        });
+      }
+    }
+
+    // Aguardar o usuário clicar no botão para inscrever-se na sala
+    const joinRoomButton = document.getElementById('joinRoomButton');
+    const roomNameInput = document.getElementById('roomNameInput');
+
+    joinRoomButton.addEventListener('click', () => {
+      const room = roomNameInput.value.trim();
+      if (room) {
+        subscribeToRoom(room);
+      } else {
+        alert('Por favor, insira um nome de sala.');
+      }
+    });
+
+    // Inicializar a permissão de notificações
+    requestNotificationPermission();
+
+    // Mostrar salas inscritas ao carregar a página
+    showSubscribedRooms();
+  </script>
+
+</body>
+</html>

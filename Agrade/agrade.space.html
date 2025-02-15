@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Grade</title>
+  <style>
+    body {
+      background-color: black;
+      color: red;
+      background-image: url('pag/4ffffd861c4b4b4d6561566f29216484.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    nav {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      color: white;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    #comeco {
+      color: green;
+      margin-top: 80px; /* Para evitar sobreposição do menu */
+      text-align: center;
+    }
+    p {
+      color: white;
+    }
+    h1, h3 {
+      color: white;
+    }
+    .img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+    }
+    .auth-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .auth-container button {
+      padding: 10px 20px;
+      background-color: #00ffff;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .auth-container button:hover {
+      background-color: #00cccc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Barra de navegação -->
+  <nav>
+    <a href="#sobre">Sobre</a>
+    <a href="#usuarios">Usuários</a>
+    <a href="#contato">Contato</a>
+    <a href="#aplicativo">Baixe nosso Aplicativo</a>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <div id="comeco" class="comeco">
+    <h1>A GRADE</h1>
+    <p>agrade.space</p>
+    <p>Bem-vindo ao nosso site!</p>
+  </div>
+
+  <!-- Autenticação -->
+  <div class="auth-container">
+    <h3>BEM-VINDO À GRADE</h3>
+    <!-- Condicional para autenticação -->
+    <div id="auth">
+      <!-- Conteúdo será controlado via JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    // Exemplo de manipulação de autenticação com Firebase
+    const user = null; // Simulando o usuário (null = não autenticado)
+
+    const authContainer = document.getElementById('auth');
+
+    if (user) {
+      authContainer.innerHTML = `
+        <p>Bem-vindo, usuário ${user.uid}!</p>
+        <button onclick="logout()">Sair</button>
+      `;
+    } else {
+      authContainer.innerHTML = `
+        <p>Você não está autenticado.</p>
+        <button onclick="login()">Faça Login</button>
+      `;
+    }
+
+    function login() {
+      alert('Função de login aqui.');
+      // Exemplo: lógica de login com Firebase Auth
+    }
+
+    function logout() {
+      alert('Função de logout aqui.');
+      // Exemplo: lógica de logout com Firebase Auth
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rádio Personalizada</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      text-align: center;
+    }
+
+    .player {
+      margin-top: 50px;
+    }
+
+    .cover {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .info {
+      margin: 10px 0;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #00FFFF;
+      color: #121212;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rádio Personalizada</h1>
+
+  <div class="player">
+    <img src="" alt="Capa do Álbum" class="cover" id="cover">
+    <div class="info">
+      <h2 id="songName">Música</h2>
+      <p id="artistName">Artista</p>
+    </div>
+    <audio id="audioPlayer" controls></audio>
+    <div>
+      <button id="prevButton">Anterior</button>
+      <button id="nextButton">Próxima</button>
+    </div>
+  </div>
+
+  <script>
+    let musicData = [];
+    let currentTrack = 0;
+
+    // Carregar as músicas do JSON
+    fetch('music.json')
+      .then(response => response.json())
+      .then(data => {
+        musicData = data;
+        loadTrack(currentTrack);
+      });
+
+    const cover = document.getElementById('cover');
+    const songName = document.getElementById('songName');
+    const artistName = document.getElementById('artistName');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+
+    // Carregar uma música específica
+    const loadTrack = (index) => {
+      const track = musicData[index];
+      cover.src = track.cover;
+      songName.textContent = track.name;
+      artistName.textContent = track.artist;
+      audioPlayer.src = track.url;
+
+      // Habilitar/desabilitar botões
+      prevButton.disabled = index === 0;
+      nextButton.disabled = index === musicData.length - 1;
+    };
+
+    // Próxima música
+    nextButton.addEventListener('click', () => {
+      if (currentTrack < musicData.length - 1) {
+        currentTrack++;
+        loadTrack(currentTrack);
+      }
+    });
+
+    // Música anterior
+    prevButton.addEventListener('click', () => {
+      if (currentTrack > 0) {
+        currentTrack--;
+        loadTrack(currentTrack);
+      }
+    });
+  </script>
+</body>
+</html>

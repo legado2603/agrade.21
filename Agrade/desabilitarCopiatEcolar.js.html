@@ -1,0 +1,14 @@
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+    alert("Clique direito desabilitado!");
+});
+
+document.addEventListener('copy', function(event) {
+    event.preventDefault();
+    alert("Copiar desabilitado!");
+});
+
+document.addEventListener('paste', function(event) {
+    event.preventDefault();
+    alert("Colar desabilitado!");
+});
