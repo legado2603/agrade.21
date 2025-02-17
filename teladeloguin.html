@@ -276,7 +276,7 @@ loadBackground();
     auth.onAuthStateChanged((user) => {
         if (user) {
             console.log('Usuário já autenticado:', user);
-            window.location.href = '/recaptcha.html'; // Redirecionar para a página index.html
+            window.location.href = 'recaptcha.html'; // Redirecionar para a página index.html
         }
     });
 
@@ -286,7 +286,7 @@ loadBackground();
         // Verificar se o usuário já está autenticado
         if (auth.currentUser) {
             console.log('Usuário já autenticado. Redirecionando...');
-            window.location.href = '/recaptcha.html'; // Redirecionar sem tentar fazer login novamente
+            window.location.href = 'recaptcha.html'; // Redirecionar sem tentar fazer login novamente
             return;
         }
 
