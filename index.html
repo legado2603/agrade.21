@@ -2399,6 +2399,140 @@ function changeLogo() {
 // Troca a logo ao carregar a página
 changeLogo();
 </script>
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+    import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+        authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+        databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+        projectId: "socialnetwork021-fad5a",
+        storageBucket: "socialnetwork021-fad5a.appspot.com",
+        messagingSenderId: "1040846806964",
+        appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+        measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializando Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    // Elementos da interface
+    const loginBtn = document.getElementById('loginBtn');
+    const fileContainer = document.getElementById('fileContainer');
+    const fileList = document.getElementById('fileList');
+    const searchField = document.getElementById('searchField');
+
+    // Login com Google
+    loginBtn.addEventListener('click', () => {
+        signInWithPopup(auth, provider).catch(error => console.error("Erro ao autenticar:", error));
+    });
+
+    // Verificar estado da autenticação
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            loginBtn.style.display = "none"; // Esconde o botão de login
+            fileContainer.style.display = "block"; // Exibe o conteúdo do arquivo
+            // Não exibir arquivos inicialmente
+        } else {
+            loginBtn.style.display = "block"; // Exibe o botão de login
+            fileContainer.style.display = "none"; // Esconde o conteúdo do arquivo
+        }
+    });
+
+    // Função para buscar arquivos e exibir na tela
+    function fetchFiles() {
+        get(ref(database, 'files/')).then(snapshot => {
+            if (snapshot.exists()) {
+                const files = snapshot.val();
+                // Filtrar arquivos com base na pesquisa
+                searchField.addEventListener('input', () => {
+                    filterFiles(files);
+                });
+            } else {
+                fileList.innerHTML = '<li>Nenhum arquivo encontrado.</li>';
+            }
+        }).catch(error => console.error("Erro ao buscar arquivos:", error));
+    }
+
+    // Função para filtrar os arquivos com base no nome ou tags
+    function filterFiles(files) {
+        const query = searchField.value.toLowerCase();
+        fileList.innerHTML = ''; // Limpa a lista antes de preencher
+
+        if (query === "") {
+            return; // Não faz nada se o campo de pesquisa estiver vazio
+        }
+
+        Object.values(files).forEach(file => {
+            if (file.fileName.toLowerCase().includes(query) || file.fileTags.some(tag => tag.toLowerCase().includes(query))) {
+                let fileItem = `
+                    <li>
+                        <strong>${file.fileName}</strong><br>
+                        Descrição: ${file.fileDescription}<br>
+                        Tags: ${file.fileTags.join(', ')}
+                `;
+                
+                // Verificar se é um link que contém um iframe
+                if (file.fileLink.includes("<iframe")) {
+                    fileItem += `
+                        <div class="iframe-container">
+                            ${file.fileLink}
+                        </div>
+                    `;
+                }
+                // Verificar se é um link do Google Drive
+                else if (file.fileLink.includes("drive.google.com")) {
+                    if (file.fileLink.includes("preview")) {
+                        // É um vídeo ou imagem do Google Drive
+                        fileItem += `
+                            <iframe src="${file.fileLink}" width="560" height="315" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        `;
+                    } else {
+                        // Link de compartilhamento sem o formato de preview
+                        const previewLink = file.fileLink.replace('/view', '/preview');
+                        fileItem += `
+                            <iframe src="${previewLink}" width="560" height="315" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        `;
+                    }
+                } 
+                // Verificar se é um link do Dropbox
+                else if (file.fileLink.includes("dropbox.com")) {
+                    // Converte o link de visualização do Dropbox para o formato de embed
+                    const embedLink = file.fileLink.replace('?dl=0', '?raw=1');
+                    fileItem += `
+                        <iframe src="${embedLink}" width="560" height="315" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    `;
+                }
+                // Verificar se o link é um arquivo de imagem
+                else if (file.fileLink.match(/\.(jpeg|jpg|gif|png)$/i)) {
+                    fileItem += `
+                        <img src="${file.fileLink}" alt="${file.fileName}" style="max-width: 100%; height: auto;"/>
+                    `;
+                }
+                else {
+                    // Caso o link não seja do Google Drive, Dropbox, ou imagem, usa como link normal
+                    fileItem += `<a href="${file.fileLink}" target="_blank">Ver Arquivo</a>`;
+                }
+                
+                fileItem += `</li>`;
+                fileList.innerHTML += fileItem;
+            }
+        });
+    }
+
+    // Iniciar a busca de arquivos assim que o usuário estiver logado
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            fetchFiles();
+        }
+    });
+</script>
 
 </body>
 </html>
