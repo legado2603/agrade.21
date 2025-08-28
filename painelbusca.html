@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Arquivos Disponíveis</title>
+    <style>
+       /* Resetando algumas propriedades básicas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #0a0a0a;
+    background-image: url('path-to-your-cyberpunk-image.jpg'); /* Imagem de fundo */
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Container principal com efeito Glass */
+.container {
+    max-width: 600px;
+    width: 100%;
+    margin: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Vidro fosco */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px); /* Efeito de desfoque */
+    transition: transform 0.3s ease;
+}
+
+.container:hover {
+    transform: scale(1.03);
+}
+
+/* Títulos */
+h2, h3 {
+    color: #00FF96; /* Cor neon para efeito cyberpunk */
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Lista de arquivos */
+#fileList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#fileList li {
+    background-color: rgba(255, 255, 255, 0.2); /* Fundo translúcido */
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#fileList li:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateX(5px);
+}
+
+/* Container de autenticação */
+.auth-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Botões de login/logout */
+button {
+    background-color: #00FF96;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 280px;
+    margin: 10px auto;
+    box-shadow: 0 4px 15px rgba(0, 255, 150, 0.3);
+}
+
+button:hover {
+    background-color: #00cc7a;
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Informações do usuário */
+#userInfo {
+    text-align: center;
+    color: #bbb;
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+/* Campo de pesquisa */
+#searchField {
+    width: 100%;
+    padding: 12px;
+    margin: 20px 0;
+    border: 2px solid #444;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#searchField:focus {
+    border-color: #00FF96;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Adicionando sombras e transições */
+input[type="text"], button {
+    box-shadow: 0 4px 20px rgba(0, 255, 150, 0.3);
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h2, h3 {
+        font-size: 1.4rem;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+
+    #fileList li {
+        padding: 12px;
+    }
+}
+
+/* Estilo de links */
+a {
+    color: #00FF96;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #00cc7a;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="auth-container">
+            <button id="loginBtn">Login com Google</button>
+            <button id="logoutBtn" style="display:none;">Logout</button>
+            <p id="userInfo"></p>
+        </div>
+
+        <div id="fileContainer" style="display:none;">
+            <h2>Arquivos Disponíveis</h2>
+            <input type="text" id="searchField" placeholder="Pesquisar por nome ou tags...">
+            <ul id="fileList"></ul>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+    import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+        authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+        databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+        projectId: "socialnetwork021-fad5a",
+        storageBucket: "socialnetwork021-fad5a.appspot.com",
+        messagingSenderId: "1040846806964",
+        appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+        measurementId: "G-0NC44RCWV6"
+    };
+
+    // Inicializando Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    // Elementos da interface
+    const loginBtn = document.getElementById('loginBtn');
+    const fileContainer = document.getElementById('fileContainer');
+    const fileList = document.getElementById('fileList');
+    const searchField = document.getElementById('searchField');
+
+    // Login com Google
+    loginBtn.addEventListener('click', () => {
+        signInWithPopup(auth, provider).catch(error => console.error("Erro ao autenticar:", error));
+    });
+
+    // Verificar estado da autenticação
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            loginBtn.style.display = "none"; // Esconde o botão de login
+            fileContainer.style.display = "block"; // Exibe o conteúdo do arquivo
+            // Não exibir arquivos inicialmente
+        } else {
+            loginBtn.style.display = "block"; // Exibe o botão de login
+            fileContainer.style.display = "none"; // Esconde o conteúdo do arquivo
+        }
+    });
+
+    // Função para buscar arquivos e exibir na tela
+    function fetchFiles() {
+        get(ref(database, 'files/')).then(snapshot => {
+            if (snapshot.exists()) {
+                const files = snapshot.val();
+                // Filtrar arquivos com base na pesquisa
+                searchField.addEventListener('input', () => {
+                    filterFiles(files);
+                });
+            } else {
+                fileList.innerHTML = '<li>Nenhum arquivo encontrado.</li>';
+            }
+        }).catch(error => console.error("Erro ao buscar arquivos:", error));
+    }
+
+    // Função para filtrar os arquivos com base no nome ou tags
+    function filterFiles(files) {
+        const query = searchField.value.toLowerCase();
+        fileList.innerHTML = ''; // Limpa a lista antes de preencher
+
+        if (query === "") {
+            return; // Não faz nada se o campo de pesquisa estiver vazio
+        }
+
+        Object.values(files).forEach(file => {
+            if (file.fileName.toLowerCase().includes(query) || file.fileTags.some(tag => tag.toLowerCase().includes(query))) {
+                let fileItem = `
+                    <li>
+                        <strong>${file.fileName}</strong><br>
+                        Descrição: ${file.fileDescription}<br>
+                        Tags: ${file.fileTags.join(', ')}
+                `;
+                
+                // Verificar se é um link que contém um iframe
+                if (file.fileLink.includes("<iframe")) {
+                    fileItem += `
+                        <div class="iframe-container">
+                            ${file.fileLink}
+                        </div>
+                    `;
+                }
+                // Verificar se é um link do Google Drive
+                else if (file.fileLink.includes("drive.google.com")) {
+                    if (file.fileLink.includes("preview")) {
+                        // É um vídeo ou imagem do Google Drive
+                        fileItem += `
+                            <iframe src="${file.fileLink}" width="560" height="315" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        `;
+                    } else {
+                        // Link de compartilhamento sem o formato de preview
+                        const previewLink = file.fileLink.replace('/view', '/preview');
+                        fileItem += `
+                            <iframe src="${previewLink}" width="560" height="315" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        `;
+                    }
+                } 
+                // Verificar se é um link do Dropbox
+                else if (file.fileLink.includes("dropbox.com")) {
+                    // Converte o link de visualização do Dropbox para o formato de embed
+                    const embedLink = file.fileLink.replace('?dl=0', '?raw=1');
+                    fileItem += `
+                        <iframe src="${embedLink}" width="560" height="315" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    `;
+                }
+                // Verificar se o link é um arquivo de imagem
+                else if (file.fileLink.match(/\.(jpeg|jpg|gif|png)$/i)) {
+                    fileItem += `
+                        <img src="${file.fileLink}" alt="${file.fileName}" style="max-width: 100%; height: auto;"/>
+                    `;
+                }
+                else {
+                    // Caso o link não seja do Google Drive, Dropbox, ou imagem, usa como link normal
+                    fileItem += `<a href="${file.fileLink}" target="_blank">Ver Arquivo</a>`;
+                }
+                
+                fileItem += `</li>`;
+                fileList.innerHTML += fileItem;
+            }
+        });
+    }
+
+    // Iniciar a busca de arquivos assim que o usuário estiver logado
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            fetchFiles();
+        }
+    });
+</script>
+
+</body>
+</html>

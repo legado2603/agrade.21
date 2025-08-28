@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000"> <!-- Cor da barra de navegação no mobile -->
+  <meta name="mobile-web-app-capable" content="yes"> <!-- Habilita o web app no mobile -->
+  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Compatibilidade com iOS -->
+  <meta name="apple-mobile-web-app-title" content="A-Grade"> <!-- Nome do app no iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Barra de status no iOS -->
+  <meta name="description" content="Criador e Fundador do Estado Nebulosa do Norte, Jose Ricardo B. e Barbosa, O ENN, subcultura cyberpunk">
+  <meta name="keywords" content="Agrade, ENN, EstadoNebulosadoNorte, ENN, O vigesimo primeiro, Estado Nebulosa do Norte, Jose Ricardo, A-Grade, agrade.space, agrade ponto space, tecnologia, conhecimento, subcutura, cyberpunk, Nebulosa do Norte, Estado NN, E.Nebulosadonorte, J.Ricardo, GX, Gengis Xerxes, Gengis Khan, Xerxes I, ecleticlagem, Abecê GX, ricardoboaventura, agrade.com, agrade.com.br, agrade.space, King Gx, KingGX, ENN-KingGx">
+  <meta name="author" content="José Ricardo Barbosa e Barbosa">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Ícone do site -->
+  <link rel="apple-touch-icon" href="icon-192.png"> <!-- Ícone para iOS -->
+  <link rel="manifest" href="manifest.json"> <!-- Manifest para web apps progressivos -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Otimização para fontes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Recrutamento ENN</title>
+  <style>
+    body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #121212;
+  color: #fff;
+  transition: background-image 0.5s ease;
+  background-repeat: no-repeat;
+  background-size: cover; /* A imagem cobre toda a tela */
+  background-position: center;
+  background-attachment: fixed; /* Fixa o fundo na tela */
+  overflow: auto; /* Permite rolar o conteúdo sem mexer no fundo */
+  overflow-x: hidden; /* Remove o scroll horizontal */
+  background-image: url('3ede294867b5f92ec2a4fb5894763ab3.jpg'); /* Defina o caminho para sua imagem */
+}
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 25px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-image: url('img1/d3705b74-baea-4d9d-b277-cd5c1bd75d0c.jpeg'); /* Defina o caminho para sua imagem */
+      background-repeat: no-repeat;
+  background-size: cover; /* A imagem cobre toda a tela */
+  background-position: center;
+  background-attachment: fixed; /* Fixa o fundo na tela */
+  overflow: auto; /* Permite rolar o conteúdo sem mexer no fundo */
+  overflow-x: hidden; /* Remove o scroll horizontal */
+      }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    input[type="file"] {
+      padding: 3px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+
+    .button:hover {
+      background: #0056b3;
+    }
+
+    .success-message {
+      text-align: center;
+      color: green;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    h1 {
+      color: white;
+    }
+    /* Container centralizador */
+.logo-container {
+    text-align: center; /* centraliza o conteúdo horizontalmente */
+    margin: 20px 0;     /* margem superior e inferior */
+}
+
+/* Estilo do link <a> */
+.logo-container a {
+    display: inline-block;
+    transition: all 0.4s ease;
+    border-radius: 12px;
+    text-decoration: none;
+    padding: 5px;
+}
+
+/* Hover: brilho e leve aumento */
+.logo-container a:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #ff0000, 0 0 25px #ffeb3b, 0 0 20px #8a2be2;
+    border: 2px solid #ffeb3b;
+    animation: linkGlow 1.5s infinite alternate;
+}
+
+/* Active: clique */
+.logo-container a:active {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px #ff0000, 0 0 15px #ffeb3b, 0 0 12px #8a2be2;
+}
+
+/* Animação pulsante no hover */
+@keyframes linkGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px #ff0000, 0 0 20px #ffeb3b, 0 0 15px #8a2be2;
+    }
+    50% {
+        box-shadow: 0 0 20px #ff0000, 0 0 30px #ffeb3b, 0 0 25px #8a2be2;
+    }
+}
+
+/* Ajuste da imagem */
+.logo-container img.logo {
+    width: 150px; /* tamanho da logo */
+    display: block; /* para respeitar o container do a */
+    margin: 0 auto; /* centraliza dentro do a */
+}
+  </style>
+</head>
+<body>
+  
+  <div class="container"><div class="logo-container">
+  <a href="index.html">
+    <img src="img/logo.png" alt="Logo" class="logo">
+  </a>
+</div>
+    <h3></h3>
+    <h1>
+    <br>Recrutamento<br>✴ESTADO NEBULOSA DO NORTE✴</h1>
+    <form id="cadastroForm">
+      <div class="form-group">
+        <label for="nome">👤 Nome:</label>
+        <input type="text" id="nome" name="nome" required placeholder="Insira seu nome Ex:Jose Ricardo">
+      </div>
+    <br>
+    <br>
+      <div class="form-group">
+        <label for="sobrenome">👤 Sobrenome:</label>
+        <input type="text" id="sobrenome" name="sobrenome" required placeholder="Insira seu sobrenome Ex.:Barbosa,Almeida,Santos,Ferreira">
+      </div>
+    <br>
+      <div class="form-group">
+        <label for="email">📧 E-mail:</label>
+        <input type="email" id="email" name="email" required placeholder="Insira seu email Ex.: Seu-email@gmail.com">Seu email é importante para envio de informações em anexo.
+      </div>
+    <br>
+    <br>
+      <div class="form-group">
+        <label for="telefone">📞 Telefone+DDD:</label>
+        <input type="tel" id="telefone" name="telefone" required placeholder="Insira seu telefone Ex.:(11)9 9954-7744">Coloque seu telefone que seja o mesmo do whatsapp.
+      </div>
+    <br>
+    <br>
+    <br>
+      <div class="form-group">
+        <label for="pix">💠Chave Pix💰 :</label>
+        <input type="text" id="pix" name="pix" placeholder="Insira aqui" required>Coloque sua chave pix de qual conta você quer receber.
+      </div>
+      <br>
+      <br>
+
+      <div class="form-group">
+        <label for="nascimento">🎂 Data de Nascimento:</label>
+        <input type="date" id="nascimento" name="nascimento" required>
+        Coloque sua data de nascimento de acordo com seu registro civil.
+      </div>
+      <br>
+      <br>
+
+      <div class="form-group">
+        <label for="genero">⚧️ Gênero:</label>
+        <select id="genero" name="genero">
+          <option value="">Selecione</option>
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+          <option value="outro">Outro</option>
+          <option value="prefiro-nao-dizer">Prefiro não dizer</option>
+        </select>
+      </div>
+      <br>
+      <br>
+
+      <div class="form-group">
+        <label for="cidade">🏙️ Cidade:</label>
+        <input type="text" id="cidade" name="cidade" required placeholder="Insira aqui">
+        Coloque a cidade na qual você mora atualmente.
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="estado">🌎 Estado:</label>
+        <input type="text" id="estado" name="estado" required placeholder="Insira aqui">
+        Coloque o estado onde você mora atualmente.
+      </div>
+      <br>
+      <div class="form-group">
+  <label for="escolaridade">🎓 Nível de Escolaridade:</label>
+  <select id="escolaridade" name="escolaridade" required>
+    <option value="">Selecione</option>
+    <option value="fundamental-incompleto">Ensino Fundamental Incompleto</option>
+    <option value="fundamental-completo">Ensino Fundamental Completo</option>
+    <option value="medio-incompleto">Ensino Médio Incompleto</option>
+    <option value="medio-completo">Ensino Médio Completo</option>
+  </select>
+</div>
+<br>
+<br>
+
+      <div class="form-group">
+        <label for="area">💼 Área de Interesse:</label>
+        <input type="text" id="area" name="area" placeholder="Ex: Marketing, TI, RH..." required>
+      </div>
+      <br>
+      <br>
+
+      <div class="form-group">
+        <label for="experiencia">📊 Nível de Experiência:</label>
+        <select id="experiencia" name="experiencia" required>
+          <option value="">Selecione</option>
+          <option value="iniciante">Iniciante</option>
+          <option value="intermediario">Intermediário</option>
+          <option value="avancado">Avançado</option>
+        </select>
+      </div>
+      <br>
+      <br>
+      
+      <div class="form-group">
+  <label for="referencia">🔎 Como ficou sabendo do recrutamento?</label>
+  <select id="referencia" name="referencia" required>
+    <option value="">Selecione</option>
+    <option value="instagram">Instagram</option>
+    <option value="facebook">Facebook</option>
+    <option value="amigo">Indicação de amigo</option>
+    <option value="site">Site oficial</option>
+    <option value="outros">Outros</option>
+  </select>
+</div>
+<br>
+<br>
+<div class="form-group">
+  <label for="idiomas">🌍 Idiomas que fala (e nível):</label>
+  <input type="text" id="idiomas" name="idiomas" placeholder="Ex: Português (fluente), Inglês (intermediário)">
+</div>
+<br>
+<br>
+<div class="form-group">
+  <label for="reunioes">📡 Pode participar de reuniões online?</label>
+  <select id="reunioes" name="reunioes" required>
+    <option value="">Selecione</option>
+    <option value="sim">Sim</option>
+    <option value="nao">Não</option>
+    <option value="talvez">Talvez</option>
+  </select>
+</div>
+<br>
+<br>
+<div class="form-group">
+  <label for="treinamentos">📚 Você teria interesse em treinamentos internos oferecidos pela equipe?</label>
+  <select id="treinamentos" name="treinamentos">
+    <option value="">Selecione</option>
+    <option value="sim">Sim</option>
+    <option value="nao">Não</option>
+    <option value="depende">Depende da área</option>
+  </select>
+</div>
+<br>
+<br>
+<div class="form-group">
+  <label for="eventos">🧭 Teria disponibilidade para ações presenciais no futuro?</label>
+  <select id="eventos" name="eventos">
+    <option value="">Selecione</option>
+    <option value="sim">Sim</option>
+    <option value="nao">Não</option>
+    <option value="depende">Depende da localização</option>
+  </select>
+</div>
+<br>
+<br>
+<div class="form-group">
+  <label for="codigoAgente">🧬 Código do Guardião (caso tenha sido indicado):</label>
+  <input type="text" id="codigoMembro" name="codigoMembro" placeholder="Ex: ENN924306-A-Grade">
+</div>
+<br>
+<br>
+<div class="form-group">
+  <label for="multiplicador">🧠 Você gostaria de ajudar a espalhar os ideais do Estado Nebulosa do Norte?</label>
+  <select id="multiplicador" name="multiplicador">
+    <option value="">Selecione</option>
+    <option value="sim">Sim, quero ser uma voz ativa</option>
+    <option value="talvez">Talvez, com o tempo</option>
+    <option value="nao">Prefiro contribuir de forma silenciosa</option>
+  </select>
+</div>
+<br>
+<br>
+<div class="form-group">
+  <label for="criadorConteudo">🎨 Você cria ou gostaria de criar conteúdo para o ENN?</label>
+  <select id="criadorConteudo" name="criadorConteudo">
+    <option value="">Selecione</option>
+    <option value="sim">Sim, já crio</option>
+    <option value="quero">Quero começar</option>
+    <option value="nao">Não tenho esse interesse</option>
+  </select>
+</div>
+<br>
+<br>
+      <div class="form-group">
+  <label for="equipamento">🖥️ Possui equipamento próprio para trabalho/atividades?</label>
+  <select id="equipamento" name="equipamento" required>
+    <option value="">Selecione</option>
+    <option value="sim">Sim</option>
+    <option value="nao">Não</option>
+    <option value="parcialmente">Parcialmente</option>
+  </select>
+</div>
+    <br>
+    <br>
+      <div class="form-group">
+        <label for="horarios">🕒 Horários de Disponibilidade:</label>
+        <input type="text" id="horarios" name="horarios" placeholder="Ex: Manhã, Tarde, Noite, Horário Comercial">
+      </div>
+    <br>
+    <br>
+      <div class="form-group">
+        <label>🌐 Redes Sociais:</label>
+        <input type="url" name="linkedin" placeholder="🔗 LinkedIn">
+        <input type="url" name="instagram" placeholder="📸 Instagram">
+        <input type="url" name="facebook" placeholder="📘 Facebook">
+        <input type="url" name="twitter" placeholder="🐦 Twitter/X">
+        <input type="url" name="tiktok" placeholder="🎵 TikTok">
+        <input type="url" name="github" placeholder="💻 GitHub (se aplicável)">
+      </div>
+    <br>
+    <br>
+      <div class="form-group">
+        <label for="sobre">🗣️ Fale um pouco sobre você:</label>
+        <textarea id="sobre" name="sobre" maxlength="500" placeholder="Conte brevemente sobre sua trajetória ou motivação."></textarea>
+      </div>
+    <br>
+    <br>
+      <div class="form-group">
+        <label for="curriculo">📎 Currículum (PDF ou DOC):</label>
+        <input type="file" id="curriculo" name="curriculo" accept=".pdf,.doc,.docx">Se possivel, curriculum com foto.
+      </div>
+      
+    <br>
+    <br>
+      <div class="form-group">
+  <label for="newsletter">📬 Desejo receber atualizações e novidades por e-mail</label>
+  <input type="checkbox" id="newsletter" name="newsletter">
+</div>
+      <br>
+      <div class="form-group">
+ 
+  <label for="consentimento">Autorizo o uso das informações para fins de recrutamento.</label>
+   <input type="checkbox" id="consentimento" name="consentimento" required>
+</div>
+    <br>
+    <br>
+      <button type="submit" class="button">🚀 Enviar Cadastro</button>
+    </form>
+    <div class="success-message" id="mensagemSucesso" style="display: none;">
+      ✅ Cadastro enviado com sucesso!
+    </div>
+  </div>
+
+  <script type="module">
+  // Importa Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+  // Configuração do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+    authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+    databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+    projectId: "socialnetwork021-fad5a",
+    storageBucket: "socialnetwork021-fad5a.appspot.com",
+    messagingSenderId: "1040846806964",
+    appId: "1:1040846806964:web:b7b873170deeb8ed785ce1",
+    measurementId: "G-0NC44RCWV6"
+  };
+
+  // Inicializa Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+  // Captura o formulário
+  const form = document.getElementById("cadastroForm");
+  const mensagemSucesso = document.getElementById("mensagemSucesso");
+
+  // Verifica se o usuário está logado
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // Usuário autenticado
+      const userId = user.uid;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Captura dados do formulário
+        const formData = {
+          nome: form.nome.value,
+          sobrenome: form.sobrenome.value,
+          email: form.email.value,
+          telefone: form.telefone.value,
+          pix: form.pix.value,
+          nascimento: form.nascimento.value,
+          genero: form.genero.value,
+          cidade: form.cidade.value,
+          estado: form.estado.value,
+          escolaridade: form.escolaridade.value,
+          area: form.area.value,
+          experiencia: form.experiencia.value,
+          referencia: form.referencia.value,
+          idiomas: form.idiomas.value,
+          reunioes: form.reunioes.value,
+          treinamentos: form.treinamentos.value,
+          eventos: form.eventos.value,
+          codigoMembro: form.codigoMembro.value,
+          multiplicador: form.multiplicador.value,
+          criadorConteudo: form.criadorConteudo.value,
+          equipamento: form.equipamento.value,
+          horarios: form.horarios.value,
+          redesSociais: {
+            linkedin: form.linkedin.value,
+            instagram: form.instagram.value,
+            facebook: form.facebook.value,
+            twitter: form.twitter.value,
+            tiktok: form.tiktok.value,
+            github: form.github.value,
+          },
+          sobre: form.sobre.value,
+          newsletter: form.newsletter.checked,
+          consentimento: form.consentimento.checked,
+          enviadoEm: new Date().toISOString()
+        };
+
+        try {
+          // Salva no Realtime Database
+          const cadastroRef = ref(db, "recrutamento/" + userId);
+          const novoCadastro = push(cadastroRef);
+          await set(novoCadastro, formData);
+
+          // Mostra mensagem de sucesso
+          mensagemSucesso.style.display = "block";
+          form.reset();
+
+        } catch (error) {
+          console.error("Erro ao enviar cadastro:", error);
+          alert("Erro ao enviar cadastro. Tente novamente.");
+        }
+      });
+
+    } else {
+      alert("Você precisa estar logado para enviar o cadastro!");
+    }
+  });
+</script>
+</body>
+</html>
+

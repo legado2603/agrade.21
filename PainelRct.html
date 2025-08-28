@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel - Recrutamento ENN</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      padding: 20px;
+      background-image: url('img1/16fbd7347be80af9edbaae58610ef956.jpg'); /* Defina o caminho para sua imagem */
+      background-repeat: no-repeat;
+  background-size: cover; /* A imagem cobre toda a tela */
+  background-position: center;
+  background-attachment: fixed; /* Fixa o fundo na tela */
+  overflow: auto; /* Permite rolar o conteúdo sem mexer no fundo */
+  overflow-x: hidden; /* Remove o scroll horizontal */
+      }
+    }
+    h1 {
+      text-align: center;
+      color: #00ffff;
+    }
+    .counter {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #0ff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #111;
+      border: 1px solid #333;
+      font-size: 12px;
+    }
+    th, td {
+      padding: 6px;
+      border: 1px solid #333;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #222;
+      color: #0ff;
+    }
+    tr:nth-child(even) {
+      background: #1a1a1a;
+    }
+    .alerta {
+      text-align: center;
+      color: red;
+      font-size: 18px;
+    }
+    .cadastro-card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  .cadastro-card h3 {
+    margin: 0 0 10px;
+    color: #0ff;
+  }
+  .cadastro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 15px;
+  }
+  .cadastro-item {
+    background: #1a1a1a;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .cadastro-item strong {
+    color: #0ff;
+  }
+  .logo {
+  width: 100px;       /* tamanho da logo */
+  display: block;     /* transforma a imagem em bloco */
+  margin: 0 auto;     /* centraliza horizontalmente */
+}
+  </style>
+</head>
+<body>
+  <img src="img/logo.png" alt="Logo" class="logo">
+  <h1>📊 Painel de Recrutamento - ENN</h1>
+  <div class="counter">Carregando cadastros...</div>
+  <div class="alerta" id="alerta"></div>
+  <table id="tabelaCadastros" style="display:none;">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Pix</th>
+        <th>Nascimento</th>
+        <th>Gênero</th>
+        <th>Cidade</th>
+        <th>Estado</th>
+        <th>Escolaridade</th>
+        <th>Área</th>
+        <th>Experiência</th>
+        <th>Referência</th>
+        <th>Idiomas</th>
+        <th>Reuniões</th>
+        <th>Treinamentos</th>
+        <th>Eventos</th>
+        <th>Código Guardião</th>
+        <th>Multiplicador</th>
+        <th>Criador Conteúdo</th>
+        <th>Equipamento</th>
+        <th>Horários</th>
+        <th>Redes Sociais</th>
+        <th>Sobre</th>
+        <th>Newsletter</th>
+        <th>Consentimento</th>
+        <th>Currículo</th>
+        <th>Enviado em</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div id="painelCadastros"></div>
+
+<style>
+  
+</style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBp0QRdqod_68ARBfJlDfZQBX4sg1Du_o4",
+    authDomain: "socialnetwork021-fad5a.firebaseapp.com",
+    databaseURL: "https://socialnetwork021-fad5a-default-rtdb.firebaseio.com",
+    projectId: "socialnetwork021-fad5a",
+    storageBucket: "socialnetwork021-fad5a.appspot.com",
+    messagingSenderId: "1040846806964",
+    appId: "1:1040846806964:web:b7b873170deeb8ed785ce1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+
+  const painel = document.getElementById("painelCadastros");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const recrutamentoRef = ref(db, "recrutamento");
+
+      onValue(recrutamentoRef, (snapshot) => {
+        painel.innerHTML = "";
+        if (snapshot.exists()) {
+          snapshot.forEach((userSnap) => {
+            userSnap.forEach((cadastroSnap) => {
+              const c = cadastroSnap.val();
+
+              const card = document.createElement("div");
+              card.classList.add("cadastro-card");
+              card.innerHTML = `
+                <h3>${c.nome || "-"} ${c.sobrenome || ""}</h3>
+                <div class="cadastro-grid">
+                  <div class="cadastro-item"><strong>Email:</strong> ${c.email || "-"}</div>
+                  <div class="cadastro-item"><strong>Telefone:</strong> ${c.telefone || "-"}</div>
+                  <div class="cadastro-item"><strong>Pix:</strong> ${c.pix || "-"}</div>
+                  <div class="cadastro-item"><strong>Nascimento:</strong> ${c.nascimento || "-"}</div>
+                  <div class="cadastro-item"><strong>Gênero:</strong> ${c.genero || "-"}</div>
+                  <div class="cadastro-item"><strong>Cidade:</strong> ${c.cidade || "-"}</div>
+                  <div class="cadastro-item"><strong>Estado:</strong> ${c.estado || "-"}</div>
+                  <div class="cadastro-item"><strong>Escolaridade:</strong> ${c.escolaridade || "-"}</div>
+                  <div class="cadastro-item"><strong>Área:</strong> ${c.area || "-"}</div>
+                  <div class="cadastro-item"><strong>Experiência:</strong> ${c.experiencia || "-"}</div>
+                  <div class="cadastro-item"><strong>Referência:</strong> ${c.referencia || "-"}</div>
+                  <div class="cadastro-item"><strong>Idiomas:</strong> ${c.idiomas || "-"}</div>
+                  <div class="cadastro-item"><strong>Reuniões:</strong> ${c.reunioes || "-"}</div>
+                  <div class="cadastro-item"><strong>Treinamentos:</strong> ${c.treinamentos || "-"}</div>
+                  <div class="cadastro-item"><strong>Eventos:</strong> ${c.eventos || "-"}</div>
+                  <div class="cadastro-item"><strong>Código Guardião:</strong> ${c.codigoMembro || "-"}</div>
+                  <div class="cadastro-item"><strong>Multiplicador:</strong> ${c.multiplicador || "-"}</div>
+                  <div class="cadastro-item"><strong>Criador Conteúdo:</strong> ${c.criadorConteudo || "-"}</div>
+                  <div class="cadastro-item"><strong>Equipamento:</strong> ${c.equipamento || "-"}</div>
+                  <div class="cadastro-item"><strong>Horários:</strong> ${c.horarios || "-"}</div>
+                  <div class="cadastro-item"><strong>Redes Sociais:</strong> 
+                    ${c.linkedin || ""} ${c.instagram || ""} ${c.facebook || ""} ${c.twitter || ""} ${c.tiktok || ""} ${c.github || ""}
+                  </div>
+                  <div class="cadastro-item"><strong>Sobre:</strong> ${c.sobre || "-"}</div>
+                  <div class="cadastro-item"><strong>Newsletter:</strong> ${c.newsletter ? "Sim" : "Não"}</div>
+                  <div class="cadastro-item"><strong>Consentimento:</strong> ${c.consentimento ? "Sim" : "Não"}</div>
+                  <div class="cadastro-item"><strong>Currículo:</strong> ${c.curriculo ? `<a href="${c.curriculo}" target="_blank">Ver arquivo</a>` : "-"}</div>
+                  <div class="cadastro-item"><strong>Enviado em:</strong> ${c.enviadoEm ? new Date(c.enviadoEm).toLocaleString() : "-"}</div>
+                </div>
+              `;
+              painel.appendChild(card);
+            });
+          });
+        } else {
+          painel.innerHTML = "<p style='color:#888;'>Nenhum cadastro encontrado.</p>";
+        }
+      });
+    } else {
+      painel.innerHTML = "<p style='color:red;'>⚠ Faça login para visualizar os cadastros.</p>";
+    }
+  });
+</script>
+</body>
+</html>
