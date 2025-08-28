@@ -781,6 +781,753 @@ h6::after {
 
 @keyframes loadingDots {
   0% {
+    box-shadow: 6px   overflow-x: hidden; /* Remove o scroll horizontal */
+  background-image: url('3ede294867b5f92ec2a4fb5894763ab3.jpg'); /* Defina o caminho para sua imagem */
+}
+    
+
+    header {
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7); /* Preto com 70% de opacidade */
+}
+
+    h1 {
+      font-size: 2em;
+      color: #00FFFF;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Estilos para conteúdo adicional */
+    .content {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 1.5em;
+    }
+  
+
+#visibleButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.button-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    width: calc(33.33% - 20px); /* Largura de cada botão ajustada para dividir o espaço equally */
+    margin-right: 10px; /* Espaço entre os botões */
+    box-sizing: border-box; /* Para considerar a margem, padding e largura */
+    justify-content: space-between;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.button-row:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ffffff;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #00FFFF; /* Exemplo de cor neon */
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background-color: #333;
+    cursor: not-allowed;
+    color: #777;
+}
+/* Contêiner que envolve o botão */.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: auto;
+  margin: 0;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #00bcd4; /* Azul piscina */
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #008c8c; /* Tom mais escuro para o hover */
+}
+
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 5%;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    /* Estilos para o modal */
+.modal {
+  display: none; /* Inicialmente oculto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Fundo escuro */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Garante que o modal fique acima de outros elementos */
+}
+
+.modal.active {
+  display: flex; /* Torna o modal visível quando a classe 'active' for adicionada */
+}
+
+/* Estilos para o iframe dentro do modal */
+.modal iframe {
+  width: 90%;  /* Ajuste a largura do iframe para 90% da tela */
+  height: 90%; /* Ajuste a altura do iframe para 90% da tela */
+  border: none; /* Remove a borda */
+  border-radius: 10px; /* Bordas arredondadas */
+}
+
+/* Estilo para o botão de fechar o modal */
+.close {
+  color: #00ffff;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.close:hover {
+  color: #ff00ff;
+}
+
+    .choices {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.choices button {
+  padding: 10px;
+  background-color: #00bcd4; /* Azul piscina */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: #ff4500;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .active {
+      display: flex;
+    }
+    .publication {
+      background-color: #1f1f1f;
+      border: 1px solid #00FFFF;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    .publication img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+    .publication video {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+    h1 {
+      color: #00FFFF;
+    }
+    .publication .title {
+      font-size: 24px;
+      color: #FF00FF;
+    }
+    .publication .subtitle {
+      font-size: 18px;
+      color: #00FFFF;
+    }
+    .publication .description {
+      font-size: 16px;
+    }
+    .publication .tags {
+      font-size: 14px;
+      color: #FF00FF;
+    }
+    .search-container {
+      margin-bottom: 20px;
+    }
+    .banner {
+      background-color: #00FFFF;
+      color: #121212;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .content {
+      margin-top: 60px; /* Ajusta o espaço para o banner */
+      padding: 20px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 18px;
+    }
+        .navbar {
+    position: fixed;
+    top: 44px; /* Aumente o valor conforme necessário */
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0.2); /* Vermelho com transparência */
+    padding: 10px 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+    .navbar a {
+        color: #00ffcc;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin: 0 10px; /* Diminuímos a margem para aproximar os botões */
+        font-size: 18px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 0.3s ease, color 0.3s ease;
+        position: relative;
+    }
+
+    .navbar a::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: red;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    .navbar a:hover {
+        color: #ff0066;
+        transform: translateY(-3px);
+    }
+
+    .navbar a:hover::before {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+    
+      @keyframes pulse {
+      0% { background-color: #121212; }
+      50% { background-color: #0a0a0a; }
+      100% { background-color: #121212; }
+    }
+    .player {
+  background: linear-gradient(145deg, #1e1e1e, #292929);
+  padding: 15px;
+  border-radius: 10px;
+  animation: glow 2s infinite alternate;
+  width: 220px;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  border: 2px solid rgba(0, 255, 255, 0.6);
+}
+
+select, button, input[type="range"] {
+  width: 100%;
+  padding: 6px;
+  margin: 4px 0;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #1a1a1a;
+  color: #00ffff;
+  outline: none;
+  transition: 0.3s ease-in-out;
+}
+
+button {
+  background: linear-gradient(90deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2)); /* Gradiente com transparência */
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Sombra com transparência */
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  box-shadow: 0 0 20px #ff00ff;
+}
+
+.message {
+  margin-top: 5px;
+  color: #00ff00;
+  font-size: 12px;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.controls button {
+  width: 30%;
+  padding: 6px;
+  font-size: 12px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  box-shadow: 0 0 5px #00ffff;
+  transition: width 0.3s ease-in-out;
+}
+    .message {
+      margin-top: 20px;
+      color: #00ff00;
+      font-size: 14px;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+    }
+    .controls button {
+      width: 32%;
+      background-color: transparent;
+      border: 2px solid #00ffff;
+      transition: background-color 0.3s ease;
+    }
+    .controls button:hover {
+      background-color: #00ffff;
+      color: #121212;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #444;
+      border-radius: 5px;
+      margin-top: 15px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      background-color: #00ffff;
+      border-radius: 5px;
+      transition: width 0.2s ease;
+    }
+    #authMessage {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ff00ff;
+    }
+    /* ... (mantenha os estilos anteriores) ... */
+
+    /* Estilos para o botão redondo e móvel */
+    #musicButton {
+  position: fixed;
+  bottom: 80px; /* Ajuste para mover o botão mais para cima */
+  right: 20px;
+  width: 70px; /* Tamanho maior para dar mais espaço */
+  height: 70px; /* Tamanho maior para dar mais espaço */
+  border-radius: 50%;
+  background-color: transparent;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  touch-action: none; /* Impede comportamentos padrão de toque, como rolagem */
+  transition: all 0.3s ease; /* Transição suave para o hover */
+  background-image: url('gif1/matrix-the-matrix.gif'); /* Substitua pelo caminho da sua imagem */
+  background-size: contain; /* Ajusta a imagem para caber no botão sem cortar */
+  background-position: center; /* Centraliza a imagem no botão */
+  background-repeat: no-repeat; /* Evita repetição da imagem */
+}
+
+#musicButton:hover {
+  background-color: black; /* Cor de fundo mais escura no hover */
+  transform: scale(1.1); /* Aumenta o botão levemente */
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.7); /* Sombra vermelha neon no hover */
+}
+
+    /* Estilos para o modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background-color: #121212;
+      padding: 20px;
+      border-radius: 15px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    }
+    .close {
+      color: #00ffff;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #ff00ff;
+    }
+    
+    .footer {
+  background-color: #161b22; /* Fundo escuro */
+  color: #00ffff; /* Texto neon */
+  padding: 10px 0; /* Reduzi o espaçamento interno */
+  text-align: center; /* Centraliza o conteúdo */
+  border-top: 1px solid #ff00ff; /* Borda superior mais sutil */
+  box-shadow: 0 -3px 10px rgba(0, 255, 255, 0.2); /* Sombra mais leve */
+  font-size: 14px; /* Tamanho menor para o texto */
+}
+
+.footer-container {
+  max-width: 1200px; /* Define a largura máxima */
+  margin: 0 auto; /* Centraliza o conteúdo horizontalmente */
+  padding: 0 10px; /* Reduzi o espaçamento lateral */
+  padding-bottom: 60px; /* Aumenta o espaço vazio no final do rodapé */
+}
+
+.footer p {
+  margin: 0; /* Remove margens */
+  font-size: 12px; /* Texto menor para economizar espaço */
+  color: #ff00ff; /* Cor destacada */
+}
+
+.footer-links {
+  margin-top: 5px; /* Espaçamento reduzido entre o texto e os links */
+  display: flex; /* Alinha os links em linha */
+  justify-content: center; /* Centraliza os links */
+  gap: 10px; /* Espaçamento menor entre os links */
+  flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+}
+
+.footer-link {
+  color: #00ffff; /* Cor dos links */
+  text-decoration: none; /* Remove o sublinhado */
+  font-size: 12px; /* Tamanho menor para os links */
+  transition: color 0.3s ease; /* Suaviza as transições */
+}
+
+.footer-link:hover {
+  color: #ff00ff; /* Cor no hover */
+  text-decoration: underline; /* Adiciona sublinhado no hover */
+}
+  
+   
+  #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+      font-size: 24px;
+      text-align: center;
+      white-space: pre-wrap;
+      border-right: 3px solid #00FFFF; /* Cursor neon */
+    }
+
+    /* Botão de Fechar */
+    #close-btn {
+      margin-top: 20px;
+      background-color: #00FFFF;
+      color: #121212;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #close-btn:hover {
+      background-color: #00b3b3;
+    }
+    #status {
+  display: none; /* O conteúdo do elemento não será exibido */
+}
+ #status2 {
+  display: none;
+}
+ #status3 {
+  display: none;
+}
+#rankingGlobal {
+  background-color: rgba(22, 27, 34, 0.5); /* Cor de fundo com transparência */
+  border: 1px solid red; /* Borda */
+  border-radius: 10px; /* Bordas arredondadas */
+  padding: 15px; /* Espaçamento interno */
+  width: 90%;
+  max-width: 400px;
+  text-align: center; /* Centraliza o texto */
+  box-shadow: 0 0 15px 5px rgba(0, 255, 255, 0.3); /* Sombra arredondada */
+  display: inline-block; /* Ajusta ao conteúdo */
+  color: white; /* Cor do texto */
+  overflow: hidden; /* Garante que o radius afeta a sombra */
+  backdrop-filter: blur(5px); /* Efeito de desfoque */
+}
+    }
+  .posts-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .post {
+  background: rgba(30, 30, 30, 0.6); /* Cor de fundo mais transparente */
+  padding: 10px;
+  border-radius: 5px;
+  width: 300px;
+  margin: 10px;
+  text-align: left;
+  backdrop-filter: blur(5px); /* Efeito de desfoque para o fundo */
+  box-shadow: 0 2px 10px rgba(255, 0, 255, 0.3); /* Sombra sutil ao redor */
+}
+        .post img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .post a {
+            color: #FF00FF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .post a:hover {
+            text-decoration: underline;
+        }
+        #subredditInput {
+         background-color: #161b22;
+      border: 1px solid red;
+      border-radius: 10px;
+      padding: 15px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      color: red;
+        }
+      h2 {
+        text-align:center;
+        color: red;
+        background-color: black;opacity:70%;
+        
+      }
+      #searchInput {
+      background-color: #161b22;
+      border: 1px solid red;
+      border-radius: 10px;
+      padding: 15px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      
+      }
+      h3 {
+        
+      }
+      .chat-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgba(30, 30, 30, 0.8); /* Fundo mais transparente */
+  border-radius: 10px;
+  backdrop-filter: blur(10px) brightness(1.4); /* Efeito de gelo e brilho suave */
+  box-shadow: 0 2px 10px rgba(255, 0, 255, 0.5); /* Efeito neon leve */
+}
+
+#messagesContainer {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.1); /* Fundo extremamente transparente */
+  border-radius: 10px;
+  padding: 10px;
+  backdrop-filter: blur(5px); /* Efeito de desfoque mais leve para o container de mensagens */
+  box-shadow: 0 2px 5px rgba(255, 0, 255, 0.4); /* Sutil brilho ao redor das mensagens */
+}
+    input[type="text"] {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: rgba(28, 28, 28, 0.7); /* Fundo mais transparente */
+  color: white;
+  backdrop-filter: blur(5px) brightness(1.2); /* Efeito de gelo suave */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: rgba(0, 255, 255, 0.8); /* Fundo com transparência */
+  border: none;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  backdrop-filter: blur(3px); /* Desfoque no botão */
+  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.5); /* Sutil brilho */
+}
+
+button:hover {
+  background-color: rgba(0, 184, 184, 0.8); /* Efeito hover com mais transparência */
+}
+
+img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: rgba(30, 30, 30, 0.1); /* Fundo quase totalmente transparente */
+  border-radius: 10px;
+  padding: 10px;
+  backdrop-filter: blur(5px); /* Efeito de desfoque para a mensagem */
+}
+
+.message span {
+  font-size: 16px;
+  color: white;
+}
+    h6 {
+  font-size: 0.8rem; /* Tamanho pequeno, padrão do h6 */
+  color: #FF0000; /* Cor vermelha */
+  text-align: center;
+  font-weight: bold;
+}
+
+h6::after {
+  content: "";
+  display: inline-block;
+  width: 4px; /* Proporcional ao tamanho da fonte */
+  height: 4px; /* Proporcional ao tamanho da fonte */
+  margin-left: 5px;
+  background-color: #FF0000; /* Cor vermelha dos pontinhos */
+  border-radius: 50%;
+  animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+  0% {
     box-shadow: 6px 0 0 #FF0000, 12px 0 0 #FF0000;
   }
   50% {
